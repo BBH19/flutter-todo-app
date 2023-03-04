@@ -54,7 +54,7 @@ class ChequeHome extends StatelessWidget {
               Navigator.push(_context, MaterialPageRoute(builder: (context) {
                 return BlocProvider.value(
                     value: BlocProvider.of<ChequeBloc>(_context),
-                    child: const AddChequeView());
+                    child: AddChequeView());
               }));
             },
           ),

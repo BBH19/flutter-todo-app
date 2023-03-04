@@ -1,3 +1,5 @@
+// ignore_for_file: unrelated_type_equality_checks, dead_code
+
 import 'package:chequeproject/blocs/Cheque/cheque_bloc.dart';
 import 'package:chequeproject/blocs/Cheque/cheque_event.dart';
 import 'package:chequeproject/blocs/Cheque/cheque_state.dart';
@@ -10,12 +12,10 @@ import 'package:chequeproject/widgets/file_picker_widget.dart';
 import 'package:chequeproject/widgets/textfield_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
 
-class AddChequeView extends StatelessWidget {
-  static String Route = '/add';
+class AddChequePage extends StatelessWidget {
   Cheque? cheque;
-  AddChequeView({
+  AddChequePage({
     Key? key,
     this.cheque,
   }) : super(key: key);
@@ -23,7 +23,7 @@ class AddChequeView extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     if (cheque == null) {
-      this.cheque = Cheque(
+      cheque = Cheque(
           id: '',
           client: '',
           holder: '',
@@ -120,7 +120,7 @@ class AddingWidget extends StatelessWidget {
                 } else {
                   await CustomAlert.show(
                       context: context,
-                      type: AlertType.error,
+                      // type: AlertType.error,
                       desc: descr,
                       onPressed: () {
                         Navigator.pop(context);
@@ -137,7 +137,6 @@ class AddingWidget extends StatelessWidget {
         child:
             Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
           BlocListener<ChequeBloc, ChequeState>(
-              bloc: ChequeBloc(),
               listener: (context, state) async {
                 print("request state:${state.requestState}");
                 if (state.requestState == RequestState.Adding ||
@@ -153,7 +152,7 @@ class AddingWidget extends StatelessWidget {
                 } else if (state.requestState == RequestState.Error) {
                   await CustomAlert.show(
                       context: context,
-                      type: AlertType.error,
+                      //type: AlertType.error,
                       desc: 'Erreur de modification',
                       onPressed: () {});
                 } else if (state.requestState == RequestState.Added) {
@@ -161,7 +160,7 @@ class AddingWidget extends StatelessWidget {
                   BlocProvider.of<ChequeBloc>(context).add(LoadCheques());
                   await CustomAlert.show(
                       context: context,
-                      type: AlertType.success,
+                      //type: AlertType.success,
                       desc: 'Le cheque a été ajouté avec succès',
                       onPressed: () {
                         int count = 0;
@@ -172,7 +171,7 @@ class AddingWidget extends StatelessWidget {
                   BlocProvider.of<ChequeBloc>(context).add(LoadCheques());
                   await CustomAlert.show(
                       context: context,
-                      type: AlertType.success,
+                      //type: AlertType.success,
                       desc: 'Le Cheque a été mis à jour avec succès',
                       onPressed: () {
                         int count = 0;
@@ -233,20 +232,14 @@ class ChequeDataFieldState extends State<ChequeDataField> {
       paymentDate,
       attachement;
 
+  List<String> isPayedList = ['En cours'];
+
+  String selectedisPayed = 'En cours';
+
   static final _formKey = GlobalKey<FormState>();
   double _fontsize = 15;
 
-  ChequeDataFieldState(this.cheque, this.isUpdate) {
-    idController.text = cheque.id ?? "";
-    clientController.text = cheque.client ?? "";
-    holderController.text = cheque.holder ?? "";
-    montantController.text = cheque.montant ?? "";
-    receptDateController.text = cheque.receptDate ?? "";
-    echeanceDateController.text = cheque.echeanceDate ?? "";
-    isPayedController.text = cheque.isPayed ?? "";
-    paymentDateController.text = cheque.paymentDate ?? "";
-    attachementController.text = cheque.attachement ?? "";
-  }
+  ChequeDataFieldState(Cheque cheque, bool isUpdate) {}
 
   String? validateNumber(String value) {
     if (value == null || value.isEmpty) {
@@ -258,12 +251,14 @@ class ChequeDataFieldState extends State<ChequeDataField> {
         return 'Entrer Un Nombre Valide';
       }
     }
+    return null;
   }
 
   String? validateField(String value) {
     if (value == null || value.isEmpty) {
       return 'Veuillez remplir le champs';
     }
+    return null;
   }
 
   @override

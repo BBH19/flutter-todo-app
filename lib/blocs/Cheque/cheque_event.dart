@@ -24,6 +24,14 @@ class AddChequeEvent extends ChequeEvent {
   List<Object> get props => [cheque];
 }
 
+class UpdateChequeEvent extends ChequeEvent {
+  Cheque cheque;
+
+  UpdateChequeEvent({required this.cheque});
+  @override
+  List<Object> get props => [cheque];
+}
+
 class SearchChequeEvent extends ChequeEvent {
   String search_value;
   List<Cheque> cheque_list = [];

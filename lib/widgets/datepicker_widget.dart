@@ -15,7 +15,7 @@ class DatePickerWidget extends StatelessWidget {
   String? Function(String?)? validator;
   List? inputFormatters;
   late void Function()? on_changed_function;
-  //TextEditingController controller;
+  TextEditingController controller;
   DatePickerWidget(
       {Key? key,
       required this.obj,
@@ -23,7 +23,7 @@ class DatePickerWidget extends StatelessWidget {
       required this.valuetext,
       this.readonly = false,
       this.focusColor = Colors.black,
-      // required this.controller,
+      required this.controller,
       this.validator,
       this.keyboardType,
       this.inputFormatters,
@@ -47,15 +47,17 @@ class DatePickerWidget extends StatelessWidget {
               initialDate: DateTime.now(),
               firstDate: DateTime(1900),
               lastDate: DateTime(2100)))!;
-          datePickerCtrl.text = date.toIso8601String();
+          datePickerCtrl.text = date.toString();
         },
         enabled: enabled ?? true,
         cursorColor: GlobalParams.GlobalColor,
         keyboardType: keyboardType,
         validator: validator,
         readOnly: readonly ?? false,
-        decoration: WidgetHelper.getDecoration(labeltext),
-        style: const TextStyle(fontWeight: FontWeight.w300, fontSize: 14, fontFamily: 'Open Sans'),
+        decoration: WidgetHelper.getDatePickerDecoration(
+            labeltext, on_changed_function),
+        style: const TextStyle(
+            fontWeight: FontWeight.w300, fontSize: 14, fontFamily: 'Open Sans'),
         //controller: controller,
       ),
     );

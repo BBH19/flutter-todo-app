@@ -2,10 +2,10 @@ import 'package:chequeproject/utils/widgect_helper.dart';
 import 'package:chequeproject/widgets/config.dart';
 import 'package:flutter/material.dart';
 
-
 List<String> list = <String>['En cours', 'Payé ', 'Non Payé'];
 
 class DropdownButtonExample extends StatefulWidget {
+
   DropdownButtonExample({super.key});
 
   @override
@@ -15,15 +15,13 @@ class DropdownButtonExample extends StatefulWidget {
 class _DropdownButtonExampleState extends State<DropdownButtonExample> {
   String dropdownValue = list.first;
 
- 
-
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 35,
       child: FormField<String>(builder: (FormFieldState<String> state) {
         return InputDecorator(
-            decoration: WidgetHelper.getDecoration('Paiement') ,
+            decoration: WidgetHelper.getDecoration('Paiement'),
             child: DropdownButtonHideUnderline(
               child: DropdownButton<String>(
                 isDense: true,

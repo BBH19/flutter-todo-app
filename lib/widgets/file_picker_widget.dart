@@ -11,6 +11,7 @@ class TestPickerWidget extends StatefulWidget {
   bool? readonly;
   bool? enabled;
   TextInputType? keyboardType;
+  TextEditingController controller;
   String? Function(String?)? validator;
   List? inputFormatters;
   late void Function()? on_changed_function;
@@ -18,6 +19,7 @@ class TestPickerWidget extends StatefulWidget {
       {Key? key,
       required this.obj,
       required this.labeltext,
+      required this.controller,
       required this.valuetext,
       this.readonly = false,
       this.focusColor = Colors.black,

@@ -1,11 +1,11 @@
 class Cheque {
-  int? id;
+  String? id;
   String? client;
   String? holder;
-  double? montant;
+  String? montant;
   String? receptDate;
   String? echeanceDate;
-  bool? isPayed;
+  String? isPayed;
   String? paymentDate;
   String? attachement;
 

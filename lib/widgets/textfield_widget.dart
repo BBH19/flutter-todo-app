@@ -14,7 +14,7 @@ class TextFieldWidget extends StatelessWidget {
   String? Function(String?)? validator;
   List? inputFormatters;
   late void Function()? on_changed_function;
-  //TextEditingController controller;
+  TextEditingController controller;
   TextFieldWidget(
       {Key? key,
       required this.obj,
@@ -22,7 +22,7 @@ class TextFieldWidget extends StatelessWidget {
       required this.valuetext,
       this.readonly = false,
       this.focusColor = Colors.black,
-      // required this.controller,
+      required this.controller,
       this.validator,
       this.keyboardType,
       this.inputFormatters,
@@ -34,7 +34,8 @@ class TextFieldWidget extends StatelessWidget {
 // love you so much , bzzzf bzzf // love u more babe :*
   @override
   Widget build(BuildContext context) {
-    var txtStyle = TextStyle(fontWeight: FontWeight.w100, fontSize: 10, fontFamily: 'Open Sans');
+    var txtStyle = TextStyle(
+        fontWeight: FontWeight.w100, fontSize: 10, fontFamily: 'Open Sans');
 
     var suffixIcon = on_changed_function != null
         ? IconButton(

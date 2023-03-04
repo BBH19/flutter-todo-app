@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
               create: (context) => ChequeBloc()..add(LoadCheques()),
               child: Cheques(),
             ),
-        AddChequeView.Route: (context) => const AddChequeView(),
+        AddChequeView.Route: (context) =>  AddChequeView(),
       },
       home: Scaffold(
         backgroundColor: Colors.white,
