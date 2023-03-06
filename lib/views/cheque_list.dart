@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names, no_leading_underscores_for_local_identifiers, sized_box_for_whitespace, unrelated_type_equality_checks
+
 import 'package:chequeproject/blocs/Cheque/cheque_bloc.dart';
 import 'package:chequeproject/blocs/Cheque/cheque_event.dart';
 import 'package:chequeproject/blocs/Cheque/cheque_state.dart';
@@ -14,9 +16,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class Cheques extends StatelessWidget {
   static String Route = '/listing';
 
+  const Cheques({super.key});
+
   @override
   Widget build(BuildContext context) {
-    BuildContext _context = context;
     Size size = MediaQuery.of(context).size;
     return MultiBlocProvider(
       providers: [
@@ -66,14 +69,13 @@ class ChequeHome extends StatelessWidget {
 }
 
 class ChequeBody extends StatelessWidget {
-  ChequeBody({
+  const ChequeBody({
     Key? key,
     required this.size,
   }) : super(key: key);
   final Size size;
   @override
   Widget build(BuildContext context) {
-    BuildContext _context = context;
     return Material(
       child: Container(
         height: size.height,

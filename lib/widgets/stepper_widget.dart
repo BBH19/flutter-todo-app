@@ -1,8 +1,5 @@
-import 'package:chequeproject/widgets/config.dart';
-import 'package:chequeproject/widgets/datepicker_widget.dart';
-import 'package:chequeproject/widgets/dropdown_widget.dart';
-import 'package:chequeproject/widgets/file_picker_widget.dart';
-import 'package:chequeproject/widgets/textfield_widget.dart';
+// ignore_for_file: unused_field, prefer_final_fields
+
 import 'package:flutter/material.dart';
 
 class StepperWidget extends StatefulWidget {
@@ -22,7 +19,6 @@ class _StepperWidgetState extends State<StepperWidget> {
   StepperType stepperType = StepperType.horizontal;
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    return SizedBox();
+    return const SizedBox();
   }
 }

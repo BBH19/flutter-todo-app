@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_final_fields, unused_import
+// ignore_for_file: prefer_final_fields, unused_import, must_be_immutable, non_constant_identifier_names
 
 import 'package:chequeproject/utils/widgect_helper.dart';
 import 'package:chequeproject/widgets/config.dart';

@@ -51,12 +51,12 @@ class CustomAlert {
       desc: desc,
       buttons: [
         DialogButton(
-          child: Text(
+          onPressed: onPressed,
+          width: 120,
+          child: const Text(
             "OK",
             style: TextStyle(color: Colors.white, fontSize: 20),
           ),
-          onPressed: onPressed,
-          width: 120,
         )
       ],
     ).show();

@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable, non_constant_identifier_names
+
 import 'package:chequeproject/widgets/config.dart';
 import 'package:flutter/material.dart';
 
@@ -20,6 +22,7 @@ class _SearchFieldState extends State<SearchField> {
   bool showDeletIcon = false;
   @override
   void initState() {
+    super.initState();
     showDeletIcon = widget.value != null;
     controller = TextEditingController();
     controller.text = widget.value ?? "";
@@ -76,7 +79,7 @@ class _SearchFieldState extends State<SearchField> {
                     });
                   },
                 )
-              : Text(""),
+              : const Text(""),
         ),
       ),
     );

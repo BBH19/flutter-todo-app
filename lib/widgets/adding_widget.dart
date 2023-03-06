@@ -1,4 +1,4 @@
-// ignore_for_file: unrelated_type_equality_checks, dead_code
+// ignore_for_file: unrelated_type_equality_checks, dead_code, must_be_immutable, unused_local_variable, no_leading_underscores_for_local_identifiers, prefer_const_constructors, avoid_print, no_logic_in_create_state, unused_field, prefer_final_fields, empty_constructor_bodies, unnecessary_null_comparison, sized_box_for_whitespace, avoid_unnecessary_containers
 
 import 'package:chequeproject/blocs/Cheque/cheque_bloc.dart';
 import 'package:chequeproject/blocs/Cheque/cheque_event.dart';
@@ -21,7 +21,7 @@ class AddChequePage extends StatelessWidget {
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+    // ignore: prefer_conditional_assignment
     if (cheque == null) {
       cheque = Cheque(
           id: '',
@@ -138,13 +138,12 @@ class AddingWidget extends StatelessWidget {
             Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
           BlocListener<ChequeBloc, ChequeState>(
               listener: (context, state) async {
-                print("request state:${state.requestState}");
+                //print("request state:${state.requestState}");
                 if (state.requestState == RequestState.Adding ||
                     state.requestState == RequestState.Loading ||
                     state.requestState == RequestState.Updating) {
                   SizedBox(
                     height: size.height * 0.5,
-                    // ignore: prefer_const_constructors
                     child: Center(
                         //child: Lottie.asset('assets/animations/loader.json'),
                         ),
@@ -246,7 +245,7 @@ class ChequeDataFieldState extends State<ChequeDataField> {
       return 'Veuillez remplir le champs';
     } else {
       String pattern = r'[0-9]\.[0-9]';
-      RegExp regex = new RegExp(pattern);
+      RegExp regex = RegExp(pattern);
       if (!regex.hasMatch(value)) {
         return 'Entrer Un Nombre Valide';
       }
@@ -403,7 +402,7 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                           obj: cheque,
                           controller: montantController,
                           labeltext: 'Montant',
-                          valuetext: cheque.montant ?? "",
+                          valuetext: cheque.montant.toString(),
                           keyboardType: const TextInputType.numberWithOptions(
                               signed: false, decimal: true),
                         ),

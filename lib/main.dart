@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_declarations, sized_box_for_whitespace
+// ignore_for_file: prefer_const_declarations, sized_box_for_whitespace, must_be_immutable, prefer_const_constructors, non_constant_identifier_names, unused_local_variable
 
 import 'package:chequeproject/blocs/Cheque/cheque_event.dart';
 import 'package:chequeproject/views/cheque_add.dart';
@@ -19,7 +19,6 @@ class MyApp extends StatelessWidget {
   TextStyle style = TextStyle(fontSize: 13, fontWeight: FontWeight.normal);
   @override
   Widget build(BuildContext context) {
-    const color = Color(0xff7FC241);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(

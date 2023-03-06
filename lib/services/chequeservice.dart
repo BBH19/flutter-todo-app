@@ -9,7 +9,7 @@ class ChequeService {
     List<Cheque>? list;
     var res = await http.get(Uri.parse('${GlobalParams.laravelApi}cheque'));
     var json_data = json.decode(res.body);
-    print(json_data);
+    //print(json_data);
     if (res.statusCode == 200) {
       var data = json_data as List;
       list = data.map<Cheque>((json) => Cheque.fromJson(json)).toList();

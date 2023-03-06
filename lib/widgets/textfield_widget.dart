@@ -34,9 +34,6 @@ class TextFieldWidget extends StatelessWidget {
 // love you so much , bzzzf bzzf // love u more babe :*
   @override
   Widget build(BuildContext context) {
-    var txtStyle = TextStyle(
-        fontWeight: FontWeight.w100, fontSize: 10, fontFamily: 'Open Sans');
-
     var suffixIcon = on_changed_function != null
         ? IconButton(
             onPressed: on_changed_function,

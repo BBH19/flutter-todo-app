@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors_in_immutables, sized_box_for_whitespace
+
 import 'package:chequeproject/widgets/config.dart';
 import 'package:flutter/material.dart';
 
@@ -21,7 +23,7 @@ class Header extends StatelessWidget {
               ),
               decoration: BoxDecoration(
                   color: GlobalParams.GlobalColor,
-                  borderRadius: BorderRadius.only(
+                  borderRadius: const BorderRadius.only(
                     bottomLeft: Radius.circular(50),
                     bottomRight: Radius.circular(50),
                   ))),

@@ -1,7 +1,10 @@
+// ignore_for_file: sized_box_for_whitespace, avoid_unnecessary_containers, unnecessary_null_comparison, no_logic_in_create_state, must_be_immutable, unnecessary_this, non_constant_identifier_names
+
 import 'package:chequeproject/blocs/Cheque/cheque_bloc.dart';
 import 'package:chequeproject/blocs/Cheque/cheque_event.dart';
 import 'package:chequeproject/blocs/Cheque/cheque_state.dart';
 import 'package:chequeproject/models/cheque.dart';
+import 'package:chequeproject/utils/widgect_helper.dart';
 import 'package:chequeproject/widgets/config.dart';
 import 'package:chequeproject/widgets/custom_alert_widget.dart';
 import 'package:chequeproject/widgets/datepicker_widget.dart';
@@ -21,13 +24,12 @@ class AddChequeView extends StatelessWidget {
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     if (cheque == null) {
       this.cheque = Cheque(
           id: '',
           client: '',
           holder: '',
-          montant: '',
+          montant: '' ,
           receptDate: '',
           echeanceDate: '',
           isPayed: '',
@@ -50,7 +52,6 @@ class AddingWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    BuildContext _context = context;
     if (cheque.id == '') {
       update = false;
     } else {
@@ -61,7 +62,7 @@ class AddingWidget extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       backgroundColor: GlobalParams.backgroundColor,
       appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.white),
+        iconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: GlobalParams.GlobalColor,
         elevation: 0,
         title: update!
@@ -99,7 +100,8 @@ class AddingWidget extends StatelessWidget {
                   cheque.id = ChequeDataFieldState.idController.text;
                   cheque.client = ChequeDataFieldState.clientController.text;
                   cheque.holder = ChequeDataFieldState.holderController.text;
-                  cheque.montant = ChequeDataFieldState.montantController.text;
+                  cheque.montant =
+                      ChequeDataFieldState.montantController.text ;
                   cheque.receptDate =
                       ChequeDataFieldState.receptDateController.text;
                   cheque.echeanceDate =
@@ -139,7 +141,7 @@ class AddingWidget extends StatelessWidget {
           BlocListener<ChequeBloc, ChequeState>(
               bloc: ChequeBloc(),
               listener: (context, state) async {
-                print("request state:${state.requestState}");
+                //print("request state:${state.requestState}");
                 if (state.requestState == RequestState.Adding ||
                     state.requestState == RequestState.Loading ||
                     state.requestState == RequestState.Updating) {
@@ -157,7 +159,7 @@ class AddingWidget extends StatelessWidget {
                       desc: 'Erreur de modification',
                       onPressed: () {});
                 } else if (state.requestState == RequestState.Added) {
-                  print('Add successful');
+                  //print('Add successful');
                   BlocProvider.of<ChequeBloc>(context).add(LoadCheques());
                   await CustomAlert.show(
                       context: context,
@@ -168,7 +170,7 @@ class AddingWidget extends StatelessWidget {
                         Navigator.of(context).popUntil((_) => count++ >= 2);
                       });
                 } else if (state.requestState == RequestState.Updated) {
-                  print('Update successful');
+                  //print('Update successful');
                   BlocProvider.of<ChequeBloc>(context).add(LoadCheques());
                   await CustomAlert.show(
                       context: context,
@@ -233,14 +235,11 @@ class ChequeDataFieldState extends State<ChequeDataField> {
       paymentDate,
       attachement;
 
-  static final _formKey = GlobalKey<FormState>();
-  double _fontsize = 15;
-
   ChequeDataFieldState(this.cheque, this.isUpdate) {
     idController.text = cheque.id ?? "";
     clientController.text = cheque.client ?? "";
     holderController.text = cheque.holder ?? "";
-    montantController.text = cheque.montant ?? "";
+    montantController.text = (cheque.montant ?? "" as double) as String;
     receptDateController.text = cheque.receptDate ?? "";
     echeanceDateController.text = cheque.echeanceDate ?? "";
     isPayedController.text = cheque.isPayed ?? "";
@@ -253,23 +252,24 @@ class ChequeDataFieldState extends State<ChequeDataField> {
       return 'Veuillez remplir le champs';
     } else {
       String pattern = r'[0-9]\.[0-9]';
-      RegExp regex = new RegExp(pattern);
+      RegExp regex = RegExp(pattern);
       if (!regex.hasMatch(value)) {
         return 'Entrer Un Nombre Valide';
       }
     }
+    return null;
   }
 
   String? validateField(String value) {
     if (value == null || value.isEmpty) {
       return 'Veuillez remplir le champs';
     }
+    return null;
   }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    BuildContext _context = context;
 
     return ConstrainedBox(
         constraints: BoxConstraints.tightFor(
@@ -286,7 +286,7 @@ class ChequeDataFieldState extends State<ChequeDataField> {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(10.0),
             child: Stepper(
-              margin: EdgeInsets.all(0),
+              margin: const EdgeInsets.all(0),
               type: stepperType,
               currentStep: _index,
               onStepCancel: () {
@@ -299,7 +299,7 @@ class ChequeDataFieldState extends State<ChequeDataField> {
               controlsBuilder: (BuildContext ctx, ControlsDetails dtl) {
                 return Row(
                   children: <Widget>[
-                    SizedBox(height: 88.0),
+                    const SizedBox(height: 88.0),
                     Container(
                       width: MediaQuery.of(context).size.width * 0.33,
                       child: TextButton(
@@ -358,12 +358,10 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                       child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                        // SizedBox(height: size.height * 0.02),
-                        // SizedBox(height: size.height * 0.02),
                         TextFieldWidget(
                           validator: (value) {
+                            validateField(value!);
                             return null;
-                            validateNumber(value!);
                           },
                           obj: cheque,
                           controller: idController,
@@ -375,8 +373,8 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                         SizedBox(height: size.height * 0.02),
                         TextFieldWidget(
                           validator: (value) {
+                            validateField(value!);
                             return null;
-                            validateNumber(value!);
                           },
                           obj: cheque,
                           controller: clientController,
@@ -385,12 +383,11 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                           keyboardType: const TextInputType.numberWithOptions(
                               signed: false, decimal: true),
                         ),
-
                         SizedBox(height: size.height * 0.02),
                         TextFieldWidget(
                           validator: (value) {
+                            validateField(value!);
                             return null;
-                            validateNumber(value!);
                           },
                           obj: cheque,
                           controller: holderController,
@@ -402,13 +399,13 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                         SizedBox(height: size.height * 0.02),
                         TextFieldWidget(
                           validator: (value) {
+                            validateField(value!);
                             return null;
-                            validateNumber(value!);
                           },
                           obj: cheque,
                           controller: montantController,
                           labeltext: 'Montant',
-                          valuetext: cheque.montant ?? "",
+                          valuetext: cheque.montant.toString(),
                           keyboardType: const TextInputType.numberWithOptions(
                               signed: false, decimal: true),
                         ),
@@ -455,29 +452,32 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                       SizedBox(height: size.height * 0.02),
                       SizedBox(height: size.height * 0.02),
                       SizedBox(height: size.height * 0.02),
-                      DropdownButtonHideUnderline(
-                        child: DropdownButton<String>(
-                          isDense: true,
-                          value: dropdownValue,
-                          icon: const Icon(
-                            Icons.keyboard_arrow_down,
-                            size: 20,
+                      InputDecorator(
+                        decoration: WidgetHelper.getDecoration('Paiement'),
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton<String>(
+                            isDense: true,
+                            value: dropdownValue,
+                            icon: const Icon(
+                              Icons.keyboard_arrow_down,
+                              size: 20,
+                            ),
+                            onChanged: (String? value) {
+                              // This is called when the user selects an item.
+                              setState(() {
+                                dropdownValue = value!;
+                              });
+                            },
+                            items: list
+                                .map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value,
+                                    style: TextStyle(
+                                        color: GlobalParams.GlobalColor)),
+                              );
+                            }).toList(),
                           ),
-                          onChanged: (String? value) {
-                            // This is called when the user selects an item.
-                            setState(() {
-                              dropdownValue = value!;
-                            });
-                          },
-                          items: list
-                              .map<DropdownMenuItem<String>>((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value,
-                                  style: TextStyle(
-                                      color: GlobalParams.GlobalColor)),
-                            );
-                          }).toList(),
                         ),
                       ),
                       SizedBox(height: size.height * 0.02),

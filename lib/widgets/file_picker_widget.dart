@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_final_fields, unused_import, unused_local_variable
+// ignore_for_file: prefer_final_fields, unused_import, unused_local_variable, must_be_immutable, non_constant_identifier_names, avoid_function_literals_in_foreach_calls
 import 'dart:io';
 import 'package:chequeproject/widgets/config.dart';
 import 'package:flutter/material.dart';
@@ -50,11 +50,11 @@ class _TestPickerWidgetState extends State<TestPickerWidget> {
         onTap: () async {
           result = await FilePicker.platform.pickFiles(allowMultiple: true);
           if (result == null) {
-            print("No file selected");
+            //print("No file selected");
           } else {
             setState(() {});
             result?.files.forEach((element) {
-              print(element.name);
+              //print(element.name);
               fileCtrl.text = element.name;
             });
           }

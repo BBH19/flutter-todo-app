@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:chequeproject/widgets/config.dart';
 import 'package:flutter/material.dart';
 
@@ -17,7 +19,7 @@ class ErrorWithRefreshButtonWidget extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-             Text(
+             const Text(
               textAlign: TextAlign.center,
               softWrap: true,
               "An error occurred Please Try Again ",

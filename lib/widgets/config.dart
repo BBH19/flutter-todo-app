@@ -1,7 +1,4 @@
-// ignore_for_file: non_constant_identifier_names, prefer_const_declarations, prefer_const_constructors
-
-import 'dart:ui';
-
+// ignore_for_file: non_constant_identifier_names, prefer_const_declarations, prefer_const_constructors, constant_identifier_names
 import 'package:flutter/material.dart';
 
 class GlobalParams {
