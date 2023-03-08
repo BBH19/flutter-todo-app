@@ -9,19 +9,19 @@ abstract class ChequeEvent {
   List<Object> get props => [];
 }
 
-class LoadCheques extends ChequeEvent {
+class LoadChequesEvent extends ChequeEvent {
   List<Cheque> cheques = [];
   @override
   List<Object> get props => [cheques];
 }
 
 class AddChequeEvent extends ChequeEvent {
-  Cheque cheque;
+  Cheque data;
 
-  AddChequeEvent({required this.cheque});
+  AddChequeEvent({required this.data});
 
   @override
-  List<Object> get props => [cheque];
+  List<Object> get props => [data];
 }
 
 class UpdateChequeEvent extends ChequeEvent {

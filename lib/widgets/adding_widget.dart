@@ -27,7 +27,7 @@ class AddChequePage extends StatelessWidget {
           id: '',
           client: '',
           holder: '',
-          montant: '',
+          montant: null,
           receptDate: '',
           echeanceDate: '',
           isPayed: '',
@@ -99,7 +99,8 @@ class AddingWidget extends StatelessWidget {
                   cheque.id = ChequeDataFieldState.idController.text;
                   cheque.client = ChequeDataFieldState.clientController.text;
                   cheque.holder = ChequeDataFieldState.holderController.text;
-                  cheque.montant = ChequeDataFieldState.montantController.text;
+                  cheque.montant = double.tryParse(
+                      ChequeDataFieldState.montantController.text);
                   cheque.receptDate =
                       ChequeDataFieldState.receptDateController.text;
                   cheque.echeanceDate =
@@ -115,7 +116,7 @@ class AddingWidget extends StatelessWidget {
                           cheque: cheque,
                         ))
                       : BlocProvider.of<ChequeBloc>(context).add(AddChequeEvent(
-                          cheque: cheque,
+                          data: cheque,
                         ));
                 } else {
                   await CustomAlert.show(
@@ -156,7 +157,8 @@ class AddingWidget extends StatelessWidget {
                       onPressed: () {});
                 } else if (state.requestState == RequestState.Added) {
                   print('Add successful');
-                  BlocProvider.of<ChequeBloc>(context).add(LoadCheques());
+                  BlocProvider.of<ChequeBloc>(context)
+                      .add(AddChequeEvent(data: cheque));
                   await CustomAlert.show(
                       context: context,
                       //type: AlertType.success,
@@ -167,7 +169,7 @@ class AddingWidget extends StatelessWidget {
                       });
                 } else if (state.requestState == RequestState.Updated) {
                   print('Update successful');
-                  BlocProvider.of<ChequeBloc>(context).add(LoadCheques());
+                  BlocProvider.of<ChequeBloc>(context).add(LoadChequesEvent());
                   await CustomAlert.show(
                       context: context,
                       //type: AlertType.success,

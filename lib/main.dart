@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_declarations, sized_box_for_whitespace, must_be_immutable, prefer_const_constructors, non_constant_identifier_names, unused_local_variable
 
 import 'package:chequeproject/blocs/Cheque/cheque_event.dart';
+import 'package:chequeproject/models/cheque.dart';
 import 'package:chequeproject/views/cheque_add.dart';
 import 'package:chequeproject/views/cheque_list.dart';
 import 'package:chequeproject/widgets/config.dart';
@@ -27,10 +28,14 @@ class MyApp extends StatelessWidget {
       )),
       routes: {
         Cheques.Route: (context) => BlocProvider(
-              create: (context) => ChequeBloc()..add(LoadCheques()),
+              create: (context) => ChequeBloc()..add(LoadChequesEvent()),
               child: Cheques(),
             ),
-        AddChequeView.Route: (context) =>  AddChequeView(),
+        AddChequeView.Route: (context) => BlocProvider(
+              create: (context) =>
+                  ChequeBloc()..add(AddChequeEvent(data: Cheque())),
+              child: AddChequeView(),//love you
+            ),
       },
       home: Scaffold(
         backgroundColor: Colors.white,

@@ -2,7 +2,7 @@ class Cheque {
   String? id;
   String? client;
   String? holder;
-  String? montant;
+  double? montant;
   String? receptDate;
   String? echeanceDate;
   String? isPayed;

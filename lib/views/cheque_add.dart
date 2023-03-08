@@ -29,7 +29,7 @@ class AddChequeView extends StatelessWidget {
           id: '',
           client: '',
           holder: '',
-          montant: '' ,
+          montant: null,
           receptDate: '',
           echeanceDate: '',
           isPayed: '',
@@ -86,48 +86,50 @@ class AddingWidget extends StatelessWidget {
           IconButton(
               icon: const Icon(Icons.check),
               onPressed: () async {
-                ChequeDataFieldState.idController.text =
-                    ChequeDataFieldState.idController.text;
-                if (ChequeDataFieldState.idController.text != "" &&
-                    ChequeDataFieldState.clientController.text != "" &&
-                    ChequeDataFieldState.holderController.text != "" &&
-                    ChequeDataFieldState.montantController.text != "" &&
-                    ChequeDataFieldState.receptDateController.text != "" &&
-                    ChequeDataFieldState.echeanceDateController.text != "" &&
-                    ChequeDataFieldState.isPayedController.text != "" &&
-                    ChequeDataFieldState.paymentDateController.text != "" &&
-                    ChequeDataFieldState.attachementController.text != "") {
-                  cheque.id = ChequeDataFieldState.idController.text;
-                  cheque.client = ChequeDataFieldState.clientController.text;
-                  cheque.holder = ChequeDataFieldState.holderController.text;
-                  cheque.montant =
-                      ChequeDataFieldState.montantController.text ;
-                  cheque.receptDate =
-                      ChequeDataFieldState.receptDateController.text;
-                  cheque.echeanceDate =
-                      ChequeDataFieldState.echeanceDateController.text;
-                  cheque.isPayed = ChequeDataFieldState.isPayedController.text;
-                  cheque.receptDate =
-                      ChequeDataFieldState.echeanceDateController.text;
-                  cheque.attachement =
-                      ChequeDataFieldState.isPayedController.text;
-                  update!
-                      ? BlocProvider.of<ChequeBloc>(context)
-                          .add(UpdateChequeEvent(
-                          cheque: cheque,
-                        ))
-                      : BlocProvider.of<ChequeBloc>(context).add(AddChequeEvent(
-                          cheque: cheque,
-                        ));
-                } else {
-                  await CustomAlert.show(
-                      context: context,
-                      type: AlertType.error,
-                      desc: descr,
-                      onPressed: () {
-                        Navigator.pop(context);
-                      });
-                }
+                // ChequeDataFieldState.idController.text =
+                //     ChequeDataFieldState.idController.text;
+
+                // if (ChequeDataFieldState.idController.text != "" &&
+                //     ChequeDataFieldState.clientController.text != "" &&
+                //     ChequeDataFieldState.holderController.text != "" &&
+                //     ChequeDataFieldState.montantController.text != "" &&
+                //     ChequeDataFieldState.receptDateController.text != "" &&
+                //     ChequeDataFieldState.echeanceDateController.text != "" &&
+                //     ChequeDataFieldState.isPayedController.text != "" &&
+                //     ChequeDataFieldState.paymentDateController.text != "" &&
+                //     ChequeDataFieldState.attachementController.text != "") {
+                cheque.id = ChequeDataFieldState.idController.text;
+                cheque.client = ChequeDataFieldState.clientController.text;
+                cheque.holder = ChequeDataFieldState.holderController.text;
+                cheque.montant = double.tryParse(
+                    ChequeDataFieldState.montantController.text);
+                cheque.receptDate =
+                    ChequeDataFieldState.receptDateController.text;
+                cheque.echeanceDate =
+                    ChequeDataFieldState.echeanceDateController.text;
+                cheque.isPayed = ChequeDataFieldState.isPayedController.text;
+                cheque.receptDate =
+                    ChequeDataFieldState.echeanceDateController.text;
+                cheque.attachement =
+                    ChequeDataFieldState.isPayedController.text;
+
+                update!
+                    ? BlocProvider.of<ChequeBloc>(context)
+                        .add(UpdateChequeEvent(
+                        cheque: cheque,
+                      ))
+                    : BlocProvider.of<ChequeBloc>(context).add(AddChequeEvent(
+                        data: cheque,
+                      ));
+                // } else {
+                //   await CustomAlert.show(
+                //       context: context,
+                //       type: AlertType.error,
+                //       desc: descr,
+                //       onPressed: () {
+                //         Navigator.pop(context);
+                //       });
+                // }
               })
         ],
       ),
@@ -141,10 +143,8 @@ class AddingWidget extends StatelessWidget {
           BlocListener<ChequeBloc, ChequeState>(
               bloc: ChequeBloc(),
               listener: (context, state) async {
-                //print("request state:${state.requestState}");
-                if (state.requestState == RequestState.Adding ||
-                    state.requestState == RequestState.Loading ||
-                    state.requestState == RequestState.Updating) {
+                print("request state:${state.requestState}");
+                if (state.requestState == RequestState.Loading) {
                   SizedBox(
                     height: size.height * 0.5,
                     // ignore: prefer_const_constructors
@@ -159,8 +159,9 @@ class AddingWidget extends StatelessWidget {
                       desc: 'Erreur de modification',
                       onPressed: () {});
                 } else if (state.requestState == RequestState.Added) {
-                  //print('Add successful');
-                  BlocProvider.of<ChequeBloc>(context).add(LoadCheques());
+                  print('Add successful');
+                  BlocProvider.of<ChequeBloc>(context)
+                      .add(AddChequeEvent(data: cheque));
                   await CustomAlert.show(
                       context: context,
                       type: AlertType.success,
@@ -171,7 +172,8 @@ class AddingWidget extends StatelessWidget {
                       });
                 } else if (state.requestState == RequestState.Updated) {
                   //print('Update successful');
-                  BlocProvider.of<ChequeBloc>(context).add(LoadCheques());
+                  BlocProvider.of<ChequeBloc>(context)
+                      .add(UpdateChequeEvent(cheque: cheque));
                   await CustomAlert.show(
                       context: context,
                       type: AlertType.success,
@@ -225,21 +227,12 @@ class ChequeDataFieldState extends State<ChequeDataField> {
   static TextEditingController paymentDateController = TextEditingController();
   static TextEditingController attachementController = TextEditingController();
 
-  String? id,
-      client,
-      holder,
-      montant,
-      receptDate,
-      echeanceDate,
-      isPayed,
-      paymentDate,
-      attachement;
-
   ChequeDataFieldState(this.cheque, this.isUpdate) {
     idController.text = cheque.id ?? "";
     clientController.text = cheque.client ?? "";
     holderController.text = cheque.holder ?? "";
-    montantController.text = (cheque.montant ?? "" as double) as String;
+    montantController.text =
+        cheque.montant == null ? "" : cheque.montant.toString();
     receptDateController.text = cheque.receptDate ?? "";
     echeanceDateController.text = cheque.echeanceDate ?? "";
     isPayedController.text = cheque.isPayed ?? "";
@@ -405,7 +398,9 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                           obj: cheque,
                           controller: montantController,
                           labeltext: 'Montant',
-                          valuetext: cheque.montant.toString(),
+                          valuetext: cheque.montant == null
+                              ? ""
+                              : cheque.montant.toString(),
                           keyboardType: const TextInputType.numberWithOptions(
                               signed: false, decimal: true),
                         ),

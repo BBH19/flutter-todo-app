@@ -12,14 +12,14 @@ class ChequeBloc extends Bloc<ChequeEvent, ChequeState> {
             cheques: const [],
             requestState: RequestState.Loading,
             errorMessage: '')) {
-    on<LoadCheques>((event, emit) async {
+    on<LoadChequesEvent>((event, emit) async {
       emit(ChequeState(
           cheques: const [],
           requestState: RequestState.Loading,
           errorMessage: 'mmm'));
       try {
         List<Cheque> cheques = [];
-        await ChequeService.getCheques().then((value) => cheques = value);
+        await ChequeService.getAll().then((value) => cheques = value);
         emit(ChequeState(
             cheques: cheques,
             requestState: RequestState.Loaded,
@@ -33,10 +33,12 @@ class ChequeBloc extends Bloc<ChequeEvent, ChequeState> {
       }
     });
 
-   on<SearchChequeEvent>((event, emit) async {
+    on<SearchChequeEvent>((event, emit) async {
       try {
-        emit(ChequeState(cheques:
-            event.cheque_list, requestState: RequestState.Searching, errorMessage: '',
+        emit(ChequeState(
+            cheques: event.cheque_list,
+            requestState: RequestState.Searching,
+            errorMessage: '',
             search_result: []));
 
         List<Cheque> search_result = [];
@@ -49,14 +51,19 @@ class ChequeBloc extends Bloc<ChequeEvent, ChequeState> {
             search_result.add(event.cheque_list[i]);
           }
         }
-        emit(ChequeState(cheques:
-            event.cheque_list, requestState: RequestState.SearchLoaded, errorMessage: '',
+        emit(ChequeState(
+            cheques: event.cheque_list,
+            requestState: RequestState.SearchLoaded,
+            errorMessage: '',
             search_result: search_result));
       } catch (e) {
-        emit(ChequeState(cheques:[], requestState: RequestState.Error, errorMessage: "error"));
+        emit(ChequeState(
+            cheques: [],
+            requestState: RequestState.Error,
+            errorMessage: "error"));
       }
     });
-   
+
     on<AddChequeEvent>((event, emit) async {
       try {
         emit(ChequeState(
@@ -64,7 +71,7 @@ class ChequeBloc extends Bloc<ChequeEvent, ChequeState> {
             requestState: RequestState.Adding,
             errorMessage: ''));
         print("add vendor event");
-        await ChequeService.addCheque(event.cheque).then((value) {
+        await ChequeService.add(event.data).then((value) {
           if (value) {
             print("added");
             emit(ChequeState(

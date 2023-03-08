@@ -24,7 +24,7 @@ class Cheques extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => ChequeBloc()..add(LoadCheques()),
+          create: (context) => ChequeBloc()..add(LoadChequesEvent()),
         ),
       ],
       child: ChequeHome(size: size),
@@ -41,7 +41,6 @@ class ChequeHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    BuildContext _context = context;
 
     return SafeArea(
         child: Scaffold(
@@ -54,9 +53,9 @@ class ChequeHome extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.add),
             onPressed: () async {
-              Navigator.push(_context, MaterialPageRoute(builder: (context) {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
                 return BlocProvider.value(
-                    value: BlocProvider.of<ChequeBloc>(_context),
+                    value: BlocProvider.of<ChequeBloc>(context),
                     child: AddChequeView());
               }));
             },
@@ -135,7 +134,7 @@ class ChequeBody extends StatelessWidget {
                 }
                 return ErrorWithRefreshButtonWidget(
                   button_function: () {
-                    BlocProvider.of<ChequeBloc>(context).add(LoadCheques());
+                    BlocProvider.of<ChequeBloc>(context).add(LoadChequesEvent());
                   },
                 );
               }),
