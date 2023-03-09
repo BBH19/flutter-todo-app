@@ -21,6 +21,8 @@ class ChequeService {
   }
 
   static Future<bool> add(Cheque cheque) async {
+    print(cheque.client);
+
     var body = json.encode(cheque.toJson());
     final response = await http.post(
       Uri.parse('${GlobalParams.laravelApi}cheque'),

@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
       routes: {
         Cheques.Route: (context) => BlocProvider(
               create: (context) => ChequeBloc()..add(LoadChequesEvent()),
-              child: Cheques(),
+              child: Cheques(),              
             ),
         AddChequeView.Route: (context) => BlocProvider(
               create: (context) =>

@@ -80,7 +80,6 @@ class ChequeBloc extends Bloc<ChequeEvent, ChequeState> {
                 errorMessage: ''));
           } else {
             print("error");
-
             emit(ChequeState(
                 cheques: state.cheques,
                 requestState: RequestState.Error,

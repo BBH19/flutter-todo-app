@@ -13,7 +13,9 @@ import 'package:chequeproject/widgets/file_picker_widget.dart';
 import 'package:chequeproject/widgets/textfield_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:chequeproject/utils/validators.dart';
 
 class AddChequeView extends StatelessWidget {
   static String Route = '/add';
@@ -98,20 +100,29 @@ class AddingWidget extends StatelessWidget {
                 //     ChequeDataFieldState.isPayedController.text != "" &&
                 //     ChequeDataFieldState.paymentDateController.text != "" &&
                 //     ChequeDataFieldState.attachementController.text != "") {
+
                 cheque.id = ChequeDataFieldState.idController.text;
                 cheque.client = ChequeDataFieldState.clientController.text;
                 cheque.holder = ChequeDataFieldState.holderController.text;
                 cheque.montant = double.tryParse(
                     ChequeDataFieldState.montantController.text);
-                cheque.receptDate =
+
+                var receiptDate =
                     ChequeDataFieldState.receptDateController.text;
-                cheque.echeanceDate =
+                var echeanceDate =
                     ChequeDataFieldState.echeanceDateController.text;
+                var paymentDate =
+                    ChequeDataFieldState.paymentDateController.text;
+
+                cheque.receptDate = receiptDate;
+                cheque.echeanceDate = echeanceDate;
                 cheque.isPayed = ChequeDataFieldState.isPayedController.text;
-                cheque.receptDate =
-                    ChequeDataFieldState.echeanceDateController.text;
+                cheque.paymentDate = paymentDate;
                 cheque.attachement =
                     ChequeDataFieldState.isPayedController.text;
+
+                print("star save");
+                print(cheque.client);
 
                 update!
                     ? BlocProvider.of<ChequeBloc>(context)
@@ -231,8 +242,7 @@ class ChequeDataFieldState extends State<ChequeDataField> {
     idController.text = cheque.id ?? "";
     clientController.text = cheque.client ?? "";
     holderController.text = cheque.holder ?? "";
-    montantController.text =
-        cheque.montant == null ? "" : cheque.montant.toString();
+    montantController.text = cheque.montant == null ? "" : cheque.montant.toString();
     receptDateController.text = cheque.receptDate ?? "";
     echeanceDateController.text = cheque.echeanceDate ?? "";
     isPayedController.text = cheque.isPayed ?? "";
@@ -240,25 +250,7 @@ class ChequeDataFieldState extends State<ChequeDataField> {
     attachementController.text = cheque.attachement ?? "";
   }
 
-  String? validateNumber(String value) {
-    if (value == null || value.isEmpty) {
-      return 'Veuillez remplir le champs';
-    } else {
-      String pattern = r'[0-9]\.[0-9]';
-      RegExp regex = RegExp(pattern);
-      if (!regex.hasMatch(value)) {
-        return 'Entrer Un Nombre Valide';
-      }
-    }
-    return null;
-  }
-
-  String? validateField(String value) {
-    if (value == null || value.isEmpty) {
-      return 'Veuillez remplir le champs';
-    }
-    return null;
-  }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -379,7 +371,7 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                         SizedBox(height: size.height * 0.02),
                         TextFieldWidget(
                           validator: (value) {
-                            validateField(value!);
+                            validators.validateField(value!);
                             return null;
                           },
                           obj: cheque,
@@ -392,7 +384,7 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                         SizedBox(height: size.height * 0.02),
                         TextFieldWidget(
                           validator: (value) {
-                            validateField(value!);
+                            validators.validateField(value!);
                             return null;
                           },
                           obj: cheque,
