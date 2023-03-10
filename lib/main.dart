@@ -31,11 +31,12 @@ class MyApp extends StatelessWidget {
               create: (context) => ChequeBloc()..add(LoadChequesEvent()),
               child: Cheques(),              
             ),
-        AddChequeView.Route: (context) => BlocProvider(
-              create: (context) =>
-                  ChequeBloc()..add(AddChequeEvent(data: Cheque())),
-              child: AddChequeView(),//love you
-            ),
+        // AddChequeView.Route: (context) => BlocProvider(
+        //       create: (context) =>
+        //           ChequeBloc()..add(AddChequeEvent(data: Cheque())),
+        //       child: AddChequeView(),//love you <3
+        //     ),
+            
       },
       home: Scaffold(
         backgroundColor: Colors.white,
