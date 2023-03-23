@@ -22,8 +22,7 @@ class TestPickerWidget extends StatefulWidget {
       required this.controller,
       required this.valuetext,
       this.readonly = false,
-      this.focusColor = Colors.black,
-      // required this.controller,
+      this.focusColor = Colors.black, 
       this.validator,
       this.keyboardType,
       this.inputFormatters,
@@ -36,8 +35,7 @@ class TestPickerWidget extends StatefulWidget {
   State<TestPickerWidget> createState() => _TestPickerWidgetState();
 }
 
-class _TestPickerWidgetState extends State<TestPickerWidget> {
-  TextEditingController fileCtrl = TextEditingController();
+class _TestPickerWidgetState extends State<TestPickerWidget> { 
 
   FilePickerResult? result;
 
@@ -46,7 +44,7 @@ class _TestPickerWidgetState extends State<TestPickerWidget> {
     return SizedBox(
       height: 35,
       child: TextFormField(
-        controller: fileCtrl,
+        controller: widget.controller,
         onTap: () async {
           result = await FilePicker.platform.pickFiles(allowMultiple: true);
           if (result == null) {
@@ -55,7 +53,7 @@ class _TestPickerWidgetState extends State<TestPickerWidget> {
             setState(() {});
             result?.files.forEach((element) {
               //print(element.name);
-              fileCtrl.text = element.name;
+              widget.controller.text = element.name;
             });
           }
         },

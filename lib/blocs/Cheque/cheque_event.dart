@@ -25,11 +25,11 @@ class AddChequeEvent extends ChequeEvent {
 }
 
 class UpdateChequeEvent extends ChequeEvent {
-  Cheque cheque;
+  Cheque data;
 
-  UpdateChequeEvent({required this.cheque});
+  UpdateChequeEvent({required this.data});
   @override
-  List<Object> get props => [cheque];
+  List<Object> get props => [data];
 }
 
 class SearchChequeEvent extends ChequeEvent {

@@ -48,6 +48,7 @@ class TextFieldWidget extends StatelessWidget {
             keyboardType: keyboardType,
             validator: validator,
             readOnly: readonly ?? false,
+            controller: controller,
             decoration: InputDecoration(
               fillColor: Colors.red,
               focusColor: Colors.black,
@@ -66,7 +67,6 @@ class TextFieldWidget extends StatelessWidget {
               ),
               suffixIcon: suffixIcon,
               // style: txtStyle,
-              //controller: controller,
             )));
   }
 }

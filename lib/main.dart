@@ -2,7 +2,7 @@
 
 import 'package:chequeproject/blocs/Cheque/cheque_event.dart';
 import 'package:chequeproject/models/cheque.dart';
-import 'package:chequeproject/views/cheque_add.dart';
+import 'package:chequeproject/views/cheque_edit.dart';
 import 'package:chequeproject/views/cheque_list.dart';
 import 'package:chequeproject/widgets/config.dart';
 import 'package:chequeproject/widgets/dashbord.dart';
@@ -31,11 +31,11 @@ class MyApp extends StatelessWidget {
               create: (context) => ChequeBloc()..add(LoadChequesEvent()),
               child: Cheques(),              
             ),
-        // AddChequeView.Route: (context) => BlocProvider(
-        //       create: (context) =>
-        //           ChequeBloc()..add(AddChequeEvent(data: Cheque())),
-        //       child: AddChequeView(),//love you <3
-        //     ),
+        ChequeEditPage.Route: (context) => BlocProvider(
+              create: (context) =>
+                  ChequeBloc()..add(AddChequeEvent(data: Cheque())),
+              child: ChequeEditPage(),//love you <3
+            ),
             
       },
       home: Scaffold(
@@ -72,7 +72,7 @@ class ButtonOption {
   static List<ButtonOption> Options = const <ButtonOption>[
     ButtonOption(route: "/listing", text: 'Liste des Chéques'),
     ButtonOption(
-      route: "/add",
+      route: "/ChequeEdit",
       text: 'Nouveau Chéque',
     ),
   ];

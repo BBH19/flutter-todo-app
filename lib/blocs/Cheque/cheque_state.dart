@@ -2,7 +2,7 @@
 
 import 'package:chequeproject/models/cheque.dart';
 
-enum RequestState {
+enum ChequeRequestState {
   Loaded,
   Loading,
   Error,
@@ -16,19 +16,19 @@ enum RequestState {
 }
 
 class ChequeState {
-  List<Cheque> cheques = [];
+  List<Cheque> data = [];
   List<Cheque>? search_result;
-  RequestState requestState;
+  ChequeRequestState requestState;
   String errorMessage;
 
   ChequeState(
-      {required this.cheques,
+      {required this.data,
       required this.requestState,
       required this.errorMessage,
       this.search_result});
 
   List<Object> get props => [
-        cheques,
+        data,
         requestState,
         errorMessage,
       ];

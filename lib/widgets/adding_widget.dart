@@ -113,7 +113,7 @@ class AddingWidget extends StatelessWidget {
                   update!
                       ? BlocProvider.of<ChequeBloc>(context)
                           .add(UpdateChequeEvent(
-                          cheque: cheque,
+                          data: cheque,
                         ))
                       : BlocProvider.of<ChequeBloc>(context).add(AddChequeEvent(
                           data: cheque,
@@ -140,22 +140,22 @@ class AddingWidget extends StatelessWidget {
           BlocListener<ChequeBloc, ChequeState>(
               listener: (context, state) async {
                 //print("request state:${state.requestState}");
-                if (state.requestState == RequestState.Adding ||
-                    state.requestState == RequestState.Loading ||
-                    state.requestState == RequestState.Updating) {
+                if (state.requestState == ChequeRequestState.Adding ||
+                    state.requestState == ChequeRequestState.Loading ||
+                    state.requestState == ChequeRequestState.Updating) {
                   SizedBox(
                     height: size.height * 0.5,
                     child: Center(
                         //child: Lottie.asset('assets/animations/loader.json'),
                         ),
                   );
-                } else if (state.requestState == RequestState.Error) {
+                } else if (state.requestState == ChequeRequestState.Error) {
                   await CustomAlert.show(
                       context: context,
                       //type: AlertType.error,
                       desc: 'Erreur de modification',
                       onPressed: () {});
-                } else if (state.requestState == RequestState.Added) {
+                } else if (state.requestState == ChequeRequestState.Added) {
                   print('Add successful');
                   BlocProvider.of<ChequeBloc>(context)
                       .add(AddChequeEvent(data: cheque));
@@ -167,7 +167,7 @@ class AddingWidget extends StatelessWidget {
                         int count = 0;
                         Navigator.of(context).popUntil((_) => count++ >= 2);
                       });
-                } else if (state.requestState == RequestState.Updated) {
+                } else if (state.requestState == ChequeRequestState.Updated) {
                   print('Update successful');
                   BlocProvider.of<ChequeBloc>(context).add(LoadChequesEvent());
                   await CustomAlert.show(

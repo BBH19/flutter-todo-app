@@ -30,15 +30,14 @@ class DatePickerWidget extends StatelessWidget {
       this.on_changed_function,
       this.enabled})
       : super(key: key);
-  final Object obj;
-  TextEditingController datePickerCtrl = TextEditingController();
+  final Object obj; 
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 35,
       child: TextFormField(
-        controller: datePickerCtrl,
+        controller: controller,
         onTap: () async {
           DateTime date = DateTime(1900);
           FocusScope.of(context).requestFocus(FocusNode());
@@ -48,7 +47,7 @@ class DatePickerWidget extends StatelessWidget {
               firstDate: DateTime(1900),
               lastDate: DateTime(2100)))!;
 
-          datePickerCtrl.text = date.toString(); 
+          controller.text = date.toString(); 
         },
         enabled: enabled ?? true,
         cursorColor: GlobalParams.GlobalColor,

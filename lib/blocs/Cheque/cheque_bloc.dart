@@ -9,26 +9,26 @@ import 'package:chequeproject/blocs/Cheque/cheque_state.dart';
 class ChequeBloc extends Bloc<ChequeEvent, ChequeState> {
   ChequeBloc()
       : super(ChequeState(
-            cheques: const [],
-            requestState: RequestState.Loading,
+            data: const [],
+            requestState: ChequeRequestState.Loading,
             errorMessage: '')) {
     on<LoadChequesEvent>((event, emit) async {
       emit(ChequeState(
-          cheques: const [],
-          requestState: RequestState.Loading,
+          data: const [],
+          requestState: ChequeRequestState.Loading,
           errorMessage: 'mmm'));
       try {
         List<Cheque> cheques = [];
         await ChequeService.getAll().then((value) => cheques = value);
         emit(ChequeState(
-            cheques: cheques,
-            requestState: RequestState.Loaded,
+            data: cheques,
+            requestState: ChequeRequestState.Loaded,
             errorMessage: 'good'));
       } catch (e) {
         print("error on block vendor bloc : $e");
         emit(ChequeState(
-            cheques: const [],
-            requestState: RequestState.Error,
+            data: const [],
+            requestState: ChequeRequestState.Error,
             errorMessage: "error"));
       }
     });
@@ -36,8 +36,8 @@ class ChequeBloc extends Bloc<ChequeEvent, ChequeState> {
     on<SearchChequeEvent>((event, emit) async {
       try {
         emit(ChequeState(
-            cheques: event.cheque_list,
-            requestState: RequestState.Searching,
+            data: event.cheque_list,
+            requestState: ChequeRequestState.Searching,
             errorMessage: '',
             search_result: []));
 
@@ -52,14 +52,14 @@ class ChequeBloc extends Bloc<ChequeEvent, ChequeState> {
           }
         }
         emit(ChequeState(
-            cheques: event.cheque_list,
-            requestState: RequestState.SearchLoaded,
+            data: event.cheque_list,
+            requestState: ChequeRequestState.SearchLoaded,
             errorMessage: '',
             search_result: search_result));
       } catch (e) {
         emit(ChequeState(
-            cheques: [],
-            requestState: RequestState.Error,
+            data: [],
+            requestState: ChequeRequestState.Error,
             errorMessage: "error"));
       }
     });
@@ -67,36 +67,36 @@ class ChequeBloc extends Bloc<ChequeEvent, ChequeState> {
     on<AddChequeEvent>((event, emit) async {
       try {
         emit(ChequeState(
-            cheques: state.cheques,
-            requestState: RequestState.Adding,
+            data: state.data,
+            requestState: ChequeRequestState.Adding,
             errorMessage: ''));
         print("add vendor event");
         await ChequeService.add(event.data).then((value) {
           if (value) {
             print("added");
             emit(ChequeState(
-                cheques: state.cheques,
-                requestState: RequestState.Added,
+                data: state.data,
+                requestState: ChequeRequestState.Added,
                 errorMessage: ''));
           } else {
             print("error");
             emit(ChequeState(
-                cheques: state.cheques,
-                requestState: RequestState.Error,
+                data: state.data,
+                requestState: ChequeRequestState.Error,
                 errorMessage: 'error'));
           }
         });
       } catch (e) {
         emit(ChequeState(
-            cheques: state.cheques,
-            requestState: RequestState.Error,
+            data: state.data,
+            requestState: ChequeRequestState.Error,
             errorMessage: 'error'));
       }
     });
 
     on<InitializingEvent>((event, emit) async {
       emit(ChequeState(
-          cheques: [], requestState: RequestState.None, errorMessage: ''));
+          data: [], requestState: ChequeRequestState.None, errorMessage: ''));
       print("initializing event");
     });
   }

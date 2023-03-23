@@ -4,7 +4,7 @@ import 'package:chequeproject/blocs/Cheque/cheque_bloc.dart';
 import 'package:chequeproject/blocs/Cheque/cheque_event.dart';
 import 'package:chequeproject/blocs/Cheque/cheque_state.dart';
 import 'package:chequeproject/models/cheque.dart';
-import 'package:chequeproject/views/cheque_add.dart';
+import 'package:chequeproject/views/cheque_edit.dart'; 
 import 'package:chequeproject/widgets/config.dart';
 import 'package:chequeproject/widgets/error_widget.dart';
 import 'package:chequeproject/widgets/header.dart';
@@ -41,7 +41,6 @@ class ChequeHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return SafeArea(
         child: Scaffold(
       backgroundColor: GlobalParams.backgroundColor,
@@ -55,8 +54,8 @@ class ChequeHome extends StatelessWidget {
             onPressed: () async {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
                 return BlocProvider.value(
-                    value: BlocProvider.of<ChequeBloc>(context),
-                    child: AddChequeView());
+                    value: BlocProvider.of<ChequeBloc>(context));
+                  child: ChequeEditPage();
               }));
             },
           ),
@@ -88,23 +87,23 @@ class ChequeBody extends StatelessWidget {
                   onchanged_function: (String value) {
                     BlocProvider.of<ChequeBloc>(context).add(
                       SearchChequeEvent(value,
-                          BlocProvider.of<ChequeBloc>(context).state.cheques),
+                          BlocProvider.of<ChequeBloc>(context).state.data),
                     );
                   }),
             ),
             Expanded(
               child: BlocBuilder<ChequeBloc, ChequeState>(
                   builder: (context, state) {
-                if (state.requestState == RequestState.Loading ||
-                    state.requestState == RequestState.Searching) {
+                if (state.requestState == ChequeRequestState.Loading ||
+                    state.requestState == ChequeRequestState.Searching) {
                   return SizedBox(
                     height: size.height * 0.5,
                   );
-                } else if (state.requestState == RequestState.Loaded ||
-                    state.requestState == RequestState.SearchLoaded) {
+                } else if (state.requestState == ChequeRequestState.Loaded ||
+                    state.requestState == ChequeRequestState.SearchLoaded) {
                   List<Cheque>? chequeList =
-                      state.requestState == RequestState.Loaded
-                          ? state.cheques
+                      state.requestState == ChequeRequestState.Loaded
+                          ? state.data
                           : state.search_result;
                   return Container(
                     height: size.height * 0.78,
@@ -134,7 +133,8 @@ class ChequeBody extends StatelessWidget {
                 }
                 return ErrorWithRefreshButtonWidget(
                   button_function: () {
-                    BlocProvider.of<ChequeBloc>(context).add(LoadChequesEvent());
+                    BlocProvider.of<ChequeBloc>(context)
+                        .add(LoadChequesEvent());
                   },
                 );
               }),
