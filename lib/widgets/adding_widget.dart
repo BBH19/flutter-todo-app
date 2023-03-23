@@ -24,7 +24,7 @@ class AddChequePage extends StatelessWidget {
     // ignore: prefer_conditional_assignment
     if (cheque == null) {
       cheque = Cheque(
-          id: '',
+          id: null,
           client: '',
           holder: '',
           montant: null,
@@ -96,7 +96,7 @@ class AddingWidget extends StatelessWidget {
                     ChequeDataFieldState.isPayedController.text != "" &&
                     ChequeDataFieldState.paymentDateController.text != "" &&
                     ChequeDataFieldState.attachementController.text != "") {
-                  cheque.id = ChequeDataFieldState.idController.text;
+                  cheque.id =int.tryParse( ChequeDataFieldState.idController.text);
                   cheque.client = ChequeDataFieldState.clientController.text;
                   cheque.holder = ChequeDataFieldState.holderController.text;
                   cheque.montant = double.tryParse(
@@ -364,7 +364,7 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                           obj: cheque,
                           controller: idController,
                           labeltext: 'N° de Cheque',
-                          valuetext: cheque.id ?? "",
+                          valuetext: cheque.id.toString(),
                           keyboardType: const TextInputType.numberWithOptions(
                               signed: false, decimal: true),
                         ),

@@ -4,7 +4,7 @@ import 'package:chequeproject/blocs/Cheque/cheque_bloc.dart';
 import 'package:chequeproject/blocs/Cheque/cheque_event.dart';
 import 'package:chequeproject/blocs/Cheque/cheque_state.dart';
 import 'package:chequeproject/models/cheque.dart';
-import 'package:chequeproject/views/cheque_edit.dart'; 
+import 'package:chequeproject/views/cheque_edit.dart';
 import 'package:chequeproject/widgets/config.dart';
 import 'package:chequeproject/widgets/error_widget.dart';
 import 'package:chequeproject/widgets/header.dart';
@@ -23,6 +23,10 @@ class Cheques extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return MultiBlocProvider(
       providers: [
+        BlocProvider(
+          create: (context) => ChequeBloc(),
+          child: ChequeEditPage(currentObj: Cheque()),
+        ),
         BlocProvider(
           create: (context) => ChequeBloc()..add(LoadChequesEvent()),
         ),
@@ -54,8 +58,10 @@ class ChequeHome extends StatelessWidget {
             onPressed: () async {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
                 return BlocProvider.value(
-                    value: BlocProvider.of<ChequeBloc>(context));
-                  child: ChequeEditPage();
+                    value: BlocProvider.of<ChequeBloc>(context),
+                    child: ChequeEditPage(
+                      currentObj: Cheque(),
+                    ));
               }));
             },
           ),
