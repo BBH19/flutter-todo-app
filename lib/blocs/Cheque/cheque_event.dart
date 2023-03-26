@@ -1,11 +1,8 @@
-//part of 'vendor_bloc.dart';
-// ignore_for_file: override_on_non_overriding_member, non_constant_identifier_names
-
 import 'package:chequeproject/models/cheque.dart';
 
 abstract class ChequeEvent {
   const ChequeEvent();
-  @override
+
   List<Object> get props => [];
 }
 
@@ -33,13 +30,13 @@ class UpdateChequeEvent extends ChequeEvent {
 }
 
 class SearchChequeEvent extends ChequeEvent {
-  String search_value;
-  List<Cheque> cheque_list = [];
+  String searchValue;
+  List<Cheque> data = [];
 
-  SearchChequeEvent(this.search_value, this.cheque_list);
+  SearchChequeEvent(this.searchValue, this.data);
 
   @override
-  List<Object> get props => [search_value, cheque_list];
+  List<Object> get props => [searchValue, data];
 }
 
 class InitializingEvent extends ChequeEvent {}

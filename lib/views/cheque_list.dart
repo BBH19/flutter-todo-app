@@ -28,6 +28,7 @@ class Cheques extends StatelessWidget {
   }
 }
 
+// ignore: camel_case_types
 class _chequeHome extends StatelessWidget {
   const _chequeHome({
     Key? key,
