@@ -21,23 +21,15 @@ class Cheques extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (context) => ChequeBloc(),
-          child: ChequeEditPage(currentObj: Cheque()),
-        ),
-        BlocProvider(
-          create: (context) => ChequeBloc()..add(LoadChequesEvent()),
-        ),
-      ],
-      child: ChequeHome(size: size),
+    return BlocProvider(
+      create: (context) => ChequeBloc()..add(LoadChequesEvent()),
+      child: _chequeHome(size: size),
     );
   }
 }
 
-class ChequeHome extends StatelessWidget {
-  const ChequeHome({
+class _chequeHome extends StatelessWidget {
+  const _chequeHome({
     Key? key,
     required this.size,
   }) : super(key: key);
@@ -45,6 +37,7 @@ class ChequeHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    BuildContext _context = context;
     return SafeArea(
         child: Scaffold(
       backgroundColor: GlobalParams.backgroundColor,
@@ -56,12 +49,10 @@ class ChequeHome extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.add),
             onPressed: () async {
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
+              Navigator.push(_context, MaterialPageRoute(builder: (context) {
                 return BlocProvider.value(
-                    value: BlocProvider.of<ChequeBloc>(context),
-                    child: ChequeEditPage(
-                      currentObj: Cheque(),
-                    ));
+                    value: BlocProvider.of<ChequeBloc>(_context),
+                    child: ChequeEditPage());
               }));
             },
           ),
@@ -123,13 +114,10 @@ class ChequeBody extends StatelessWidget {
                         var currentItem = chequeList![index];
                         return ItemCard(
                             size: size,
-                            var1: currentItem.client,
-                            var2: currentItem.holder,
-                            var3: currentItem.isPayed == null
-                                ? "N/A"
-                                : currentItem.isPayed == true
-                                    ? "Payé"
-                                    : "Umpayé",
+                            var1: currentItem.id.toString(),
+                            var2:
+                                '${currentItem.client} | ${currentItem.holder}',
+                            var3: currentItem.isPayed,
                             var4:
                                 '${chequeList[index].montant} | ${chequeList[index].receptDate}',
                             color: GlobalParams.GlobalColor);

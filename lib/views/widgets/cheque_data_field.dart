@@ -41,7 +41,7 @@ class ChequeDataFieldState extends State<ChequeDataField> {
   static TextEditingController attachementController = TextEditingController();
 
   ChequeDataFieldState(this.cheque, this.isUpdate) {
-    idController.text = cheque.id.toString();
+    idController.text = cheque.id == null ? "" : cheque.id.toString();
     clientController.text = cheque.client ?? "";
     holderController.text = cheque.holder ?? "";
     montantController.text =
@@ -151,7 +151,8 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                           obj: cheque,
                           controller: idController,
                           labeltext: 'N° de Cheque',
-                          valuetext: cheque.id.toString(),
+                          valuetext:
+                              cheque.id == null ? "" : cheque.id.toString(),
                           keyboardType: const TextInputType.numberWithOptions(
                               signed: false, decimal: true),
                         ),
@@ -165,22 +166,19 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                           controller: clientController,
                           labeltext: 'Client ',
                           valuetext: cheque.client ?? "",
-                          keyboardType: const TextInputType.numberWithOptions(
-                              signed: false, decimal: true),
+                          keyboardType: TextInputType.name,
                         ),
                         SizedBox(height: size.height * 0.02),
                         TextFieldWidget(
-                          validator: (value) {
-                            validators.validateField(value!);
-                            return null;
-                          },
-                          obj: cheque,
-                          controller: holderController,
-                          labeltext: 'Propriétaire',
-                          valuetext: cheque.holder ?? "",
-                          keyboardType: const TextInputType.numberWithOptions(
-                              signed: false, decimal: true),
-                        ),
+                            validator: (value) {
+                              validators.validateField(value!);
+                              return null;
+                            },
+                            obj: cheque,
+                            controller: holderController,
+                            labeltext: 'Propriétaire',
+                            valuetext: cheque.holder ?? "",
+                            keyboardType: TextInputType.name),
                         SizedBox(height: size.height * 0.02),
                         TextFieldWidget(
                           validator: (value) {
@@ -244,7 +242,7 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                         child: DropdownButtonHideUnderline(
                           child: DropdownButton<String>(
                             isDense: true,
-                            value: list.first,//widget.cheque.isPayed ?? 
+                            value: list.first, //widget.cheque.isPayed ??
                             icon: const Icon(
                               Icons.keyboard_arrow_down,
                               size: 20,

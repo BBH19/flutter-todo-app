@@ -29,14 +29,12 @@ class MyApp extends StatelessWidget {
       routes: {
         Cheques.Route: (context) => BlocProvider(
               create: (context) => ChequeBloc()..add(LoadChequesEvent()),
-              child: Cheques(),              
+              child: Cheques(),
             ),
         ChequeEditPage.Route: (context) => BlocProvider(
-              create: (context) =>
-                  ChequeBloc()..add(AddChequeEvent(data: Cheque())),
-              child: ChequeEditPage(),//love you <3
+              create: (context) => ChequeBloc(),
+              child: ChequeEditPage(), //love you <3
             ),
-            
       },
       home: Scaffold(
         backgroundColor: Colors.white,

@@ -21,16 +21,31 @@ class ChequeService {
   }
 
   static Future<bool> add(Cheque cheque) async {
-    print(cheque.client);
-
     var body = json.encode(cheque.toJson());
     final response = await http.post(
       Uri.parse('${GlobalParams.laravelApi}cheque'),
       body: body,
       headers: {'content-type': 'application/json'},
     );
-    if (response.statusCode == 201) {
+    if (response.statusCode == 200) {
       return true;
+    }
+    
+    return false;
+  }
+
+  static Future<bool> update(Cheque cheque) async {
+    try {
+      String url = '${GlobalParams.laravelApi}cheque/${cheque.id}';
+      var body = json.encode(cheque.toJson());
+
+      var res = await http.put(Uri.parse(url),
+          body: body, headers: {'content-type': 'application/json'});
+      if (res.statusCode == 200) {
+        return true;
+      }
+    } on Exception catch (_, ex) {
+      print(_);
     }
     return false;
   }

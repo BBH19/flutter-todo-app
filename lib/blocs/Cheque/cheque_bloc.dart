@@ -16,16 +16,15 @@ class ChequeBloc extends Bloc<ChequeEvent, ChequeState> {
       emit(ChequeState(
           data: const [],
           requestState: ChequeRequestState.Loading,
-          errorMessage: 'mmm'));
+          errorMessage: ''));
       try {
-        List<Cheque> cheques = [];
-        await ChequeService.getAll().then((value) => cheques = value);
+        List<Cheque> cheques = await ChequeService.getAll();
         emit(ChequeState(
             data: cheques,
             requestState: ChequeRequestState.Loaded,
             errorMessage: 'good'));
       } catch (e) {
-        print("error on block vendor bloc : $e");
+        print("error on block cheque bloc : $e");
         emit(ChequeState(
             data: const [],
             requestState: ChequeRequestState.Error,
@@ -43,11 +42,12 @@ class ChequeBloc extends Bloc<ChequeEvent, ChequeState> {
 
         List<Cheque> search_result = [];
         for (var i = 0; i < event.cheque_list.length; i++) {
-          if (event.cheque_list[i].client!
-                  .startsWith(event.search_value.toLowerCase()) ||
-              event.cheque_list[i].holder!
-                  .toLowerCase()
-                  .startsWith(event.search_value.toLowerCase())) {
+          var cheque = event.cheque_list[i];
+          var searchValue = event.search_value.toLowerCase();
+
+          if (cheque.client!.toLowerCase().startsWith(searchValue) ||
+              cheque.holder!.toLowerCase().startsWith(searchValue) ||
+              cheque.id!.toString().toLowerCase().startsWith(searchValue)) {
             search_result.add(event.cheque_list[i]);
           }
         }
@@ -70,27 +70,21 @@ class ChequeBloc extends Bloc<ChequeEvent, ChequeState> {
             data: state.data,
             requestState: ChequeRequestState.Adding,
             errorMessage: ''));
-        print("add vendor event");
-        await ChequeService.add(event.data).then((value) {
-          if (value) {
-            print("added");
-            emit(ChequeState(
-                data: state.data,
-                requestState: ChequeRequestState.Added,
-                errorMessage: ''));
-          } else {
-            print("error");
-            emit(ChequeState(
-                data: state.data,
-                requestState: ChequeRequestState.Error,
-                errorMessage: 'error'));
-          }
-        });
+        print("add cheque event");
+
+        var data = await ChequeService.add(event.data);
+
+        emit(ChequeState(
+            data: state.data,
+            requestState: ChequeRequestState.Added,
+            errorMessage: ''));
+        print('no error');
       } catch (e) {
+        print('errorr catch');
         emit(ChequeState(
             data: state.data,
             requestState: ChequeRequestState.Error,
-            errorMessage: 'error'));
+            errorMessage: e.toString()));
       }
     });
 
