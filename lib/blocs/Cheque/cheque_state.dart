@@ -32,4 +32,10 @@ class ChequeState {
         requestState,
         errorMessage,
       ];
+
+  bool get isLoadingState {
+    return requestState == ChequeRequestState.Adding ||
+        requestState == ChequeRequestState.Loading ||
+        requestState == ChequeRequestState.Updating;
+  }
 }

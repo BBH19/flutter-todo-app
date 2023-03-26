@@ -2,6 +2,7 @@
 
 import 'package:chequeproject/widgets/config.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 
 class WidgetHelper {
   static InputDecoration getDecoration(String label) {
@@ -66,5 +67,14 @@ class WidgetHelper {
             size: 20,
           ),
         ));
+  }
+
+  static LoadingWidget(Size size) {
+    return SizedBox(
+      height: size.height * 0.5,
+      child: Center(
+        child: Lottie.asset('assets/loader.json'),
+      ),
+    );
   }
 }

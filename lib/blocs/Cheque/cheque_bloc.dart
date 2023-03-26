@@ -70,15 +70,13 @@ class ChequeBloc extends Bloc<ChequeEvent, ChequeState> {
             data: state.data,
             requestState: ChequeRequestState.Adding,
             errorMessage: ''));
-        print("add cheque event");
-
-        var data = await ChequeService.add(event.data);
-
+        print("Adding cheque event"); 
+        var data = await ChequeService.add(event.data); 
         emit(ChequeState(
             data: state.data,
             requestState: ChequeRequestState.Added,
-            errorMessage: ''));
-        print('no error');
+            errorMessage: '')); 
+        print("Adding cheque event");
       } catch (e) {
         print('errorr catch');
         emit(ChequeState(

@@ -4,6 +4,7 @@ import 'package:chequeproject/blocs/Cheque/cheque_bloc.dart';
 import 'package:chequeproject/blocs/Cheque/cheque_event.dart';
 import 'package:chequeproject/blocs/Cheque/cheque_state.dart';
 import 'package:chequeproject/models/cheque.dart';
+import 'package:chequeproject/utils/widgect_helper.dart';
 import 'package:chequeproject/views/widgets/cheque_data_field.dart';
 import 'package:chequeproject/widgets/config.dart';
 import 'package:chequeproject/widgets/custom_alert_widget.dart';
@@ -126,15 +127,8 @@ class _ChequeEditPage extends State<ChequeEditPage> {
           BlocListener<ChequeBloc, ChequeState>(
               listener: (context, state) async {
                 print("request state:${state.requestState}");
-                if (state.requestState == ChequeRequestState.Adding ||
-                    state.requestState == ChequeRequestState.Loading ||
-                    state.requestState == ChequeRequestState.Updating) {
-                  SizedBox(
-                    height: size.height * 0.5,
-                    child: Center(
-                      child: Lottie.asset('assets/loader.json'),
-                    ),
-                  );
+                if (state.isLoadingState) {
+                  WidgetHelper.LoadingWidget(size);
                 } else if (state.requestState == ChequeRequestState.Error) {
                   await CustomAlert.show(
                       context: context,
@@ -143,31 +137,22 @@ class _ChequeEditPage extends State<ChequeEditPage> {
                       onPressed: () {
                         Navigator.pop(context);
                       });
-                } else if (state.requestState == ChequeRequestState.Added) {
-                  print('Add successful');
+                      
+                } else if (state.requestState == ChequeRequestState.Added||
+                state.requestState == ChequeRequestState.Updated) {
+                  print('Saved successful');
                   BlocProvider.of<ChequeBloc>(context)
-                      .add(AddChequeEvent(data: widget.currentObj!));
+                      .add(LoadChequesEvent());
                   await CustomAlert.show(
                       context: context,
                       type: AlertType.success,
-                      desc: 'Le cheque a été ajouté avec succès',
+                      desc: 'Le cheque a été enregistré avec succès',
                       onPressed: () {
                         int count = 0;
                         Navigator.of(context).popUntil((_) => count++ >= 1);
                       });
-                } else if (state.requestState == ChequeRequestState.Updated) {
-                  //print('Update successful');
-                  BlocProvider.of<ChequeBloc>(context)
-                      .add(UpdateChequeEvent(data: widget.currentObj!));
-                  await CustomAlert.show(
-                      context: context,
-                      type: AlertType.success,
-                      desc: 'Le Cheque a été mis à jour avec succès',
-                      onPressed: () {
-                        int count = 0;
-                        Navigator.of(context).popUntil((_) => count++ > 2);
-                      });
-                }
+
+                }  
               },
               child: Column(children: [
                 const SizedBox(
