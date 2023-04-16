@@ -2,7 +2,7 @@ import 'package:chequeproject/utils/widgect_helper.dart';
 import 'package:chequeproject/widgets/config.dart';
 import 'package:flutter/material.dart';
 
-List<String> list = <String>['En cours', 'Payé ', 'Non Payé'];
+List<String> paymentStatusList = <String>['En cours', 'Payé ', 'Non Payé'];
 
 class DropdownButtonExample extends StatefulWidget {
 
@@ -13,7 +13,7 @@ class DropdownButtonExample extends StatefulWidget {
 }
 
 class _DropdownButtonExampleState extends State<DropdownButtonExample> {
-  String dropdownValue = list.first;
+  String dropdownValue = paymentStatusList.first;
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +36,7 @@ class _DropdownButtonExampleState extends State<DropdownButtonExample> {
                     dropdownValue = value!;
                   });
                 },
-                items: list.map<DropdownMenuItem<String>>((String value) {
+                items: paymentStatusList.map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
                     child: Text(value,

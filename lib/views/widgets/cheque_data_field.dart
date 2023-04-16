@@ -27,6 +27,7 @@ class ChequeDataFieldState extends State<ChequeDataField> {
   DateTime? receptDate;
   DateTime? echeanceDate;
   DateTime? paiementDate;
+  String selectedPaymentMode = "";
 
   int _index = 0;
   List<bool> hide = [false, true];
@@ -53,6 +54,7 @@ class ChequeDataFieldState extends State<ChequeDataField> {
     echeanceDateController.text = cheque.echeanceDate ?? "";
     paymentDateController.text = cheque.paymentDate ?? "";
     attachementController.text = cheque.attachement ?? "";
+    selectedPaymentMode = paymentStatusList.first;
   }
   @override
   Widget build(BuildContext context) {
@@ -263,18 +265,20 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                         child: DropdownButtonHideUnderline(
                           child: DropdownButton<String>(
                             isDense: true,
-                            value: list.first, //widget.cheque.isPayed ??
+                            value:
+                                selectedPaymentMode, //widget.cheque.isPayed ??
                             icon: const Icon(
                               Icons.keyboard_arrow_down,
                               size: 20,
                             ),
-                            onChanged: (String? value) {
+                            onChanged: (newValue) {
                               // This is called when the user selects an item.
                               setState(() {
-                                widget.cheque.isPayed = value;
+                                selectedPaymentMode = newValue!;
+                                widget.cheque.isPayed = newValue;
                               });
                             },
-                            items: list
+                            items: paymentStatusList
                                 .map<DropdownMenuItem<String>>((String value) {
                               return DropdownMenuItem<String>(
                                 value: value,
