@@ -24,6 +24,9 @@ class ChequeDataField extends StatefulWidget {
 class ChequeDataFieldState extends State<ChequeDataField> {
   TextEditingController dateinput = TextEditingController();
   var dateRange = DateTime.now();
+  DateTime? receptDate;
+  DateTime? echeanceDate;
+  DateTime? paiementDate;
 
   int _index = 0;
   List<bool> hide = [false, true];
@@ -51,11 +54,11 @@ class ChequeDataFieldState extends State<ChequeDataField> {
     paymentDateController.text = cheque.paymentDate ?? "";
     attachementController.text = cheque.attachement ?? "";
   }
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-
+    DateTime? receptionDate;
+    DateTime? echeanceDate;
     return ConstrainedBox(
         constraints: BoxConstraints.tightFor(
             height: MediaQuery.of(context).size.height * 0.8),
@@ -202,6 +205,10 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                           valuetext: cheque.receptDate ?? "",
                           keyboardType: const TextInputType.numberWithOptions(
                               signed: false, decimal: true),
+                          onChanged: (date) {
+                            receptionDate =
+                                date; // stocker la date sélectionnée
+                          },
                         ),
                         SizedBox(height: size.height * 0.02),
                         DatePickerWidget(
@@ -210,7 +217,21 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                           labeltext: 'Date Echeance',
                           valuetext: cheque.echeanceDate ?? "",
                           keyboardType: const TextInputType.numberWithOptions(
-                              signed: false, decimal: true),
+                            signed: false,
+                            decimal: true,
+                          ),
+                          onChanged: (date) {
+                            if (receptionDate != null &&
+                                date.isBefore(receptionDate!)) {
+                              echeanceDateController.text = "";
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(const SnackBar(
+                                content: Text(
+                                    'La date doit être antérieure à la date actuelle'),
+                                backgroundColor: Colors.red,
+                              ));
+                            }
+                          },
                         ),
                         SizedBox(height: size.height * 0.02),
                         TestPickerWidget(
@@ -273,6 +294,18 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                         valuetext: cheque.paymentDate ?? "",
                         keyboardType: const TextInputType.numberWithOptions(
                             signed: false, decimal: true),
+                        onChanged: (date) {
+                          if (echeanceDate != null &&
+                              date.isAfter(echeanceDate)) {
+                            paymentDateController.text = "";
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(const SnackBar(
+                              content: Text(
+                                  'La date doit être antérieure à la date actuelle'),
+                              backgroundColor: Colors.red,
+                            ));
+                          }
+                        },
                       ),
                       SizedBox(height: size.height * 0.02),
                     ]),
