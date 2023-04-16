@@ -15,7 +15,7 @@ class DatePickerWidget extends StatefulWidget {
   TextInputType? keyboardType;
   String? Function(String?)? validator;
   List? inputFormatters;
-  late void Function()? on_changed_function;
+  final Function(DateTime)? onChanged;
   TextEditingController controller;
   DatePickerWidget(
       {Key? key,
@@ -28,10 +28,12 @@ class DatePickerWidget extends StatefulWidget {
       this.validator,
       this.keyboardType,
       this.inputFormatters,
-      this.on_changed_function,
+      this.onChanged,
       this.enabled})
       : super(key: key);
   final Object obj;
+
+  void Function()? get on_changed_function => null;
 
   @override
   State<DatePickerWidget> createState() => _DatePickerWidgetState();
@@ -40,45 +42,31 @@ class DatePickerWidget extends StatefulWidget {
 class _DatePickerWidgetState extends State<DatePickerWidget> {
   var _popupMenuItemIndex = 0;
 
-  var dateRange = DateTimeRange(
-    start: DateTime.now(),
-    //brikolage bricoma
-    end: DateTime.now(),
-  );
+  var selectedDate = DateTime.now();
 
+  @override
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 35,
       child: TextFormField(
         controller: widget.controller,
-
         onTap: () async {
-          DateTimeRange? picked = await showDateRangePicker(
+          final DateFormat formatter = DateFormat('yyyy-MM-ddTHH:mm:ss');
+          final DateTime? picked = await showDatePicker(
             context: context,
-            initialDateRange: dateRange,
+            initialDate: selectedDate,
             firstDate: DateTime(1900),
             lastDate: DateTime.now(),
-            builder: (context, child) => Theme(
-              data: ThemeData().copyWith(
-                // ignore: prefer_const_constructors
-                colorScheme: ColorScheme.dark(
-                  primary: Colors.blueGrey,
-                  surface: Colors.white,
-                  onSurface: GlobalParams.GlobalColor,
-                ),
-                dialogBackgroundColor: Colors.black,
-              ),
-              child: child!,
-            ),
           );
-          // Text(
-          //     "${picked!.start.day}/${picked.start.month}/${picked.start.year}");
-          widget.controller.text = picked!.start.toString();
-          //"${picked!.start.day} - ${picked.start.month} - ${picked.start.year}";
-
           if (picked != null) {
-            setState(() => {_popupMenuItemIndex = -1, dateRange = picked});
+            setState(() {
+              selectedDate = picked;
+              widget.controller.text = formatter.format(selectedDate);
+            });
+            if (widget.onChanged != null) {
+              widget.onChanged!(selectedDate);
+            }
           }
         },
         enabled: widget.enabled ?? true,
@@ -87,10 +75,14 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
         validator: widget.validator,
         readOnly: widget.readonly ?? false,
         decoration: WidgetHelper.getDatePickerDecoration(
-            widget.labeltext, widget.on_changed_function),
+          widget.labeltext,
+          widget.on_changed_function,
+        ),
         style: const TextStyle(
-            fontWeight: FontWeight.w300, fontSize: 14, fontFamily: 'Open Sans'),
-        //controller: controller,
+          fontWeight: FontWeight.w300,
+          fontSize: 14,
+          fontFamily: 'Open Sans',
+        ),
       ),
     );
   }
