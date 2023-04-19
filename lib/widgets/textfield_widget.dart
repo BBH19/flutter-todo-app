@@ -31,42 +31,40 @@ class TextFieldWidget extends StatelessWidget {
       : super(key: key);
 
   final Object obj;
+
 // love you so much , bzzzf bzzf // love u more babe :*
   @override
   Widget build(BuildContext context) {
-    var suffixIcon = on_changed_function != null
-        ? IconButton(
-            onPressed: on_changed_function,
-            icon: const Icon(Icons.qr_code_scanner_rounded),
-          )
-        : null;
     return SizedBox(
         height: 35,
         child: TextFormField(
-            enabled: enabled ?? true,
-            cursorColor: GlobalParams.GlobalColor,
-            keyboardType: keyboardType,
-            validator: validator,
-            readOnly: readonly ?? false,
-            controller: controller,
-            decoration: InputDecoration(
-              fillColor: Colors.red,
-              focusColor: Colors.black,
-              labelText: labeltext,
-              focusedBorder: OutlineInputBorder(
-                borderSide:
-                    BorderSide(width: 1.5, color: GlobalParams.GlobalColor),
-              ),
-              labelStyle: TextStyle(
-                  fontWeight: FontWeight.w300,
-                  fontSize: 14,
-                  fontFamily: 'Open Sans',
-                  color: GlobalParams.GlobalColor),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-              suffixIcon: suffixIcon,
-              // style: txtStyle,
-            )));
+          enabled: enabled ?? true,
+          cursorColor: GlobalParams.GlobalColor,
+          keyboardType: keyboardType,
+          validator: validator,
+          readOnly: readonly ?? false,
+          controller: controller,
+          decoration: InputDecoration(
+            errorStyle: const TextStyle(fontSize: 0.01),
+            contentPadding:
+                const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+            fillColor: Colors.red,
+            focusColor: Colors.black,
+            labelText: labeltext,
+            focusedBorder: OutlineInputBorder(
+              borderSide:
+                  BorderSide(width: 1.5, color: GlobalParams.GlobalColor),
+            ),
+            labelStyle: TextStyle(
+                fontWeight: FontWeight.w300,
+                fontSize: 14,
+                fontFamily: 'Open Sans',
+                color: GlobalParams.GlobalColor),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+          minLines: 1,
+        ));
   }
 }

@@ -7,6 +7,7 @@ import 'package:lottie/lottie.dart';
 class WidgetHelper {
   static InputDecoration getDecoration(String label) {
     return InputDecoration(
+      errorStyle: const TextStyle(fontSize: 0.01),
       contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
       labelText: label,
       labelStyle: TextStyle(fontSize: 20, color: GlobalParams.GlobalColor),
@@ -20,6 +21,7 @@ class WidgetHelper {
   static InputDecoration getDatePickerDecoration(
       String label, void Function()? on_changed_function) {
     return InputDecoration(
+        errorStyle: const TextStyle(fontSize: 0.01),
         fillColor: Colors.red,
         focusColor: Colors.black,
         labelText: label,
@@ -46,6 +48,7 @@ class WidgetHelper {
   static InputDecoration getDecorationColor(
       String label, void Function()? on_changed_function) {
     return InputDecoration(
+        errorStyle: const TextStyle(fontSize: 0.01),
         fillColor: Colors.red,
         focusColor: Colors.black,
         labelText: label,

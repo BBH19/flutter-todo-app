@@ -22,6 +22,7 @@ class _DropdownButtonExampleState extends State<DropdownButtonExample> {
       child: FormField<String>(builder: (FormFieldState<String> state) {
         return InputDecorator(
             decoration: WidgetHelper.getDecoration('Paiement'),
+            
             child: DropdownButtonHideUnderline(
               child: DropdownButton<String>(
                 isDense: true,

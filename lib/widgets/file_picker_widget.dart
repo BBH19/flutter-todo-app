@@ -42,7 +42,7 @@ class _TestPickerWidgetState extends State<TestPickerWidget> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 35,
+     height: 35,
       child: TextFormField(
         controller: widget.controller,
         onTap: () async {
@@ -63,6 +63,7 @@ class _TestPickerWidgetState extends State<TestPickerWidget> {
         validator: widget.validator,
         readOnly: widget.readonly ?? false,
         decoration: InputDecoration(
+          errorStyle: const TextStyle(fontSize: 0.01),
             fillColor: Colors.red,
             focusColor: Colors.black,
             labelText: widget.labeltext,

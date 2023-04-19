@@ -31,6 +31,16 @@ class ChequeDataFieldState extends State<ChequeDataField> {
 
   int _index = 0;
   List<bool> hide = [false, true];
+  static final _formKey = GlobalKey<FormState>();
+
+  bool isIdFieldFilled = false;
+  bool isClientFieldFilled = false;
+  bool isPropFieldFilled = false;
+  bool isHolderFieldFilled = false;
+  bool isMontantFieldFilled = false;
+  bool isReceptionDateFieldFilled = false;
+  bool isEcheanceDateFieldFilled = false;
+  bool isAttachementFieldFilled = false;
 
   StepperType stepperType = StepperType.horizontal;
   late Cheque cheque;
@@ -73,8 +83,9 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                   secondary: Colors.grey,
                 ),
           ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(10.0),
+          child: Form(
+            //borderRadius: BorderRadius.circular(10.0),
+            key: _formKey,
             child: Stepper(
               margin: const EdgeInsets.all(0),
               type: stepperType,
@@ -127,16 +138,23 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                 );
               },
               onStepContinue: () {
-                if (_index <= 0) {
-                  setState(() {
-                    _index += 1;
-                  });
+                if (_formKey.currentState!.validate()) {
+                  if (_index == 0) {
+                    setState(() {
+                      _index += 1;
+                    });
+                  }
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text('Tous les champs sont requis'),
+                    backgroundColor: Colors.red,
+                  ));
                 }
               },
-              onStepTapped: (int index) {
-                setState(() {
-                  _index = index;
-                });
+              onStepTapped: (Step) {
+                // setState(() {
+                //   _index = index;
+                // });
               },
               steps: <Step>[
                 Step(
@@ -150,7 +168,11 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                           children: [
                         TextFieldWidget(
                           validator: (value) {
-                            validators.validateField(value!);
+                            // validators.validateField(value!);
+                            // return null;
+                            if (value == null || value.isEmpty) {
+                              return '*';
+                            }
                             return null;
                           },
                           obj: cheque,
@@ -164,7 +186,12 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                         SizedBox(height: size.height * 0.02),
                         TextFieldWidget(
                           validator: (value) {
-                            validators.validateField(value!);
+                            isIdFieldFilled = idController.text.isNotEmpty;
+                            // validators.validateField(value!);
+                            // return null;
+                            if (value == null || value.isEmpty) {
+                              return 'Veuillez remplir le champs';
+                            }
                             return null;
                           },
                           obj: cheque,
@@ -176,7 +203,11 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                         SizedBox(height: size.height * 0.02),
                         TextFieldWidget(
                             validator: (value) {
-                              validators.validateField(value!);
+                              // validators.validateField(value!);
+                              // return null;
+                              if (value == null || value.isEmpty) {
+                                return '*';
+                              }
                               return null;
                             },
                             obj: cheque,
@@ -187,7 +218,11 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                         SizedBox(height: size.height * 0.02),
                         TextFieldWidget(
                           validator: (value) {
-                            validators.validateField(value!);
+                            validators.validateNumber(value!);
+                            // return null;
+                            if (value == null || value.isEmpty) {
+                              return '*';
+                            }
                             return null;
                           },
                           obj: cheque,
@@ -201,6 +236,14 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                         ),
                         SizedBox(height: size.height * 0.02),
                         DatePickerWidget(
+                          validator: (value) {
+                            // validators.validateField(value!);
+                            // return null;
+                            if (value == null || value.isEmpty) {
+                              return '*';
+                            }
+                            return null;
+                          },
                           obj: cheque,
                           controller: receptDateController,
                           labeltext: 'Date Reception',
@@ -208,12 +251,22 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                           keyboardType: const TextInputType.numberWithOptions(
                               signed: false, decimal: true),
                           onChanged: (date) {
+                            isReceptionDateFieldFilled =
+                                receptDateController.text.isEmpty;
                             receptionDate =
                                 date; // stocker la date sélectionnée
                           },
                         ),
                         SizedBox(height: size.height * 0.02),
                         DatePickerWidget(
+                          validator: (value) {
+                            // validators.validateField(value!);
+                            // return null;
+                            if (value == null || value.isEmpty) {
+                              return '*';
+                            }
+                            return null;
+                          },
                           obj: cheque,
                           controller: echeanceDateController,
                           labeltext: 'Date Echeance',
@@ -223,6 +276,8 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                             decimal: true,
                           ),
                           onChanged: (date) {
+                            isEcheanceDateFieldFilled =
+                                echeanceDateController.text.isEmpty;
                             if (receptionDate != null &&
                                 date.isBefore(receptionDate!)) {
                               echeanceDateController.text = "";
@@ -237,12 +292,20 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                         ),
                         SizedBox(height: size.height * 0.02),
                         TestPickerWidget(
+                          validator: (value) {
+                            // validators.validateField(value!);
+                            // return null;
+                            if (value == null || value.isEmpty) {
+                              return '*';
+                            }
+                            return null;
+                          },
                           obj: cheque,
                           controller: attachementController,
                           labeltext: 'Piéce Jointe',
                           valuetext: cheque.attachement ?? "",
                         ),
-                        SizedBox(height: size.height * 0.02),
+                        // SizedBox(height: size.height * 0.02),
                       ])),
                 ),
                 Step(
