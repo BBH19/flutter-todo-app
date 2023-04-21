@@ -65,6 +65,9 @@ class ChequeDataFieldState extends State<ChequeDataField> {
     paymentDateController.text = cheque.paymentDate ?? "";
     attachementController.text = cheque.attachement ?? "";
     selectedPaymentMode = paymentStatusList.first;
+    if (isUpdate) {
+      selectedPaymentMode = cheque.isPayed!;
+    }
   }
   @override
   Widget build(BuildContext context) {
