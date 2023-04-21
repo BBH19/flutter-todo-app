@@ -30,7 +30,7 @@ class ChequeService {
     if (response.statusCode == 200) {
       return true;
     }
-    
+
     return false;
   }
 

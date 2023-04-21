@@ -100,5 +100,39 @@ class ChequeBloc extends Bloc<ChequeEvent, ChequeState> {
         print("initializing event");
       }
     });
+  
+    on<UpdateChequeEvent>((event, emit) async {
+      try {
+        emit(ChequeState(
+            data: state.data,
+            requestState: ChequeRequestState.Updating,
+            errorMessage: ''));
+        print("update cheque event");
+        await ChequeService.update(event.data).then((value) {
+            if(value){
+              emit(ChequeState(
+              data: state.data,
+              requestState: ChequeRequestState.Updated,
+              errorMessage: ''));
+         
+        }
+        else{
+          emit(ChequeState(
+            data: state.data,
+            requestState: ChequeRequestState.Error,
+            errorMessage: 'error'));
+        }
+        });
+      
+      } catch (e) {
+        emit(ChequeState(
+            data: state.data,
+            requestState: ChequeRequestState.Error,
+            errorMessage: 'error'));
+      }
+    });
   }
-}
+  
+  
+  }
+
