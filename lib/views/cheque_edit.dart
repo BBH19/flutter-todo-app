@@ -11,7 +11,6 @@ import 'package:chequeproject/widgets/custom_alert_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
-import 'package:lottie/lottie.dart';
 
 class ChequeEditPage extends StatefulWidget {
   static String Route = '/ChequeEdit';
@@ -137,12 +136,10 @@ class _ChequeEditPage extends State<ChequeEditPage> {
                       onPressed: () {
                         Navigator.pop(context);
                       });
-                      
-                } else if (state.requestState == ChequeRequestState.Added||
-                state.requestState == ChequeRequestState.Updated) {
+                } else if (state.requestState == ChequeRequestState.Added ||
+                    state.requestState == ChequeRequestState.Updated) {
                   print('Saved successful');
-                  BlocProvider.of<ChequeBloc>(context)
-                      .add(LoadChequesEvent());
+                  BlocProvider.of<ChequeBloc>(context).add(LoadChequesEvent());
                   await CustomAlert.show(
                       context: context,
                       type: AlertType.success,
@@ -151,8 +148,7 @@ class _ChequeEditPage extends State<ChequeEditPage> {
                         int count = 0;
                         Navigator.of(context).popUntil((_) => count++ >= 1);
                       });
-
-                }  
+                }
               },
               child: Column(children: [
                 const SizedBox(

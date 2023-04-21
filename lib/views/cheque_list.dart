@@ -12,6 +12,7 @@ import 'package:chequeproject/widgets/itemcard_widget.dart';
 import 'package:chequeproject/widgets/search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_swipe_action_cell/flutter_swipe_action_cell.dart';
 
 class Cheques extends StatelessWidget {
   static String Route = '/listing';
@@ -65,13 +66,14 @@ class _chequeHome extends StatelessWidget {
 }
 
 class ChequeBody extends StatelessWidget {
-  const ChequeBody({
+  ChequeBody({
     Key? key,
     required this.size,
   }) : super(key: key);
   final Size size;
   @override
   Widget build(BuildContext context) {
+    BuildContext _context = context;
     return Material(
       child: Container(
         height: size.height,
@@ -114,6 +116,17 @@ class ChequeBody extends StatelessWidget {
                       itemBuilder: (BuildContext context, int index) {
                         var currentItem = chequeList![index];
                         return ItemCard(
+                            onPressed: () {
+                              Navigator.push(_context,
+                                  MaterialPageRoute(builder: (context) {
+                                return BlocProvider.value(
+                                    value:
+                                        BlocProvider.of<ChequeBloc>(_context),
+                                    child: ChequeEditPage(
+                                      currentObj: currentItem,
+                                    ));
+                              }));
+                            },
                             size: size,
                             var1: currentItem.id.toString(),
                             var2:
