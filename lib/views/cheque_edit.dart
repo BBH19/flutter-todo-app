@@ -10,6 +10,7 @@ import 'package:chequeproject/widgets/config.dart';
 import 'package:chequeproject/widgets/custom_alert_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 class ChequeEditPage extends StatefulWidget {
@@ -28,14 +29,14 @@ class _ChequeEditPage extends State<ChequeEditPage> {
   List<String> list = <String>['En cours', 'Payé ', 'Non Payé'];
   int _index = 0;
   StepperType stepperType = StepperType.horizontal;
-  bool isUpdate = false;
+  bool? isUpdate;
 
   @override
   Widget build(BuildContext context) {
     print('current object');
     Size size = MediaQuery.of(context).size;
     if (widget.currentObj == null) {
-      isUpdate = false;
+      isUpdate ??= false;
       widget.currentObj = Cheque(
           id: null,
           client: '',
@@ -47,9 +48,9 @@ class _ChequeEditPage extends State<ChequeEditPage> {
           paymentDate: '',
           attachement: '');
     } else {
-      isUpdate = true;
+      isUpdate ??= true;
     }
-    String error = isUpdate ? 'Erreur de modification' : 'Erreur d\'ajout';
+    String error = isUpdate! ? 'Erreur de modification' : 'Erreur d\'ajout';
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -58,16 +59,21 @@ class _ChequeEditPage extends State<ChequeEditPage> {
         iconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: GlobalParams.GlobalColor,
         elevation: 0,
-        title: Text(
-          isUpdate
-              ? "Cheque N° : ${widget.currentObj!.id}"
-              : "Nouveau Cheque :",
-          style: const TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.w600,
-              fontSize: 19,
-              fontFamily: 'Open Sans'),
-        ),
+        title: isUpdate!
+            ? Text(
+                "Chéque N° ${widget.currentObj!.id}",
+                style: const TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 19,
+                    fontFamily: 'Open Sans'),
+              )
+            : const Text(
+                "Nouveau Chéque",
+                style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 19,
+                    fontFamily: 'Open Sans'),
+              ),
         actions: [
           IconButton(
               icon: const Icon(Icons.check),
@@ -96,7 +102,7 @@ class _ChequeEditPage extends State<ChequeEditPage> {
                       ChequeDataFieldState.paymentDateController.text;
                   widget.currentObj!.attachement =
                       ChequeDataFieldState.attachementController.text;
-                  isUpdate
+                  isUpdate!
                       ? BlocProvider.of<ChequeBloc>(context)
                           .add(UpdateChequeEvent(
                           data: widget.currentObj!,
@@ -108,7 +114,7 @@ class _ChequeEditPage extends State<ChequeEditPage> {
                   await CustomAlert.show(
                       context: context,
                       type: AlertType.error,
-                      desc: 'CHAMPS VIDE',
+                      desc: error,
                       onPressed: () {
                         Navigator.pop(context);
                       });
@@ -126,18 +132,24 @@ class _ChequeEditPage extends State<ChequeEditPage> {
           BlocListener<ChequeBloc, ChequeState>(
               listener: (context, state) async {
                 print("request state:${state.requestState}");
-                if (state.isLoadingState) {
-                  WidgetHelper.LoadingWidget(size);
+                if (state.requestState == ChequeRequestState.Adding ||
+                    state.requestState == ChequeRequestState.Loading ||
+                    state.requestState == ChequeRequestState.Updating) {
+                  SizedBox(
+                    height: size.height * 0.5,
+                    child: Center(
+                      child: Lottie.asset('assets/animations/loader.json'),
+                    ),
+                  );
                 } else if (state.requestState == ChequeRequestState.Error) {
                   await CustomAlert.show(
                       context: context,
                       type: AlertType.error,
-                      desc: 'Erreur de modification',
+                      desc: error,
                       onPressed: () {
                         Navigator.pop(context);
                       });
-                } else if (state.requestState == ChequeRequestState.Added ||
-                    state.requestState == ChequeRequestState.Updated) {
+                } else if (state.requestState == ChequeRequestState.Added) {
                   print('Saved successful');
                   BlocProvider.of<ChequeBloc>(context).add(LoadChequesEvent());
                   await CustomAlert.show(
@@ -148,13 +160,25 @@ class _ChequeEditPage extends State<ChequeEditPage> {
                         int count = 0;
                         Navigator.of(context).popUntil((_) => count++ >= 1);
                       });
+                } else if (state.requestState == ChequeRequestState.Updated) {
+                  print('Update successful');
+                  BlocProvider.of<ChequeBloc>(context).add(LoadChequesEvent());
+                  await CustomAlert.show(
+                      context: context,
+                      type: AlertType.success,
+                      desc: 'Le chéque a été mis à jour avec succès',
+                      onPressed: () {
+                        int count = 0;
+                        Navigator.of(context).popUntil((_) => count++ > 2);
+                      });
                 }
               },
               child: Column(children: [
                 const SizedBox(
                   height: 5.0,
                 ),
-                ChequeDataField(cheque: widget.currentObj!, isUpdate: isUpdate),
+                ChequeDataField(
+                    cheque: widget.currentObj!, isUpdate: isUpdate!),
               ]))
         ]),
       ),
