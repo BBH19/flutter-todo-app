@@ -29,14 +29,15 @@ class _ChequeEditPage extends State<ChequeEditPage> {
   List<String> list = <String>['En cours', 'Payé ', 'Non Payé'];
   int _index = 0;
   StepperType stepperType = StepperType.horizontal;
-  bool? isUpdate;
+  bool isUpdate = true;
+
+  GlobalKey<FormState> formState = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    print('current object');
     Size size = MediaQuery.of(context).size;
     if (widget.currentObj == null) {
-      isUpdate ??= false;
+      isUpdate = false;
       widget.currentObj = Cheque(
           id: null,
           client: '',
@@ -47,10 +48,8 @@ class _ChequeEditPage extends State<ChequeEditPage> {
           isPayed: '',
           paymentDate: '',
           attachement: '');
-    } else {
-      isUpdate ??= true;
     }
-    String error = isUpdate! ? 'Erreur de modification' : 'Erreur d\'ajout';
+    String error = isUpdate ? 'Erreur de modification' : 'Erreur d\'ajout';
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -59,33 +58,19 @@ class _ChequeEditPage extends State<ChequeEditPage> {
         iconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: GlobalParams.GlobalColor,
         elevation: 0,
-        title: isUpdate!
-            ? Text(
-                "Chéque N° ${widget.currentObj!.id}",
-                style: const TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 19,
-                    fontFamily: 'Open Sans'),
-              )
-            : const Text(
-                "Nouveau Chéque",
-                style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 19,
-                    fontFamily: 'Open Sans'),
-              ),
+        title: Text(
+          isUpdate ? "Chéque N° ${widget.currentObj!.id}" : "Nouveau Chéque",
+          style: const TextStyle(
+              fontWeight: FontWeight.w600,
+              fontSize: 19,
+              fontFamily: 'Open Sans'),
+        ),
         actions: [
           IconButton(
               icon: const Icon(Icons.check),
               onPressed: () async {
-                if (ChequeDataFieldState.idController.text != "" &&
-                    ChequeDataFieldState.clientController.text != "" &&
-                    ChequeDataFieldState.holderController.text != "" &&
-                    ChequeDataFieldState.montantController.text != "" &&
-                    ChequeDataFieldState.receptDateController.text != "" &&
-                    ChequeDataFieldState.echeanceDateController.text != "" &&
-                    ChequeDataFieldState.paymentDateController.text != "" &&
-                    ChequeDataFieldState.attachementController.text != "") {
+                var isValidateForm = formState.currentState!.validate();
+                if (isValidateForm) {
                   widget.currentObj!.id =
                       int.tryParse(ChequeDataFieldState.idController.text);
                   widget.currentObj!.client =
@@ -102,7 +87,8 @@ class _ChequeEditPage extends State<ChequeEditPage> {
                       ChequeDataFieldState.paymentDateController.text;
                   widget.currentObj!.attachement =
                       ChequeDataFieldState.attachementController.text;
-                  isUpdate!
+
+                  isUpdate
                       ? BlocProvider.of<ChequeBloc>(context)
                           .add(UpdateChequeEvent(
                           data: widget.currentObj!,
@@ -111,6 +97,10 @@ class _ChequeEditPage extends State<ChequeEditPage> {
                           data: widget.currentObj!,
                         ));
                 } else {
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text('Tous les champs sont requis'),
+                    backgroundColor: Colors.red,
+                  ));
                   await CustomAlert.show(
                       context: context,
                       type: AlertType.error,
@@ -178,7 +168,9 @@ class _ChequeEditPage extends State<ChequeEditPage> {
                   height: 5.0,
                 ),
                 ChequeDataField(
-                    cheque: widget.currentObj!, isUpdate: isUpdate!),
+                    cheque: widget.currentObj!,
+                    isUpdate: isUpdate,
+                    formKey: formState),
               ]))
         ]),
       ),

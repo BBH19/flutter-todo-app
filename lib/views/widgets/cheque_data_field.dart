@@ -13,12 +13,14 @@ import 'package:chequeproject/utils/validators.dart';
 class ChequeDataField extends StatefulWidget {
   final Cheque cheque;
   bool isUpdate;
-  ChequeDataField({Key? key, required this.cheque, required this.isUpdate})
+  GlobalKey<FormState>? formKey;
+  ChequeDataField(
+      {Key? key, this.formKey, required this.cheque, required this.isUpdate})
       : super(key: key);
 
   @override
   State<ChequeDataField> createState() =>
-      ChequeDataFieldState(cheque, isUpdate);
+      ChequeDataFieldState(cheque, isUpdate, formKey ?? GlobalKey<FormState>());
 }
 
 class ChequeDataFieldState extends State<ChequeDataField> {
@@ -31,16 +33,10 @@ class ChequeDataFieldState extends State<ChequeDataField> {
 
   int _index = 0;
   List<bool> hide = [false, true];
-  static final _formKey = GlobalKey<FormState>();
+  GlobalKey<FormState> _formKey;
 
-  bool isIdFieldFilled = false;
-  bool isClientFieldFilled = false;
-  bool isPropFieldFilled = false;
-  bool isHolderFieldFilled = false;
-  bool isMontantFieldFilled = false;
   bool isReceptionDateFieldFilled = false;
   bool isEcheanceDateFieldFilled = false;
-  bool isAttachementFieldFilled = false;
 
   StepperType stepperType = StepperType.horizontal;
   late Cheque cheque;
@@ -54,7 +50,8 @@ class ChequeDataFieldState extends State<ChequeDataField> {
   static TextEditingController paymentDateController = TextEditingController();
   static TextEditingController attachementController = TextEditingController();
 
-  ChequeDataFieldState(this.cheque, this.isUpdate) {
+  ChequeDataFieldState(this.cheque, this.isUpdate, this._formKey) {
+    this._formKey = _formKey;
     idController.text = cheque.id == null ? "" : cheque.id.toString();
     clientController.text = cheque.client ?? "";
     holderController.text = cheque.holder ?? "";
@@ -64,14 +61,14 @@ class ChequeDataFieldState extends State<ChequeDataField> {
     echeanceDateController.text = cheque.echeanceDate ?? "";
     paymentDateController.text = cheque.paymentDate ?? "";
     attachementController.text = cheque.attachement ?? "";
-    selectedPaymentMode = paymentStatusList.first;
-    if (isUpdate) {
-      selectedPaymentMode = cheque.isPayed!;
-    }
+    selectedPaymentMode = isUpdate ? cheque.isPayed! : paymentStatusList.first;
   }
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+
+    SizedBox sizedBox002 = SizedBox(height: size.height * 0.02);
+
     DateTime? receptionDate;
     DateTime? echeanceDate;
     return ConstrainedBox(
@@ -87,7 +84,6 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                 ),
           ),
           child: Form(
-            //borderRadius: BorderRadius.circular(10.0),
             key: _formKey,
             child: Stepper(
               margin: const EdgeInsets.all(0),
@@ -154,10 +150,10 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                   ));
                 }
               },
-              onStepTapped: (Step) {
-                // setState(() {
-                //   _index = index;
-                // });
+              onStepTapped: (index) {
+                setState(() {
+                  _index = index;
+                });
               },
               steps: <Step>[
                 Step(
@@ -170,14 +166,8 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                         TextFieldWidget(
-                          validator: (value) {
-                            // validators.validateField(value!);
-                            // return null;
-                            if (value == null || value.isEmpty) {
-                              return '*';
-                            }
-                            return null;
-                          },
+                          validator: (value) =>
+                              validators.validateNumber(value),
                           obj: cheque,
                           controller: idController,
                           labeltext: 'N° de Cheque',
@@ -186,48 +176,27 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                           keyboardType: const TextInputType.numberWithOptions(
                               signed: false, decimal: true),
                         ),
-                        SizedBox(height: size.height * 0.02),
+                        sizedBox002,
                         TextFieldWidget(
-                          validator: (value) {
-                            isIdFieldFilled = idController.text.isNotEmpty;
-                            // validators.validateField(value!);
-                            // return null;
-                            if (value == null || value.isEmpty) {
-                              return 'Veuillez remplir le champs';
-                            }
-                            return null;
-                          },
+                          validator: (value) => validators.validateField(value),
                           obj: cheque,
                           controller: clientController,
                           labeltext: 'Client ',
                           valuetext: cheque.client ?? "",
                           keyboardType: TextInputType.name,
                         ),
-                        SizedBox(height: size.height * 0.02),
+                        sizedBox002,
                         TextFieldWidget(
-                            validator: (value) {
-                              // validators.validateField(value!);
-                              // return null;
-                              if (value == null || value.isEmpty) {
-                                return '*';
-                              }
-                              return null;
-                            },
+                            validator: (value) =>
+                                validators.validateField(value),
                             obj: cheque,
                             controller: holderController,
                             labeltext: 'Propriétaire',
                             valuetext: cheque.holder ?? "",
                             keyboardType: TextInputType.name),
-                        SizedBox(height: size.height * 0.02),
+                        sizedBox002,
                         TextFieldWidget(
-                          validator: (value) {
-                            validators.validateNumber(value!);
-                            // return null;
-                            if (value == null || value.isEmpty) {
-                              return '*';
-                            }
-                            return null;
-                          },
+                          validator: (value) => validators.validateField(value),
                           obj: cheque,
                           controller: montantController,
                           labeltext: 'Montant',
@@ -237,16 +206,9 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                           keyboardType: const TextInputType.numberWithOptions(
                               signed: false, decimal: true),
                         ),
-                        SizedBox(height: size.height * 0.02),
+                        sizedBox002,
                         DatePickerWidget(
-                          validator: (value) {
-                            // validators.validateField(value!);
-                            // return null;
-                            if (value == null || value.isEmpty) {
-                              return '*';
-                            }
-                            return null;
-                          },
+                          validator: (value) => validators.validateField(value),
                           obj: cheque,
                           controller: receptDateController,
                           labeltext: 'Date Reception',
@@ -260,16 +222,9 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                                 date; // stocker la date sélectionnée
                           },
                         ),
-                        SizedBox(height: size.height * 0.02),
+                        sizedBox002,
                         DatePickerWidget(
-                          validator: (value) {
-                            // validators.validateField(value!);
-                            // return null;
-                            if (value == null || value.isEmpty) {
-                              return '*';
-                            }
-                            return null;
-                          },
+                          validator: (value) => validators.validateField(value),
                           obj: cheque,
                           controller: echeanceDateController,
                           labeltext: 'Date Echeance',
@@ -293,22 +248,14 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                             }
                           },
                         ),
-                        SizedBox(height: size.height * 0.02),
+                        sizedBox002,
                         TestPickerWidget(
-                          validator: (value) {
-                            // validators.validateField(value!);
-                            // return null;
-                            if (value == null || value.isEmpty) {
-                              return '*';
-                            }
-                            return null;
-                          },
                           obj: cheque,
                           controller: attachementController,
                           labeltext: 'Piéce Jointe',
                           valuetext: cheque.attachement ?? "",
                         ),
-                        // SizedBox(height: size.height * 0.02),
+                        // sizedBox002,
                       ])),
                 ),
                 Step(
@@ -318,14 +265,14 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                       style: TextStyle(color: GlobalParams.GlobalColor)),
                   content: Container(
                     child: Column(children: [
-                      SizedBox(height: size.height * 0.02),
-                      SizedBox(height: size.height * 0.02),
-                      SizedBox(height: size.height * 0.02),
-                      SizedBox(height: size.height * 0.02),
-                      SizedBox(height: size.height * 0.02),
-                      SizedBox(height: size.height * 0.02),
-                      SizedBox(height: size.height * 0.02),
-                      SizedBox(height: size.height * 0.02),
+                      sizedBox002,
+                      sizedBox002,
+                      sizedBox002,
+                      sizedBox002,
+                      sizedBox002,
+                      sizedBox002,
+                      sizedBox002,
+                      sizedBox002,
                       InputDecorator(
                         decoration: WidgetHelper.getDecoration('Paiement'),
                         child: DropdownButtonHideUnderline(
@@ -356,28 +303,17 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                           ),
                         ),
                       ),
-                      SizedBox(height: size.height * 0.02),
+                      sizedBox002,
                       DatePickerWidget(
+                        // validator: (value) => validators.validateField(value),
                         obj: cheque,
                         controller: paymentDateController,
                         labeltext: 'Date Paiement',
                         valuetext: cheque.paymentDate ?? "",
                         keyboardType: const TextInputType.numberWithOptions(
                             signed: false, decimal: true),
-                        onChanged: (date) {
-                          if (echeanceDate != null &&
-                              date.isAfter(echeanceDate)) {
-                            paymentDateController.text = "";
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(const SnackBar(
-                              content: Text(
-                                  'La date doit être antérieure à la date actuelle'),
-                              backgroundColor: Colors.red,
-                            ));
-                          }
-                        },
                       ),
-                      SizedBox(height: size.height * 0.02),
+                      sizedBox002,
                     ]),
                   ),
                 ),

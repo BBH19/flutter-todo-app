@@ -1,9 +1,9 @@
 class validators {
-  static String? validateNumber(String value) {
+  static String? validateNumber(String? value) {
     if (value == null || value.isEmpty) {
       return 'Veuillez remplir le champs';
     } else {
-      String pattern = r'[0-9]\.[0-9]';
+      String pattern = r'[0-9]{7,16}';
       RegExp regex = RegExp(pattern);
       if (!regex.hasMatch(value)) {
         return 'Entrer Un Nombre Valide';
@@ -12,9 +12,9 @@ class validators {
     return null;
   }
 
-  static String? validateField(String value) {
+  static String? validateField(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Veuillez remplir le champs';
+      return '*';
     }
     return null;
   }
