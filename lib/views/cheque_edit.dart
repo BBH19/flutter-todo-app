@@ -26,7 +26,7 @@ class ChequeEditPage extends StatefulWidget {
 }
 
 class _ChequeEditPage extends State<ChequeEditPage> {
-  List<String> list = <String>['En cours', 'Payé ', 'Non Payé'];
+  List<String> list = <String>['En cours', 'Payé', 'Non Payé'];
   int _index = 0;
   StepperType stepperType = StepperType.horizontal;
   bool isUpdate = true;
@@ -45,7 +45,7 @@ class _ChequeEditPage extends State<ChequeEditPage> {
           montant: null,
           receptDate: '',
           echeanceDate: '',
-          isPayed: '',
+          isPayed: 'En cours',
           paymentDate: '',
           attachement: '');
     }
