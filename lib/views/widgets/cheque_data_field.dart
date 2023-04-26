@@ -305,13 +305,11 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                       ),
                       sizedBox002,
                       DatePickerWidget(
-                        // validator: (value) => validators.validateField(value),
+                        //validator: null,
                         obj: cheque,
                         controller: paymentDateController,
                         labeltext: 'Date Paiement',
                         valuetext: cheque.paymentDate ?? "",
-                        keyboardType: const TextInputType.numberWithOptions(
-                            signed: false, decimal: true),
                       ),
                       sizedBox002,
                     ]),

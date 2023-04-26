@@ -51,8 +51,27 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
       height: 35,
       child: TextFormField(
         controller: widget.controller,
+        // onTap: () async {
+        //   final DateFormat formatter = DateFormat('yyyy-MM-ddTHH:mm:ss');
+        //   final DateTime? picked = await showDatePicker(
+        //     context: context,
+        //     initialDate: selectedDate,
+        //     firstDate: DateTime(1900),
+        //     lastDate: DateTime(2025),
+        //   );
+        //   if (picked != null) {
+        //     setState(() {
+        //       selectedDate = picked;
+        //       widget.controller.text = formatter.format(selectedDate);
+        //     });
+        //     if (widget.onChanged != null) {
+        //       widget.onChanged!(selectedDate);
+        //     }
+        //   }
+        // },
+
         onTap: () async {
-          final DateFormat formatter = DateFormat('yyyy-MM-ddTHH:mm:ss');
+          final DateFormat formatter = DateFormat('yyyy-MM-dd HH:mm:ss');
           final DateTime? picked = await showDatePicker(
             context: context,
             initialDate: selectedDate,
@@ -61,7 +80,9 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
           );
           if (picked != null) {
             setState(() {
-              selectedDate = picked;
+              DateTime selectedTime = DateTime.now();
+              selectedDate = DateTime(picked.year, picked.month, picked.day,
+                  selectedTime.hour, selectedTime.minute, selectedTime.second);
               widget.controller.text = formatter.format(selectedDate);
             });
             if (widget.onChanged != null) {
@@ -69,6 +90,7 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
             }
           }
         },
+
         enabled: widget.enabled ?? true,
         cursorColor: GlobalParams.GlobalColor,
         keyboardType: widget.keyboardType,
