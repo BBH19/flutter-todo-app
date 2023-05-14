@@ -6,6 +6,7 @@ import 'package:chequeproject/views/cheque_edit.dart';
 import 'package:chequeproject/views/cheque_list.dart';
 import 'package:chequeproject/widgets/config.dart';
 import 'package:chequeproject/widgets/dashbord.dart';
+import 'package:chequeproject/widgets/drawer_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -33,12 +34,12 @@ class MyApp extends StatelessWidget {
             ),
         ChequeEditPage.Route: (context) => BlocProvider(
               create: (context) => ChequeBloc(),
-              child: ChequeEditPage(), //love you <3
+              child: ChequeEditPage(),
             ),
       },
       home: Scaffold(
         backgroundColor: Colors.white,
-        drawer: const Drawer(),
+        drawer: MyDrawer(),
         appBar: AppBar(
           backgroundColor: GlobalParams.GlobalColor,
           title: const Text(
