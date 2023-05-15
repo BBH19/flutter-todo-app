@@ -261,7 +261,7 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                 Step(
                   state: _index <= 1 ? StepState.editing : StepState.complete,
                   isActive: _index >= 1,
-                  title: Text("Autre",
+                  title: Text("Paiment",
                       style: TextStyle(color: GlobalParams.GlobalColor)),
                   content: Container(
                     child: Column(children: [
