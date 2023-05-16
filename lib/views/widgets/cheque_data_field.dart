@@ -9,13 +9,13 @@ import 'package:chequeproject/widgets/file_picker_widget.dart';
 import 'package:chequeproject/widgets/textfield_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:chequeproject/utils/validators.dart';
-
 class ChequeDataField extends StatefulWidget {
   final Cheque cheque;
   bool isUpdate;
   GlobalKey<FormState>? formKey;
+  int index;
   ChequeDataField(
-      {Key? key, this.formKey, required this.cheque, required this.isUpdate})
+      {Key? key, this.formKey, required this.cheque, required this.isUpdate,required this.index})
       : super(key: key);
 
   @override
@@ -23,6 +23,7 @@ class ChequeDataField extends StatefulWidget {
       ChequeDataFieldState(cheque, isUpdate, formKey ?? GlobalKey<FormState>());
 }
 
+//LOVE YOU BABE !
 class ChequeDataFieldState extends State<ChequeDataField> {
   TextEditingController dateinput = TextEditingController();
   var dateRange = DateTime.now();
@@ -31,7 +32,6 @@ class ChequeDataFieldState extends State<ChequeDataField> {
   DateTime? paiementDate;
   String selectedPaymentMode = "";
 
-  int _index = 0;
   List<bool> hide = [false, true];
   GlobalKey<FormState> _formKey;
 
@@ -88,11 +88,11 @@ class ChequeDataFieldState extends State<ChequeDataField> {
             child: Stepper(
               margin: const EdgeInsets.all(0),
               type: stepperType,
-              currentStep: _index,
+              currentStep: widget.index,
               onStepCancel: () {
-                if (_index > 0) {
+                if (widget.index > 0) {
                   setState(() {
-                    _index -= 1;
+                    widget.index -= 1;
                   });
                 }
               },
@@ -104,14 +104,14 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                       width: MediaQuery.of(context).size.width * 0.33,
                       child: TextButton(
                         style: TextButton.styleFrom(
-                          backgroundColor: !hide[_index] == true
+                          backgroundColor: !hide[widget.index] == true
                               ? Colors.grey
                               : GlobalParams.GlobalColor,
                           padding: const EdgeInsets.all(16.0),
                           textStyle: const TextStyle(fontSize: 15),
                         ),
                         onPressed:
-                            !hide[_index] == true ? null : dtl.onStepCancel,
+                            !hide[widget.index] == true ? null : dtl.onStepCancel,
                         child: const Text('< Précédent',
                             style: TextStyle(color: Colors.white)),
                       ),
@@ -121,14 +121,14 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                       width: MediaQuery.of(context).size.width * 0.33,
                       child: TextButton(
                         style: TextButton.styleFrom(
-                          backgroundColor: hide[_index] == true
+                          backgroundColor: hide[widget.index] == true
                               ? Colors.grey
                               : GlobalParams.GlobalColor,
                           padding: const EdgeInsets.all(16.0),
                           textStyle: const TextStyle(fontSize: 15),
                         ),
                         onPressed:
-                            hide[_index] == true ? null : dtl.onStepContinue,
+                            hide[widget.index] == true ? null : dtl.onStepContinue,
                         child: const Text('Suivant >',
                             style: TextStyle(color: Colors.white)),
                       ),
@@ -138,9 +138,9 @@ class ChequeDataFieldState extends State<ChequeDataField> {
               },
               onStepContinue: () {
                 if (_formKey.currentState!.validate()) {
-                  if (_index == 0) {
+                  if (widget.index == 0) {
                     setState(() {
-                      _index += 1;
+                      widget.index += 1;
                     });
                   }
                 } else {
@@ -152,13 +152,13 @@ class ChequeDataFieldState extends State<ChequeDataField> {
               },
               onStepTapped: (index) {
                 setState(() {
-                  _index = index;
+                  widget.index = index;
                 });
               },
               steps: <Step>[
                 Step(
-                  state: _index <= 0 ? StepState.editing : StepState.complete,
-                  isActive: _index >= 0,
+                  state: widget.index <= 0 ? StepState.editing : StepState.complete,
+                  isActive: widget.index >= 0,
                   title: Text('Général',
                       style: TextStyle(color: GlobalParams.GlobalColor)),
                   content: Container(
@@ -259,8 +259,8 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                       ])),
                 ),
                 Step(
-                  state: _index <= 1 ? StepState.editing : StepState.complete,
-                  isActive: _index >= 1,
+                  state: widget.index <= 1 ? StepState.editing : StepState.complete,
+                  isActive: widget.index >= 1,
                   title: Text("Paiment",
                       style: TextStyle(color: GlobalParams.GlobalColor)),
                   content: Container(

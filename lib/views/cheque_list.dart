@@ -1,10 +1,14 @@
-// ignore_for_file: non_constant_identifier_names, no_leading_underscores_for_local_identifiers, sized_box_for_whitespace, unrelated_type_equality_checks
+// ignore_for_file: non_constant_identifier_names, no_leading_underscores_for_local_identifiers, sized_box_for_whitespace, unrelated_type_equality_checks, avoid_unnecessary_containers
 
 import 'package:chequeproject/blocs/Cheque/cheque_bloc.dart';
 import 'package:chequeproject/blocs/Cheque/cheque_event.dart';
 import 'package:chequeproject/blocs/Cheque/cheque_state.dart';
 import 'package:chequeproject/models/cheque.dart';
 import 'package:chequeproject/views/cheque_edit.dart';
+import 'package:chequeproject/views/cheque_items.dart';
+import 'package:chequeproject/views/widgets/cheque_data_field.dart';
+import 'package:chequeproject/widgets/botom_modal_widget.dart';
+import 'package:chequeproject/widgets/botom_modal_widget_child.dart';
 import 'package:chequeproject/widgets/config.dart';
 import 'package:chequeproject/widgets/error_widget.dart';
 import 'package:chequeproject/widgets/header.dart';
@@ -17,7 +21,7 @@ import 'package:flutter_swipe_action_cell/flutter_swipe_action_cell.dart';
 class Cheques extends StatelessWidget {
   static String Route = '/listing';
 
-  const Cheques({super.key});
+  const Cheques({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +35,7 @@ class Cheques extends StatelessWidget {
 
 // ignore: camel_case_types
 class _chequeHome extends StatelessWidget {
-  const _chequeHome({
+  _chequeHome({
     Key? key,
     required this.size,
   }) : super(key: key);
@@ -71,6 +75,8 @@ class ChequeBody extends StatelessWidget {
     required this.size,
   }) : super(key: key);
   final Size size;
+  GlobalKey<FormState> formState = GlobalKey<FormState>();
+  int index = 1;
   @override
   Widget build(BuildContext context) {
     BuildContext _context = context;
@@ -117,15 +123,78 @@ class ChequeBody extends StatelessWidget {
                         var currentItem = chequeList![index];
                         return ItemCard(
                             onPressed: () {
-                              Navigator.push(_context,
-                                  MaterialPageRoute(builder: (context) {
-                                return BlocProvider.value(
-                                    value:
-                                        BlocProvider.of<ChequeBloc>(_context),
-                                    child: ChequeEditPage(
-                                      currentObj: currentItem,
-                                    ));
-                              }));
+                              showCustomizedModalBottom(
+                                  context,
+                                  Expanded(
+                                    child: Column(
+                                      children: [
+                                        const SizedBox(height: 5),
+                                        Container(
+                                            child: Text(
+                                                "Chéque : ${chequeList[index].id} - ${chequeList[index].isPayed}",
+                                                overflow: TextOverflow.clip,
+                                                maxLines: 1,
+                                                softWrap: false,
+                                                style: TextStyle(
+                                                    color: GlobalParams
+                                                        .GlobalColor,
+                                                    fontFamily: GlobalParams
+                                                        .MainfontFamily,
+                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: 15))),
+                                        const SizedBox(height: 5),
+                                        ModalBottomChildWidget(
+                                            text: "Details du Chéque",
+                                            icon: Icons.list_alt_outlined,
+                                            onTap: () {
+                                              Navigator.pop(context);
+                                              Navigator.push(context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) {
+                                                return BlocProvider.value(
+                                                  value: BlocProvider.of<
+                                                      ChequeBloc>(_context),
+                                                  child: ChequeItem(
+                                                    cheque: chequeList![index],
+                                                  ),
+                                                );
+                                              }));
+                                            }),
+                                        ModalBottomChildWidget(
+                                            text: "Modifier Chéque",
+                                            icon: Icons.edit,
+                                            onTap: () {
+                                              Navigator.push(_context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) {
+                                                return BlocProvider.value(
+                                                    value: BlocProvider.of<
+                                                        ChequeBloc>(_context),
+                                                    child: ChequeEditPage(
+                                                      currentObj: currentItem,
+                                                    ));
+                                              }));
+                                            }),
+                                        ModalBottomChildWidget(
+                                            text: "Marker Paiment Chéque",
+                                            icon: Icons.monetization_on,
+                                            onTap: () {
+                                              Navigator.push(_context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) {
+                                                return BlocProvider.value(
+                                                    value: BlocProvider.of<
+                                                        ChequeBloc>(_context),
+                                                    child: ChequeEditPage(
+                                                      currentObj: currentItem,
+                                                      index: 1,
+                                                    ));
+                                              }));
+                                            }),
+                                      ],
+                                    ),
+                                  ),
+                                  size * 0.40);
                             },
                             size: size,
                             var1: currentItem.id.toString(),

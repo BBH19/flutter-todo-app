@@ -16,10 +16,8 @@ import 'package:rflutter_alert/rflutter_alert.dart';
 class ChequeEditPage extends StatefulWidget {
   static String Route = '/ChequeEdit';
   Cheque? currentObj;
-  ChequeEditPage({
-    Key? key,
-    this.currentObj,
-  }) : super(key: key);
+  int index;
+  ChequeEditPage({Key? key, this.currentObj, this.index = 0}) : super(key: key);
 
   @override
   State<ChequeEditPage> createState() => _ChequeEditPage();
@@ -27,7 +25,6 @@ class ChequeEditPage extends StatefulWidget {
 
 class _ChequeEditPage extends State<ChequeEditPage> {
   List<String> list = <String>['En cours', 'Payé', 'Non Payé'];
-  int _index = 0;
   StepperType stepperType = StepperType.horizontal;
   bool isUpdate = true;
 
@@ -170,6 +167,7 @@ class _ChequeEditPage extends State<ChequeEditPage> {
                 ChequeDataField(
                     cheque: widget.currentObj!,
                     isUpdate: isUpdate,
+                    index: widget.index,
                     formKey: formState),
               ]))
         ]),
