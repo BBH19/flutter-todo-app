@@ -16,6 +16,7 @@ class ItemCard extends StatelessWidget {
   String? var3;
   String? var4;
   String? var5;
+  Icon? icon;
   SwipeActionCell? swipeActionCell;
   Widget? indicator;
   Widget? additionalinfowidget;
@@ -30,6 +31,7 @@ class ItemCard extends StatelessWidget {
     this.var3,
     this.var4,
     this.var5,
+    this.icon,
     this.onPressed,
     this.swipeActionCell,
     this.textcolor = GlobalParams.itemCardTextColor,
@@ -54,27 +56,6 @@ class ItemCard extends StatelessWidget {
               child: SwipeActionCell(
                 key: ObjectKey(key),
                 backgroundColor: color,
-                trailingActions: <SwipeAction>[
-                  SwipeAction(
-                    //title: 'Modifier',
-                    color: Colors.white,
-                    icon: Icon(
-                      Icons.edit,
-                      color: GlobalParams.GlobalColor,
-                    ),
-                    onTap: (handler) {
-                      // Navigator.push(_context,
-                      //     MaterialPageRoute(builder: (context) {
-                      //   return BlocProvider.value(
-                      //       value: BlocProvider.of<ChequeBloc>(_context),
-                      //       child: ChequeEditPage(
-                      //         currentObj: currentItem,
-                      //       ));
-                      // }));
-                      handler(true);
-                    },
-                  ),
-                ],
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Column(
@@ -119,6 +100,9 @@ class ItemCard extends StatelessWidget {
                                 fontWeight: FontWeight.w300,
                                 fontFamily: GlobalParams.MainfontFamily),
                           ),
+                         // WidgetSpan(child: icon),
+                          
+                          
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
