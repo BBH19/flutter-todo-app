@@ -92,17 +92,29 @@ class ItemCard extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            var3 ?? "",
-                            style: TextStyle(
-                                color: textcolor,
-                                fontSize: GlobalParams.itemCardFontSize,
-                                fontWeight: FontWeight.w300,
-                                fontFamily: GlobalParams.MainfontFamily),
-                          ),
-                         // WidgetSpan(child: icon),
-                          
-                          
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Text(
+                                  var3 ?? "",
+                                  style: TextStyle(
+                                      color: textcolor,
+                                      fontSize: GlobalParams.itemCardFontSize,
+                                      fontWeight: FontWeight.w300,
+                                      fontFamily: GlobalParams.MainfontFamily),
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  //crossAxisAlignment: Alignment.topLeft,
+                                  children: [
+                                    icon ?? Icon(Icons.add),
+                                  ],
+                                ),
+                              ]),
+
+                          // WidgetSpan(child: icon),
+
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [

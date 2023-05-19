@@ -203,10 +203,23 @@ class ChequeBody extends StatelessWidget {
                           var1: currentItem.id.toString(),
                           var2: '${currentItem.client} | ${currentItem.holder}',
                           var3: currentItem.isPayed,
-                          icon: const Icon(Icons.abc),
-                          // icon: currentItem.isPayed == "Payé"
-                          //     ? const Icon(Icons.check_circle)
-                          //     : null,
+                          icon: currentItem.isPayed == 'Payé '
+                              ? const Icon(
+                                  Icons.check,
+                                  size: 20,
+                                  color: Color.fromARGB(255, 5, 107, 9),
+                                )
+                              : currentItem.isPayed == 'En cours'
+                                  ? const Icon(
+                                      Icons.replay,
+                                      size: 20,
+                                      color: Colors.white,
+                                    )
+                                  : Icon(
+                                      Icons.close,
+                                      size: 20,
+                                      color: Colors.red,
+                                    ),
                           var4:
                               '${chequeList[index].montant} | ${chequeList[index].receptDate}',
                           color: GlobalParams.GlobalColor,
