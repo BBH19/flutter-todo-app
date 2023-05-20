@@ -220,6 +220,7 @@ class ChequeBody extends StatelessWidget {
                                       size: 20,
                                       color: Colors.red,
                                     ),
+
                           var4:
                               '${chequeList[index].montant} | ${chequeList[index].receptDate}',
                           color: GlobalParams.GlobalColor,

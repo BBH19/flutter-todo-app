@@ -23,7 +23,6 @@ class ChequeDataField extends StatefulWidget {
       ChequeDataFieldState(cheque, isUpdate, formKey ?? GlobalKey<FormState>());
 }
 
-//LOVE YOU BABE !
 class ChequeDataFieldState extends State<ChequeDataField> {
   TextEditingController dateinput = TextEditingController();
   var dateRange = DateTime.now();
