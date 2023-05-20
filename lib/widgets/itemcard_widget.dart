@@ -1,10 +1,6 @@
 // ignore_for_file: must_be_immutable
-import 'package:chequeproject/blocs/Cheque/cheque_bloc.dart';
-import 'package:chequeproject/views/cheque_edit.dart';
-import 'package:chequeproject/views/cheque_list.dart';
 import 'package:chequeproject/widgets/config.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_swipe_action_cell/flutter_swipe_action_cell.dart';
 
 class ItemCard extends StatelessWidget {
@@ -40,8 +36,6 @@ class ItemCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    BuildContext _context = context;
-    var currentItem = Cheques;
     return Tooltip(
         message: var1 ?? "",
         child: InkWell(
@@ -106,15 +100,11 @@ class ItemCard extends StatelessWidget {
                                 Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
-                                  //crossAxisAlignment: Alignment.topLeft,
                                   children: [
-                                    icon ?? Icon(Icons.add),
+                                    icon ?? const Icon(Icons.add),
                                   ],
                                 ),
                               ]),
-
-                          // WidgetSpan(child: icon),
-
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [

@@ -71,7 +71,7 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
         // },
 
         onTap: () async {
-          final DateFormat formatter = DateFormat('yyyy-MM-dd HH:mm:ss');
+          final DateFormat formatter = DateFormat('yyyy-MM-ddTHH:mm:ss');
           final DateTime? picked = await showDatePicker(
             context: context,
             initialDate: selectedDate,
