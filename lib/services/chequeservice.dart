@@ -7,7 +7,7 @@ import 'package:chequeproject/models/cheque.dart';
 class ChequeService {
   static Future<List<Cheque>> getAll() async {
     List<Cheque>? list;
-    var res = await http.get(Uri.parse('${GlobalParams.laravelApi}cheque'));
+    var res = await http.get(Uri.parse('${GlobalParams.baseUrl}cheque'));
     var json_data = json.decode(res.body);
     //print(json_data);
     if (res.statusCode == 200) {
@@ -23,7 +23,7 @@ class ChequeService {
   static Future<bool> add(Cheque cheque) async {
     var body = json.encode(cheque.toJson());
     final response = await http.post(
-      Uri.parse('${GlobalParams.laravelApi}cheque'),
+      Uri.parse('${GlobalParams.baseUrl}cheque'),
       body: body,
       headers: {'content-type': 'application/json'},
     );
@@ -36,7 +36,7 @@ class ChequeService {
 
   static Future<bool> update(Cheque cheque) async {
     try {
-      String url = '${GlobalParams.laravelApi}cheque/${cheque.id}';
+      String url = '${GlobalParams.baseUrl}cheque/${cheque.id}';
       var body = json.encode(cheque.toJson());
 
       var res = await http.put(Uri.parse(url),
