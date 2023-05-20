@@ -4,6 +4,7 @@ import 'package:chequeproject/blocs/Cheque/cheque_event.dart';
 import 'package:chequeproject/models/cheque.dart';
 import 'package:chequeproject/views/cheque_edit.dart';
 import 'package:chequeproject/views/cheque_list.dart';
+import 'package:chequeproject/views/settings/settings_view.dart';
 import 'package:chequeproject/widgets/config.dart';
 import 'package:chequeproject/widgets/dashbord.dart';
 import 'package:chequeproject/widgets/drawer_widget.dart';
@@ -20,7 +21,8 @@ class MyApp extends StatelessWidget {
   final TWO_PI = 3.14 * 2;
   TextStyle style = TextStyle(fontSize: 13, fontWeight: FontWeight.normal);
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) { 
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -28,16 +30,27 @@ class MyApp extends StatelessWidget {
         elevation: 0,
       )),
       routes: {
-        Cheques.Route: (context) => BlocProvider(
-              create: (context) => ChequeBloc()..add(LoadChequesEvent()),
+        Cheques.Route: (ctxRoute) => BlocProvider(
+              create: (ctxRoute) => ChequeBloc()..add(LoadChequesEvent()),
               child: Cheques(),
             ),
-        ChequeEditPage.Route: (context) => BlocProvider(
-              create: (context) => ChequeBloc(),
+        ChequeEditPage.Route: (ctxRoute) => BlocProvider(
+              create: (ctxRoute) => ChequeBloc(),
               child: ChequeEditPage(),
             ),
+        SettingsView.Route: (ctxRoute) => SettingsView(),
       },
-      home: Scaffold(
+      home: HomePage() ,
+      
+    );
+  }
+}
+
+class HomePage extends StatelessWidget{
+  @override
+  Widget build(BuildContext context) {
+    
+    return Scaffold(
         backgroundColor: Colors.white,
         drawer: MyDrawer(),
         appBar: AppBar(
@@ -49,12 +62,25 @@ class MyApp extends StatelessWidget {
               fontFamily: GlobalParams.MainfontFamily,
             ),
           ),
-        ),
-        body: SingleChildScrollView(
+          actions: [            
+            IconButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (ctxRoute) => SettingsView( previousRoute: "/",),
+                    ),
+                  );
+                },
+                icon: const Icon(Icons.settings))
+          ],
+        )
+        ,
+        body:  SingleChildScrollView(
             child: DashboardItemView(ButtonOption.Options)),
-      ),
-    );
+        );
   }
+
 }
 
 class ButtonOption {
