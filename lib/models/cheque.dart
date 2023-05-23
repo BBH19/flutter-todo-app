@@ -1,5 +1,5 @@
 class Cheque {
-  int? id;
+  String? id;
   String? client;
   String? holder;
   double? montant;
