@@ -68,7 +68,7 @@ class _ChequeEditPage extends State<ChequeEditPage> {
                 var isValidateForm = formState.currentState!.validate();
                 if (isValidateForm) {
                   widget.currentObj!.id =
-                      int.tryParse(ChequeDataFieldState.idController.text);
+                      ChequeDataFieldState.idController.text;
                   widget.currentObj!.client =
                       ChequeDataFieldState.clientController.text;
                   widget.currentObj!.holder =
@@ -144,7 +144,7 @@ class _ChequeEditPage extends State<ChequeEditPage> {
                       desc: 'Le cheque a été enregistré avec succès',
                       onPressed: () {
                         int count = 0;
-                        Navigator.of(context).popUntil((_) => count++ >= 1);
+                        Navigator.of(context).popUntil((_) => count++ > 1);
                       });
                 } else if (state.requestState == ChequeRequestState.Updated) {
                   print('Update successful');
