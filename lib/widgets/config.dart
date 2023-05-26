@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 
 class GlobalParams {
 // api
-  static var baseUrl = ''; 
+  static var baseUrl = '';
 // for screens
   static const MainColor = Colors.blue;
-  static Color GlobalColor = const Color(0xff7FA7BB);
-  static final SecondaryColor = Color(0xFF3E30BC);
+  static Color GlobalColor = const Color(0xFF6E4168);
+  //static Color GlobalColor = const Color(0xff7FA7BB);
+  static final SecondaryColor = Color(0xFF6E4168);
   static const lightColor = Color.fromARGB(255, 122, 194, 253);
   static final backgroundColor = Colors.white;
   static final double MainPadding = 20;
