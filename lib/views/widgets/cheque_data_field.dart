@@ -9,13 +9,18 @@ import 'package:chequeproject/widgets/file_picker_widget.dart';
 import 'package:chequeproject/widgets/textfield_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:chequeproject/utils/validators.dart';
+
 class ChequeDataField extends StatefulWidget {
   final Cheque cheque;
   bool isUpdate;
   GlobalKey<FormState>? formKey;
   int index;
   ChequeDataField(
-      {Key? key, this.formKey, required this.cheque, required this.isUpdate,required this.index})
+      {Key? key,
+      this.formKey,
+      required this.cheque,
+      required this.isUpdate,
+      required this.index})
       : super(key: key);
 
   @override
@@ -109,8 +114,9 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                           padding: const EdgeInsets.all(16.0),
                           textStyle: const TextStyle(fontSize: 15),
                         ),
-                        onPressed:
-                            !hide[widget.index] == true ? null : dtl.onStepCancel,
+                        onPressed: !hide[widget.index] == true
+                            ? null
+                            : dtl.onStepCancel,
                         child: const Text('< Précédent',
                             style: TextStyle(color: Colors.white)),
                       ),
@@ -126,8 +132,9 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                           padding: const EdgeInsets.all(16.0),
                           textStyle: const TextStyle(fontSize: 15),
                         ),
-                        onPressed:
-                            hide[widget.index] == true ? null : dtl.onStepContinue,
+                        onPressed: hide[widget.index] == true
+                            ? null
+                            : dtl.onStepContinue,
                         child: const Text('Suivant >',
                             style: TextStyle(color: Colors.white)),
                       ),
@@ -156,7 +163,9 @@ class ChequeDataFieldState extends State<ChequeDataField> {
               },
               steps: <Step>[
                 Step(
-                  state: widget.index <= 0 ? StepState.editing : StepState.complete,
+                  state: widget.index <= 0
+                      ? StepState.editing
+                      : StepState.complete,
                   isActive: widget.index >= 0,
                   title: Text('Général',
                       style: TextStyle(color: GlobalParams.GlobalColor)),
@@ -217,8 +226,7 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                           onChanged: (date) {
                             isReceptionDateFieldFilled =
                                 receptDateController.text.isEmpty;
-                            receptionDate =
-                                date; // stocker la date sélectionnée
+                            receptionDate = date;
                           },
                         ),
                         sizedBox002,
@@ -258,7 +266,9 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                       ])),
                 ),
                 Step(
-                  state: widget.index <= 1 ? StepState.editing : StepState.complete,
+                  state: widget.index <= 1
+                      ? StepState.editing
+                      : StepState.complete,
                   isActive: widget.index >= 1,
                   title: Text("Paiment",
                       style: TextStyle(color: GlobalParams.GlobalColor)),
@@ -277,14 +287,12 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                         child: DropdownButtonHideUnderline(
                           child: DropdownButton<String>(
                             isDense: true,
-                            value:
-                                selectedPaymentMode, //widget.cheque.isPayed ??
+                            value: selectedPaymentMode,
                             icon: const Icon(
                               Icons.keyboard_arrow_down,
                               size: 20,
                             ),
                             onChanged: (newValue) {
-                              // This is called when the user selects an item.
                               setState(() {
                                 selectedPaymentMode = newValue!;
                                 widget.cheque.isPayed = newValue;
@@ -304,11 +312,24 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                       ),
                       sizedBox002,
                       DatePickerWidget(
-                        //validator: null,
                         obj: cheque,
                         controller: paymentDateController,
                         labeltext: 'Date Paiement',
                         valuetext: cheque.paymentDate ?? "",
+                        onChanged: (date) {
+                          isReceptionDateFieldFilled =
+                              receptDateController.text.isEmpty;
+                          if (echeanceDate != null &&
+                              date.isBefore(echeanceDate)) {
+                            receptDateController.text = "";
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(const SnackBar(
+                              content: Text(
+                                  'La date doit être antérieure à la date actuelle'),
+                              backgroundColor: Colors.red,
+                            ));
+                          }
+                        },
                       ),
                       sizedBox002,
                     ]),

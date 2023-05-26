@@ -157,7 +157,7 @@ class ChequeBody extends StatelessWidget {
                                                     BlocProvider.of<ChequeBloc>(
                                                         _context),
                                                 child: ChequeItem(
-                                                  cheque: chequeList![index],
+                                                  cheque: chequeList[index],
                                                 ),
                                               );
                                             }));
