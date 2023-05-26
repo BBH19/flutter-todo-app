@@ -70,18 +70,13 @@ class _SettingsView extends State<SettingsView> {
                 height: MediaQuery.of(context).size.height * 0.2,
                 child: Stack(
                   alignment: Alignment.center,
-                  children: const [
-                    // SvgPicture.asset("assets/images/shape.svg",
-                    //     color: GlobalParams.GlobalColor),
-                    // const Text("GMS ERP    ",
-                    //     style: TextStyle(
-                    //         color: Colors.white,
-                    //         fontWeight: FontWeight.bold,
-                    //         fontSize: 18))
+                  children: [
+                    const SizedBox(height: 20),
+                    Image.asset("assets/logo1.png"),
                   ],
                 ),
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 40),
               Text(
                 domainNameMessage,
                 textAlign: TextAlign.center,

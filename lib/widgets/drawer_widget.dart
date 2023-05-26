@@ -9,10 +9,21 @@ class MyDrawer extends StatelessWidget {
         padding: EdgeInsets.zero,
         children: <Widget>[
           DrawerHeader(
-            decoration: BoxDecoration(
-              color: GlobalParams.GlobalColor,
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(30),
+                bottomRight: Radius.circular(30),
+              ),
             ),
-            child: Center(),
+            child: SizedBox(
+              height: MediaQuery.of(context).size.height * 0.2,
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  Image.asset("assets/logo1.png"),
+                ],
+              ),
+            ),
           ),
           ListTile(
             leading: Icon(
@@ -35,6 +46,28 @@ class MyDrawer extends StatelessWidget {
               // fermer le menu coulissant et naviguer vers la page de paramètres
               Navigator.pop(context);
               Navigator.pushNamed(context, '/ChequeEdit');
+            },
+          ),
+          ListTile(
+            leading: Icon(
+              Icons.settings,
+              color: GlobalParams.GlobalColor,
+            ),
+            title: const Text('Parametre'),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.pushNamed(context, '/setting');
+            },
+          ),
+          ListTile(
+            leading: Icon(
+              Icons.logout,
+              color: GlobalParams.GlobalColor,
+            ),
+            title: const Text('Se Déconnecter'),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.pushNamed(context, '/login');
             },
           ),
         ],

@@ -1,8 +1,11 @@
 // ignore_for_file: avoid_print, non_constant_identifier_names, sized_box_for_whitespace
+import 'package:chequeproject/main.dart';
 import 'package:chequeproject/views/settings/service_base.dart';
 import 'package:chequeproject/widgets/config.dart';
+import 'package:chequeproject/widgets/custom_alert_widget.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:chequeproject/utils/validators.dart';
 
@@ -28,6 +31,27 @@ class _UserLoginState extends State<UserLogin> {
     loadUserEmailPassword();
   }
 
+  Future<void> _login() async {
+    String email = emailController.text.trim();
+    String password = passwordController.text.trim();
+
+    if (email == 'admin' && password == 'admin') {
+      // Rediriger vers la page d'accueil
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => HomePage()),
+          ModalRoute.withName('/home'));
+    } else {
+      await CustomAlert.show(
+          context: context,
+          type: AlertType.error,
+          desc: 'Infos incorrects',
+          onPressed: () {
+            Navigator.pop(context);
+          });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,10 +67,10 @@ class _UserLoginState extends State<UserLogin> {
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
-                    SizedBox(
-                      height: 30,
+                    const SizedBox(
+                      height: 90,
                     ),
-                    Image.asset("assets/logo.png")
+                    Image.asset("assets/logo1.png")
                   ],
                 ),
               ),
@@ -60,17 +84,17 @@ class _UserLoginState extends State<UserLogin> {
                       fontWeight: FontWeight.w300, fontSize: 14),
                   controller: emailController,
                   textAlignVertical: TextAlignVertical.center,
-                  decoration: InputDecoration(
-                    contentPadding: const EdgeInsets.all(10),
+                  decoration:  InputDecoration(
+                    contentPadding: EdgeInsets.all(10),
                     enabledBorder: InputBorder.none,
                     floatingLabelBehavior: FloatingLabelBehavior.auto,
                     errorBorder: InputBorder.none,
                     floatingLabelStyle: TextStyle(
                         fontWeight: FontWeight.w300,
                         fontSize: 14,
-                        color: Color.fromARGB(255, 44, 5, 51)),
+                        color:GlobalParams.GlobalColor),
                     focusedBorder: InputBorder.none,
-                    labelStyle: const TextStyle(
+                    labelStyle: TextStyle(
                       color: Color(0xff8E8E93),
                       fontStyle: FontStyle.normal,
                       fontWeight: FontWeight.w300,
@@ -79,7 +103,7 @@ class _UserLoginState extends State<UserLogin> {
                     labelText: 'Identifiant/Email',
                     prefixIcon: Icon(
                       Icons.person,
-                      color: Color.fromARGB(255, 44, 5, 51),
+                      color:GlobalParams.GlobalColor,
                       size: 18,
                     ),
                   ),
@@ -97,13 +121,13 @@ class _UserLoginState extends State<UserLogin> {
                   controller: passwordController,
                   textAlignVertical: TextAlignVertical.center,
                   obscureText: true,
-                  decoration: InputDecoration(
+                  decoration:  InputDecoration(
                     errorBorder: InputBorder.none,
                     enabledBorder: InputBorder.none,
                     floatingLabelBehavior: FloatingLabelBehavior.auto,
                     focusedBorder: InputBorder.none,
-                    labelStyle: const TextStyle(
-                      color: Color.fromARGB(255, 44, 5, 51),
+                    labelStyle: TextStyle(
+                      color: GlobalParams.GlobalColor,
                       fontStyle: FontStyle.normal,
                       fontWeight: FontWeight.w300,
                       fontSize: 13,
@@ -111,7 +135,7 @@ class _UserLoginState extends State<UserLogin> {
                     labelText: 'Mot de Pass',
                     prefixIcon: Icon(
                       Icons.lock,
-                      color: Color.fromARGB(255, 44, 5, 51),
+                      color: GlobalParams.GlobalColor,
                       size: 18,
                     ),
                   ),
@@ -140,12 +164,12 @@ class _UserLoginState extends State<UserLogin> {
               ]),
               const SizedBox(height: 13),
               ElevatedButton(
-                onPressed: () async {},
+                onPressed: _login,
                 style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5)),
-                    fixedSize: const Size(240, 40),
-                    primary: Color.fromARGB(255, 44, 5, 51)),
+                    backgroundColor: GlobalParams.GlobalColor,
+                    fixedSize: const Size(240, 40)),
                 child: const Text(
                   'Se Connecter',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
