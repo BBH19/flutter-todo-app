@@ -4,6 +4,7 @@ import 'package:chequeproject/blocs/Cheque/cheque_event.dart';
 import 'package:chequeproject/models/cheque.dart';
 import 'package:chequeproject/views/cheque_edit.dart';
 import 'package:chequeproject/views/cheque_list.dart';
+import 'package:chequeproject/views/login/login.dart';
 import 'package:chequeproject/views/settings/settings_view.dart';
 import 'package:chequeproject/widgets/config.dart';
 import 'package:chequeproject/widgets/dashbord.dart';
@@ -21,15 +22,16 @@ class MyApp extends StatelessWidget {
   final TWO_PI = 3.14 * 2;
   TextStyle style = TextStyle(fontSize: 13, fontWeight: FontWeight.normal);
   @override
-  Widget build(BuildContext context) { 
-
+  Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
           appBarTheme: const AppBarTheme(
         elevation: 0,
       )),
+      initialRoute: UserLogin.Route,
       routes: {
+        UserLogin.Route: (ctxRoute) => UserLogin(),
         Cheques.Route: (ctxRoute) => BlocProvider(
               create: (ctxRoute) => ChequeBloc()..add(LoadChequesEvent()),
               child: Cheques(),
@@ -40,47 +42,45 @@ class MyApp extends StatelessWidget {
             ),
         SettingsView.Route: (ctxRoute) => SettingsView(),
       },
-      home: HomePage() ,
-      
+      home: HomePage(),
     );
   }
 }
 
-class HomePage extends StatelessWidget{
+class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
-        backgroundColor: Colors.white,
-        drawer: MyDrawer(),
-        appBar: AppBar(
-          backgroundColor: GlobalParams.GlobalColor,
-          title: const Text(
-            "Accueil",
-            style: TextStyle(
-              color: Colors.white,
-              fontFamily: GlobalParams.MainfontFamily,
-            ),
+      backgroundColor: Colors.white,
+      drawer: MyDrawer(),
+      appBar: AppBar(
+        backgroundColor: GlobalParams.GlobalColor,
+        title: const Text(
+          "Accueil",
+          style: TextStyle(
+            color: Colors.white,
+            fontFamily: GlobalParams.MainfontFamily,
           ),
-          actions: [            
-            IconButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (ctxRoute) => SettingsView( previousRoute: "/",),
+        ),
+        actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (ctxRoute) => SettingsView(
+                      previousRoute: "/",
                     ),
-                  );
-                },
-                icon: const Icon(Icons.settings))
-          ],
-        )
-        ,
-        body:  SingleChildScrollView(
-            child: DashboardItemView(ButtonOption.Options)),
-        );
+                  ),
+                );
+              },
+              icon: const Icon(Icons.settings))
+        ],
+      ),
+      body:
+          SingleChildScrollView(child: DashboardItemView(ButtonOption.Options)),
+    );
   }
-
 }
 
 class ButtonOption {
