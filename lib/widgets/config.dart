@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 
 class GlobalParams {
 // api
-  static var baseUrl = '';
-  // //static final laravelApi = "http://127.0.0.1:5000/";
+  static var baseUrl = ''; 
 // for screens
   static const MainColor = Colors.blue;
   static Color GlobalColor = const Color(0xff7FA7BB);
