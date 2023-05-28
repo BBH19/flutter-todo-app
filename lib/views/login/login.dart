@@ -84,7 +84,7 @@ class _UserLoginState extends State<UserLogin> {
                       fontWeight: FontWeight.w300, fontSize: 14),
                   controller: emailController,
                   textAlignVertical: TextAlignVertical.center,
-                  decoration:  InputDecoration(
+                  decoration: InputDecoration(
                     contentPadding: EdgeInsets.all(10),
                     enabledBorder: InputBorder.none,
                     floatingLabelBehavior: FloatingLabelBehavior.auto,
@@ -92,7 +92,7 @@ class _UserLoginState extends State<UserLogin> {
                     floatingLabelStyle: TextStyle(
                         fontWeight: FontWeight.w300,
                         fontSize: 14,
-                        color:GlobalParams.GlobalColor),
+                        color: GlobalParams.GlobalColor),
                     focusedBorder: InputBorder.none,
                     labelStyle: TextStyle(
                       color: Color(0xff8E8E93),
@@ -103,7 +103,7 @@ class _UserLoginState extends State<UserLogin> {
                     labelText: 'Identifiant/Email',
                     prefixIcon: Icon(
                       Icons.person,
-                      color:GlobalParams.GlobalColor,
+                      color: GlobalParams.GlobalColor,
                       size: 18,
                     ),
                   ),
@@ -121,7 +121,7 @@ class _UserLoginState extends State<UserLogin> {
                   controller: passwordController,
                   textAlignVertical: TextAlignVertical.center,
                   obscureText: true,
-                  decoration:  InputDecoration(
+                  decoration: InputDecoration(
                     errorBorder: InputBorder.none,
                     enabledBorder: InputBorder.none,
                     floatingLabelBehavior: FloatingLabelBehavior.auto,
@@ -185,10 +185,10 @@ class _UserLoginState extends State<UserLogin> {
   void loadUserEmailPassword() async {
     try {
       if (kDebugMode) {
-        await BaseService.ADD_DOMAIN(GlobalParams.baseUrl);
-        GlobalParams.baseUrl = await BaseService.GET_DOMAIN();
+        await BaseService.ADD_DOMAIN("http://31.220.89.29:5000/");
       }
 
+      GlobalParams.baseUrl = await BaseService.GET_DOMAIN();
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String email = "";
       String password = "";
@@ -203,11 +203,12 @@ class _UserLoginState extends State<UserLogin> {
 
       if (kDebugMode && email == "" && password == "") {
         email = "admin";
-        password = "1234567";
+        password = "admin";
       }
 
       emailController.text = email;
       passwordController.text = password;
+      //const AnimationScean();
     } catch (e) {
       print(e);
     }
