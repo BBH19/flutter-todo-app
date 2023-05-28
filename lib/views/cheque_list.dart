@@ -17,6 +17,7 @@ import 'package:chequeproject/widgets/search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_swipe_action_cell/flutter_swipe_action_cell.dart';
+import 'package:lottie/lottie.dart';
 
 class Cheques extends StatelessWidget {
   static String Route = '/listing';
@@ -105,6 +106,9 @@ class ChequeBody extends StatelessWidget {
                     state.requestState == ChequeRequestState.Searching) {
                   return SizedBox(
                     height: size.height * 0.5,
+                    child: Center(
+                      child: Lottie.asset('assets/loader.json'),
+                    ),
                   );
                 } else if (state.requestState == ChequeRequestState.Loaded ||
                     state.requestState == ChequeRequestState.SearchLoaded) {
@@ -220,7 +224,6 @@ class ChequeBody extends StatelessWidget {
                                       size: 20,
                                       color: Colors.red,
                                     ),
-
                           var4:
                               '${chequeList[index].montant} | ${chequeList[index].receptDate}',
                           color: GlobalParams.GlobalColor,
