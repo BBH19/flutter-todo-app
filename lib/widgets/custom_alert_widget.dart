@@ -53,8 +53,18 @@ class CustomAlert {
         DialogButton(
           onPressed: onPressed,
           width: 120,
+          color: Colors.grey,
           child: const Text(
-            "OK",
+            "Retour",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+        ),
+        DialogButton(
+          onPressed: onPressed,
+          width: 120,
+          //color: Colors.green,
+          child: const Text(
+            "Continuer",
             style: TextStyle(color: Colors.white, fontSize: 20),
           ),
         )
