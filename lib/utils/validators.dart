@@ -3,7 +3,7 @@ class validators {
     if (value == null || value.isEmpty) {
       return 'Veuillez remplir le champs';
     } else {
-      String pattern = r'[0-9]{7,16}';
+      String pattern = r'[0-9]{5,16}';
       RegExp regex = RegExp(pattern);
       if (!regex.hasMatch(value)) {
         return 'Entrer Un Nombre Valide';
