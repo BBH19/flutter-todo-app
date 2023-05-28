@@ -41,6 +41,7 @@ flutter:
 
   assets:
     - assets/logo1.png
+    - assets/loader.json
 
 
   
