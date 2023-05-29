@@ -8,9 +8,10 @@ class WidgetHelper {
   static InputDecoration getDecoration(String label) {
     return InputDecoration(
       errorStyle: const TextStyle(fontSize: 0.01),
-      contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+      contentPadding:
+          const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
       labelText: label,
-      labelStyle: TextStyle(fontSize: 20, color: GlobalParams.GlobalColor),
+      labelStyle: TextStyle(fontSize: 18, color: GlobalParams.GlobalColor),
       border: OutlineInputBorder(
         // borderSide: BorderSide(width: 3, color: GlobalParams.GlobalColor),
         borderRadius: BorderRadius.circular(10),
@@ -80,5 +81,4 @@ class WidgetHelper {
       ),
     );
   }
-   
 }

@@ -121,12 +121,12 @@ class _ChequeEditPage extends State<ChequeEditPage> {
                 if (state.requestState == ChequeRequestState.Adding ||
                     state.requestState == ChequeRequestState.Loading ||
                     state.requestState == ChequeRequestState.Updating) {
-                  SizedBox(
-                    height: size.height * 0.5,
-                    child: Center(
-                      child: Lottie.asset('assets/animations/loader.json'),
-                    ),
-                  );
+                  // SizedBox(
+                  //   height: size.height * 0.5,
+                  //   child: Center(
+                  //     child: Lottie.asset('assets/animations/loader.json'),
+                  //   ),
+                  //);
                 } else if (state.requestState == ChequeRequestState.Error) {
                   await CustomAlert.show(
                       context: context,

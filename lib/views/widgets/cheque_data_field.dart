@@ -35,6 +35,7 @@ class ChequeDataFieldState extends State<ChequeDataField> {
   DateTime? echeanceDate;
   DateTime? paiementDate;
   String selectedPaymentMode = "";
+  String selectedBank = "";
 
   List<bool> hide = [false, true];
   GlobalKey<FormState> _formKey;
@@ -66,6 +67,7 @@ class ChequeDataFieldState extends State<ChequeDataField> {
     paymentDateController.text = cheque.paymentDate ?? "";
     attachementController.text = cheque.attachement ?? "";
     selectedPaymentMode = isUpdate ? cheque.isPayed! : paymentStatusList.first;
+    selectedBank = isUpdate ? cheque.isPayed! : bankList.first;
   }
   @override
   Widget build(BuildContext context) {
@@ -105,6 +107,7 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                   children: <Widget>[
                     const SizedBox(height: 88.0),
                     Container(
+                      // height: 40,
                       width: MediaQuery.of(context).size.width * 0.33,
                       child: TextButton(
                         style: TextButton.styleFrom(
@@ -123,6 +126,7 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                     ),
                     const Spacer(),
                     Container(
+                      //height: 40,
                       width: MediaQuery.of(context).size.width * 0.33,
                       child: TextButton(
                         style: TextButton.styleFrom(
@@ -256,13 +260,45 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                           },
                         ),
                         sizedBox002,
+                        SizedBox(
+                          height: 35,
+                          child: InputDecorator(
+                            decoration: WidgetHelper.getDecoration(''),
+                            child: DropdownButtonHideUnderline(
+                              child: DropdownButton<String>(
+                                itemHeight: 49,
+                                isDense: true,
+                                value: selectedBank,
+                                icon: const Icon(
+                                  Icons.keyboard_arrow_down,
+                                  size: 20,
+                                ),
+                                onChanged: (newValue) {
+                                  setState(() {
+                                    selectedBank = newValue!;
+                                    widget.cheque.isPayed = newValue;
+                                  });
+                                },
+                                items: bankList.map<DropdownMenuItem<String>>(
+                                    (String value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Text(value,
+                                        style: TextStyle(
+                                            color: GlobalParams.GlobalColor)),
+                                  );
+                                }).toList(),
+                              ),
+                            ),
+                          ),
+                        ),
+                        sizedBox002,
                         TestPickerWidget(
                           obj: cheque,
                           controller: attachementController,
                           labeltext: 'Piéce Jointe',
                           valuetext: cheque.attachement ?? "",
                         ),
-                        // sizedBox002,
                       ])),
                 ),
                 Step(
@@ -282,31 +318,35 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                       sizedBox002,
                       sizedBox002,
                       sizedBox002,
-                      InputDecorator(
-                        decoration: WidgetHelper.getDecoration('Paiement'),
-                        child: DropdownButtonHideUnderline(
-                          child: DropdownButton<String>(
-                            isDense: true,
-                            value: selectedPaymentMode,
-                            icon: const Icon(
-                              Icons.keyboard_arrow_down,
-                              size: 20,
+                      SizedBox(
+                        height: 35,
+                        child: InputDecorator(
+                          decoration: WidgetHelper.getDecoration('Paiement'),
+                          child: DropdownButtonHideUnderline(
+                            child: DropdownButton<String>(
+                              isDense: true,
+                              value: selectedPaymentMode,
+                              icon: const Icon(
+                                Icons.keyboard_arrow_down,
+                                size: 20,
+                              ),
+                              onChanged: (newValue) {
+                                setState(() {
+                                  selectedPaymentMode = newValue!;
+                                  widget.cheque.isPayed = newValue;
+                                });
+                              },
+                              items: paymentStatusList
+                                  .map<DropdownMenuItem<String>>(
+                                      (String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value,
+                                      style: TextStyle(
+                                          color: GlobalParams.GlobalColor)),
+                                );
+                              }).toList(),
                             ),
-                            onChanged: (newValue) {
-                              setState(() {
-                                selectedPaymentMode = newValue!;
-                                widget.cheque.isPayed = newValue;
-                              });
-                            },
-                            items: paymentStatusList
-                                .map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value,
-                                    style: TextStyle(
-                                        color: GlobalParams.GlobalColor)),
-                              );
-                            }).toList(),
                           ),
                         ),
                       ),
