@@ -12,6 +12,14 @@ class LoadChequesEvent extends ChequeEvent {
   List<Object> get props => [cheques];
 }
 
+class LoadChequesFiltredEvent extends ChequeEvent {
+  int days;
+  List<Cheque> cheques = [];
+  LoadChequesFiltredEvent(this.days);
+  @override
+  List<Object> get props => [days, cheques];
+}
+
 class AddChequeEvent extends ChequeEvent {
   Cheque data;
 

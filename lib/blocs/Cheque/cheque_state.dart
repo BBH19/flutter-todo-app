@@ -5,6 +5,8 @@ import 'package:chequeproject/models/cheque.dart';
 enum ChequeRequestState {
   Loaded,
   Loading,
+  Filtred,
+  Filtring,
   Error,
   None,
   Searching,
@@ -36,6 +38,8 @@ class ChequeState {
   bool get isLoadingState {
     return requestState == ChequeRequestState.Adding ||
         requestState == ChequeRequestState.Loading ||
+        requestState == ChequeRequestState.Filtring ||
+        requestState == ChequeRequestState.Searching ||
         requestState == ChequeRequestState.Updating;
   }
 }

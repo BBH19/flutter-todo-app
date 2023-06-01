@@ -4,6 +4,7 @@ import 'package:chequeproject/blocs/Cheque/cheque_event.dart';
 import 'package:chequeproject/models/cheque.dart';
 import 'package:chequeproject/views/cheque_edit.dart';
 import 'package:chequeproject/views/cheque_list.dart';
+import 'package:chequeproject/views/cheque_list_filtred.dart';
 import 'package:chequeproject/views/login/login.dart';
 import 'package:chequeproject/views/settings/settings_view.dart';
 import 'package:chequeproject/widgets/config.dart';
@@ -32,6 +33,10 @@ class MyApp extends StatelessWidget {
       initialRoute: UserLogin.Route,
       routes: {
         UserLogin.Route: (ctxRoute) => UserLogin(),
+        ChequesFiltred.Route: (ctxRoute) => BlocProvider(
+              create: (ctxRoute) => ChequeBloc()..add(LoadChequesEvent()),
+              child: ChequesFiltred(),
+            ),
         Cheques.Route: (ctxRoute) => BlocProvider(
               create: (ctxRoute) => ChequeBloc()..add(LoadChequesEvent()),
               child: Cheques(),
@@ -74,6 +79,18 @@ class HomePage extends StatelessWidget {
                   ),
                 );
               },
+              icon: const Icon(Icons.notifications)),
+          IconButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (ctxRoute) => SettingsView(
+                      previousRoute: "/",
+                    ),
+                  ),
+                );
+              },
               icon: const Icon(Icons.settings))
         ],
       ),
@@ -86,19 +103,31 @@ class HomePage extends StatelessWidget {
 class ButtonOption {
   const ButtonOption(
       {this.color = const Color(0xff6091AB),
+      this.iconData = Icons.ac_unit_sharp,
       required this.text,
       required this.route,
       this.isVisible = true});
   final Color color;
   final String text;
+  final IconData iconData;
   final String route;
   final bool? isVisible;
 
   static List<ButtonOption> Options = const <ButtonOption>[
-    ButtonOption(route: "/listing", text: 'Liste des Chéques'),
+    ButtonOption(
+      route: "/listing",
+      text: 'Liste des Chéques',
+      iconData: Icons.point_of_sale
+    ),
     ButtonOption(
       route: "/ChequeEdit",
       text: 'Nouveau Chéque',
+      iconData: Icons.abc
+    ),
+    ButtonOption(
+      route: "/listingFiltred",
+      text: 'Nouveau Chéque',
+      iconData: Icons.abc
     ),
   ];
 }

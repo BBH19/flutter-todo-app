@@ -67,8 +67,18 @@ class ChequeDataFieldState extends State<ChequeDataField> {
     paymentDateController.text = cheque.paymentDate ?? "";
     attachementController.text = cheque.attachement ?? "";
     selectedPaymentMode = isUpdate ? cheque.isPayed! : paymentStatusList.first;
-    selectedBank = isUpdate ? cheque.isPayed! : bankList.first;
+    selectedBank = bankList.first;
   }
+
+  bool checkCanEdit() {
+    bool canEdit = false;
+    var echeance = DateTime.tryParse(echeanceDateController.text);
+
+    if (echeance != null) canEdit = echeance.isBefore(DateTime.now());
+
+    return canEdit;
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -77,6 +87,7 @@ class ChequeDataFieldState extends State<ChequeDataField> {
 
     DateTime? receptionDate;
     DateTime? echeanceDate;
+
     return ConstrainedBox(
         constraints: BoxConstraints.tightFor(
             height: MediaQuery.of(context).size.height * 0.8),
@@ -261,6 +272,7 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                         ),
                         sizedBox002,
                         SizedBox(
+                          
                           height: 35,
                           child: InputDecorator(
                             decoration: WidgetHelper.getDecoration(''),
@@ -276,16 +288,22 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                                 onChanged: (newValue) {
                                   setState(() {
                                     selectedBank = newValue!;
-                                    widget.cheque.isPayed = newValue;
+                                    //widget.cheque.isPayed = newValue;
                                   });
                                 },
                                 items: bankList.map<DropdownMenuItem<String>>(
                                     (String value) {
                                   return DropdownMenuItem<String>(
                                     value: value,
-                                    child: Text(value,
-                                        style: TextStyle(
-                                            color: GlobalParams.GlobalColor)),
+                                    child: Text(
+                                      value,
+                                      style: TextStyle(
+                                          color: GlobalParams.GlobalColor,
+                                          fontWeight: FontWeight.w300,
+                                          fontSize: 14,
+                                          fontFamily: 'Open Sans'),
+                                    ),
+                                    enabled: false,
                                   );
                                 }).toList(),
                               ),
@@ -310,14 +328,7 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                       style: TextStyle(color: GlobalParams.GlobalColor)),
                   content: Container(
                     child: Column(children: [
-                      sizedBox002,
-                      sizedBox002,
-                      sizedBox002,
-                      sizedBox002,
-                      sizedBox002,
-                      sizedBox002,
-                      sizedBox002,
-                      sizedBox002,
+                      ...List.generate(7, (index) => sizedBox002),
                       SizedBox(
                         height: 35,
                         child: InputDecorator(
@@ -356,6 +367,7 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                         controller: paymentDateController,
                         labeltext: 'Date Paiement',
                         valuetext: cheque.paymentDate ?? "",
+                        enabled: checkCanEdit(),
                         onChanged: (date) {
                           isReceptionDateFieldFilled =
                               receptDateController.text.isEmpty;

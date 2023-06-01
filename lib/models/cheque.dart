@@ -5,6 +5,7 @@ class Cheque {
   double? montant;
   String? receptDate;
   String? echeanceDate;
+  String? bank;
   String? isPayed;
   String? paymentDate;
   String? attachement;
@@ -16,6 +17,7 @@ class Cheque {
       this.montant,
       this.receptDate,
       this.echeanceDate,
+      this.bank,
       this.isPayed,
       this.paymentDate,
       this.attachement});
@@ -27,6 +29,7 @@ class Cheque {
     montant = json['montant'];
     receptDate = json['recept_date'];
     echeanceDate = json['echeance_date'];
+    bank = json['bank'];
     isPayed = json['is_payed'];
     paymentDate = json['payment_date'];
     attachement = json['attachement'];
@@ -40,6 +43,7 @@ class Cheque {
     data['montant'] = montant;
     data['recept_date'] = receptDate;
     data['echeance_date'] = echeanceDate;
+    data['bank'] = bank;
     data['is_payed'] = isPayed;
     data['payment_date'] = paymentDate;
     data['attachement'] = attachement;

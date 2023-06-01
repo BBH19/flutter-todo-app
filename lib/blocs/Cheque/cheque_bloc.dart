@@ -32,6 +32,27 @@ class ChequeBloc extends Bloc<ChequeEvent, ChequeState> {
             errorMessage: "error"));
       }
     });
+    on<LoadChequesFiltredEvent>((event, emit) async {
+      emit(ChequeState(
+          data: const [],
+          requestState: ChequeRequestState.Filtring,
+          errorMessage: ''));
+      try {
+        List<Cheque> result = await ChequeService.getFiltred(event.days);
+        emit(ChequeState(
+            data: result,
+            requestState: ChequeRequestState.Filtred,
+            errorMessage: 'check filtred days ${event.days}'));
+      } catch (e) {
+        if (kDebugMode) {
+          print("error on block cheque bloc : $e");
+        }
+        emit(ChequeState(
+            data: const [],
+            requestState: ChequeRequestState.Error,
+            errorMessage: "error"));
+      }
+    });
 
     on<SearchChequeEvent>((event, emit) async {
       try {
@@ -100,7 +121,7 @@ class ChequeBloc extends Bloc<ChequeEvent, ChequeState> {
         print("initializing event");
       }
     });
-  
+
     on<UpdateChequeEvent>((event, emit) async {
       try {
         emit(ChequeState(
@@ -109,21 +130,18 @@ class ChequeBloc extends Bloc<ChequeEvent, ChequeState> {
             errorMessage: ''));
         print("update cheque event");
         await ChequeService.update(event.data).then((value) {
-            if(value){
-              emit(ChequeState(
-              data: state.data,
-              requestState: ChequeRequestState.Updated,
-              errorMessage: ''));
-         
-        }
-        else{
-          emit(ChequeState(
-            data: state.data,
-            requestState: ChequeRequestState.Error,
-            errorMessage: 'error'));
-        }
+          if (value) {
+            emit(ChequeState(
+                data: state.data,
+                requestState: ChequeRequestState.Updated,
+                errorMessage: ''));
+          } else {
+            emit(ChequeState(
+                data: state.data,
+                requestState: ChequeRequestState.Error,
+                errorMessage: 'error'));
+          }
         });
-      
       } catch (e) {
         emit(ChequeState(
             data: state.data,
@@ -132,7 +150,4 @@ class ChequeBloc extends Bloc<ChequeEvent, ChequeState> {
       }
     });
   }
-  
-  
-  }
-
+}
