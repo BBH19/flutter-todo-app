@@ -117,17 +117,16 @@ class ButtonOption {
     ButtonOption(
       route: "/listing",
       text: 'Liste des Chéques',
-      iconData: Icons.point_of_sale
+      iconData: Icons.list_alt,
     ),
     ButtonOption(
       route: "/ChequeEdit",
       text: 'Nouveau Chéque',
-      iconData: Icons.abc
+      iconData: Icons.add_to_photos_outlined,
     ),
     ButtonOption(
-      route: "/listingFiltred",
-      text: 'Nouveau Chéque',
-      iconData: Icons.abc
-    ),
+        route: "/listingFiltred",
+        text: 'Chéque Filtrer',
+        iconData: Icons.filter_frames_outlined),
   ];
 }
