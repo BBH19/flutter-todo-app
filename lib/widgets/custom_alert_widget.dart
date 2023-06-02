@@ -50,21 +50,21 @@ class CustomAlert {
       ),
       desc: desc,
       buttons: [
+        // DialogButton(
+        //   onPressed: onPressed,
+        //   width: 120,
+        //   color: Colors.grey,
+        //   child: const Text(
+        //     "Retour",
+        //     style: TextStyle(color: Colors.white, fontSize: 20),
+        //   ),
+        // ),
         DialogButton(
           onPressed: onPressed,
           width: 120,
-          color: Colors.grey,
+          color: Colors.green,
           child: const Text(
-            "Retour",
-            style: TextStyle(color: Colors.white, fontSize: 20),
-          ),
-        ),
-        DialogButton(
-          onPressed: onPressed,
-          width: 120,
-          //color: Colors.green,
-          child: const Text(
-            "Continuer",
+            "OK",
             style: TextStyle(color: Colors.white, fontSize: 20),
           ),
         )
