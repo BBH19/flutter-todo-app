@@ -50,6 +50,18 @@ class MyDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(
+              Icons.filter_frames_outlined,
+              color: GlobalParams.GlobalColor,
+            ),
+            title: const Text('Chéque Filtrer'),
+            onTap: () {
+              // fermer le menu coulissant et naviguer vers la page de paramètres
+              Navigator.pop(context);
+              Navigator.pushNamed(context, '/listingFiltred');
+            },
+          ),
+          ListTile(
+            leading: Icon(
               Icons.settings,
               color: GlobalParams.GlobalColor,
             ),
