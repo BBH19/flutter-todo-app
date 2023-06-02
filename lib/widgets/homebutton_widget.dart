@@ -35,7 +35,10 @@ class HomeButton extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   // ignore: unnecessary_new
-                  Icon(buttonOption.iconData),
+                  Icon(
+                    buttonOption.iconData,
+                    color: Colors.white,
+                  ),
                   Padding(
                     padding: const EdgeInsets.only(top: 8.0),
                     child: Text(
