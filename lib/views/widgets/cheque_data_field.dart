@@ -29,6 +29,30 @@ class ChequeDataField extends StatefulWidget {
 }
 
 class ChequeDataFieldState extends State<ChequeDataField> {
+
+  
+List<String> paymentStatusList = <String>['En cours', 'Payé ', 'Non Payé'];
+List<String> bankList = <String>[
+   '', 
+  'Choisir Banque',
+  'ARAB BANK MAROC',
+  'ATTIJARIWAFA BANK',
+  'AL BARID BANK',
+  'BANQUE POPULAIRE',
+  'BANK OF AFRICA',
+  'BMCI',
+  'CREDIT AGRICOLE',
+  'CIH',
+  'CREDIT DU MAROC',
+  'SOCIETE GENERALE',
+  'CFG BANK',
+  'BANK ASSAFA',
+  'AL AKHDAR BANK',
+  'UMNIA BANK',
+  'BANK AL YOUSR', 
+];
+
+
   TextEditingController dateinput = TextEditingController();
   var dateRange = DateTime.now();
   DateTime? receptDate;
@@ -67,7 +91,7 @@ class ChequeDataFieldState extends State<ChequeDataField> {
     paymentDateController.text = cheque.paymentDate ?? "";
     attachementController.text = cheque.attachement ?? "";
     selectedPaymentMode = isUpdate ? cheque.isPayed! : paymentStatusList.first;
-    selectedBank = bankList.first;
+    selectedBank = isUpdate ? cheque.bank??"" : bankList.first;
   }
 
   bool checkCanEdit() {
@@ -272,7 +296,6 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                         ),
                         sizedBox002,
                         SizedBox(
-                          
                           height: 35,
                           child: InputDecorator(
                             decoration: WidgetHelper.getDecoration(''),
@@ -288,7 +311,7 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                                 onChanged: (newValue) {
                                   setState(() {
                                     selectedBank = newValue!;
-                                    //widget.cheque.isPayed = newValue;
+                                    widget.cheque.bank = newValue;
                                   });
                                 },
                                 items: bankList.map<DropdownMenuItem<String>>(
@@ -303,7 +326,6 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                                           fontSize: 14,
                                           fontFamily: 'Open Sans'),
                                     ),
-                                    enabled: false,
                                   );
                                 }).toList(),
                               ),
@@ -341,17 +363,20 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                                 Icons.keyboard_arrow_down,
                                 size: 20,
                               ),
-                              onChanged: (newValue) {
-                                setState(() {
-                                  selectedPaymentMode = newValue!;
-                                  widget.cheque.isPayed = newValue;
-                                });
-                              },
+                              onChanged: !checkCanEdit()
+                                  ? null
+                                  : (newValue) {
+                                      setState(() {
+                                        selectedPaymentMode = newValue!;
+                                        widget.cheque.isPayed = newValue;
+                                      });
+                                    },
                               items: paymentStatusList
                                   .map<DropdownMenuItem<String>>(
                                       (String value) {
                                 return DropdownMenuItem<String>(
                                   value: value,
+                                  enabled: false,
                                   child: Text(value,
                                       style: TextStyle(
                                           color: GlobalParams.GlobalColor)),

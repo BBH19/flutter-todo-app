@@ -4,13 +4,11 @@ import 'package:chequeproject/blocs/Cheque/cheque_bloc.dart';
 import 'package:chequeproject/blocs/Cheque/cheque_event.dart';
 import 'package:chequeproject/blocs/Cheque/cheque_state.dart';
 import 'package:chequeproject/models/cheque.dart';
-import 'package:chequeproject/utils/widgect_helper.dart';
 import 'package:chequeproject/views/widgets/cheque_data_field.dart';
 import 'package:chequeproject/widgets/config.dart';
 import 'package:chequeproject/widgets/custom_alert_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lottie/lottie.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 class ChequeEditPage extends StatefulWidget {
@@ -42,6 +40,7 @@ class _ChequeEditPage extends State<ChequeEditPage> {
           receptDate: '',
           echeanceDate: '',
           isPayed: 'En cours',
+          bank: '',
           paymentDate: '',
           attachement: '');
     }
