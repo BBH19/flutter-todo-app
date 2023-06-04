@@ -100,6 +100,11 @@ class PageOneState extends State<PageOne> {
           minwidth: 120,
         ),
         DetailsCard(
+          key_: 'Banque ',
+          value: widget.cheque.bank ?? " - ",
+          minwidth: 120,
+        ),
+        DetailsCard(
           key_: 'Piéce Jointe ',
           value: widget.cheque.attachement ?? " - ",
           minwidth: 120,

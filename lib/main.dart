@@ -6,6 +6,7 @@ import 'package:chequeproject/views/cheque_edit.dart';
 import 'package:chequeproject/views/cheque_list.dart';
 import 'package:chequeproject/views/cheque_list_filtred.dart';
 import 'package:chequeproject/views/login/login.dart';
+import 'package:chequeproject/views/notification/notification.dart';
 import 'package:chequeproject/views/settings/settings_view.dart';
 import 'package:chequeproject/widgets/config.dart';
 import 'package:chequeproject/widgets/dashbord.dart';
@@ -73,7 +74,7 @@ class HomePage extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (ctxRoute) => SettingsView(
+                    builder: (ctxRoute) => Test(
                       previousRoute: "/",
                     ),
                   ),
@@ -116,7 +117,7 @@ class ButtonOption {
   static List<ButtonOption> Options = const <ButtonOption>[
     ButtonOption(
       route: "/listing",
-      text: 'Liste des Chéques',
+      text: 'Liste Chéques',
       iconData: Icons.list_alt,
     ),
     ButtonOption(
@@ -126,7 +127,7 @@ class ButtonOption {
     ),
     ButtonOption(
         route: "/listingFiltred",
-        text: 'Chéque Filtrer',
+        text: 'Alerts Chéques',
         iconData: Icons.filter_frames_outlined),
   ];
 }

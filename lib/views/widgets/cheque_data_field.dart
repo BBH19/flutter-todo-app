@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:chequeproject/utils/validators.dart';
 
 class ChequeDataField extends StatefulWidget {
-  final Cheque cheque;
+  final Cheque cheque; 
   bool isUpdate;
   GlobalKey<FormState>? formKey;
   int index;
@@ -29,29 +29,26 @@ class ChequeDataField extends StatefulWidget {
 }
 
 class ChequeDataFieldState extends State<ChequeDataField> {
-
-  
-List<String> paymentStatusList = <String>['En cours', 'Payé ', 'Non Payé'];
-List<String> bankList = <String>[
-   '', 
-  'Choisir Banque',
-  'ARAB BANK MAROC',
-  'ATTIJARIWAFA BANK',
-  'AL BARID BANK',
-  'BANQUE POPULAIRE',
-  'BANK OF AFRICA',
-  'BMCI',
-  'CREDIT AGRICOLE',
-  'CIH',
-  'CREDIT DU MAROC',
-  'SOCIETE GENERALE',
-  'CFG BANK',
-  'BANK ASSAFA',
-  'AL AKHDAR BANK',
-  'UMNIA BANK',
-  'BANK AL YOUSR', 
-];
-
+   
+  List<String> paymentStatusList = <String>['En cours', 'Payé ', 'Non Payé'];
+  List<String> bankList = <String>[ 
+    'Choisir Banque',
+    'ARAB BANK MAROC',
+    'ATTIJARIWAFA BANK',
+    'AL BARID BANK',
+    'BANQUE POPULAIRE',
+    'BANK OF AFRICA',
+    'BMCI',
+    'CREDIT AGRICOLE',
+    'CIH',
+    'CREDIT DU MAROC',
+    'SOCIETE GENERALE',
+    'CFG BANK',
+    'BANK ASSAFA',
+    'AL AKHDAR BANK',
+    'UMNIA BANK',
+    'BANK AL YOUSR',
+  ];
 
   TextEditingController dateinput = TextEditingController();
   var dateRange = DateTime.now();
@@ -80,6 +77,7 @@ List<String> bankList = <String>[
   static TextEditingController attachementController = TextEditingController();
 
   ChequeDataFieldState(this.cheque, this.isUpdate, this._formKey) {
+    late bool isEmptyOrNull=cheque.bank==null || cheque.bank!.isEmpty ;
     this._formKey = _formKey;
     idController.text = cheque.id == null ? "" : cheque.id.toString();
     clientController.text = cheque.client ?? "";
@@ -91,8 +89,9 @@ List<String> bankList = <String>[
     paymentDateController.text = cheque.paymentDate ?? "";
     attachementController.text = cheque.attachement ?? "";
     selectedPaymentMode = isUpdate ? cheque.isPayed! : paymentStatusList.first;
-    selectedBank = isUpdate ? cheque.bank??"" : bankList.first;
+    selectedBank = !isUpdate ||isEmptyOrNull ? bankList.first: cheque.bank!  ;
   }
+  //love u :*
 
   bool checkCanEdit() {
     bool canEdit = false;
@@ -216,6 +215,7 @@ List<String> bankList = <String>[
                           validator: (value) =>
                               validators.validateNumber(value),
                           obj: cheque,
+                          enabled: !isUpdate,
                           controller: idController,
                           labeltext: 'N° de Cheque',
                           valuetext:

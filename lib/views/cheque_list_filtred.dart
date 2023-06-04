@@ -47,7 +47,7 @@ class _chequeHome extends StatelessWidget {
         child: Scaffold(
       backgroundColor: GlobalParams.backgroundColor,
       appBar: AppBar(
-        title: const Text('Chéques'),
+        title: const Text('Alerts Chéques'),
         elevation: 0,
         backgroundColor: GlobalParams.GlobalColor,
       ),

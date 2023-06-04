@@ -30,7 +30,7 @@ class MyDrawer extends StatelessWidget {
               Icons.list_alt,
               color: GlobalParams.GlobalColor,
             ),
-            title: const Text('List Chéques'),
+            title: const Text('Liste Chéques'),
             onTap: () {
               Navigator.pop(context);
               Navigator.pushNamed(context, '/listing');
@@ -53,7 +53,7 @@ class MyDrawer extends StatelessWidget {
               Icons.filter_frames_outlined,
               color: GlobalParams.GlobalColor,
             ),
-            title: const Text('Chéque Filtrer'),
+            title: const Text('Alerts Chéques'),
             onTap: () {
               // fermer le menu coulissant et naviguer vers la page de paramètres
               Navigator.pop(context);
@@ -65,7 +65,7 @@ class MyDrawer extends StatelessWidget {
               Icons.settings,
               color: GlobalParams.GlobalColor,
             ),
-            title: const Text('Parametre'),
+            title: const Text('Paramétre'),
             onTap: () {
               Navigator.pop(context);
               Navigator.pushNamed(context, '/setting');
