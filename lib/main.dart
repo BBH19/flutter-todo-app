@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_const_declarations, sized_box_for_whitespace, must_be_immutable, prefer_const_constructors, non_constant_identifier_names, unused_local_variable
 
-import 'package:chequeproject/blocs/Cheque/cheque_event.dart';
-import 'package:chequeproject/models/cheque.dart';
+import 'package:chequeproject/blocs/Cheque/cheque_event.dart'; 
 import 'package:chequeproject/views/cheque_edit.dart';
 import 'package:chequeproject/views/cheque_list.dart';
 import 'package:chequeproject/views/cheque_list_filtred.dart';
@@ -47,6 +46,7 @@ class MyApp extends StatelessWidget {
               child: ChequeEditPage(),
             ),
         SettingsView.Route: (ctxRoute) => SettingsView(),
+        NotificationView.Route: (ctxRoute) => NotificationView(),
       },
       home: HomePage(),
     );
@@ -74,8 +74,8 @@ class HomePage extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (ctxRoute) => Test(
-                      previousRoute: "/",
+                    builder: (ctxRoute) => NotificationView(
+                      // previousRoute: "/",
                     ),
                   ),
                 );

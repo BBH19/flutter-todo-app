@@ -1,71 +1,60 @@
+import 'package:chequeproject/widgets/textfield_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 
-class Test extends StatefulWidget {
+class NotificationView extends StatefulWidget {
   static String Route = '/notification';
-  String? previousRoute = "";
-  Test({Key? key, this.previousRoute}) : super(key: key);
   @override
-  State<Test> createState() => _TestState();
+  _NotificationViewState createState() => _NotificationViewState();
 }
 
-class _TestState extends State<Test> {
-  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
+class _NotificationViewState extends State<NotificationView> {
+  late IO.Socket socket;
 
   @override
   void initState() {
-    initializeNotifications();
+    super.initState();
+
+    // Create a Socket.IO client instance
+    socket = IO.io('http://127.0.0.1:5000/');
+
+    // Connect to the Socket.IO server
+    socket.connect();
+
+    // Set up event listeners
+    socket.on('message', (dataBack) {
+      print("message $dataBack");
+    });
   }
 
-  Future<void> initializeNotifications() async {
-    const AndroidInitializationSettings initializationSettingsAndroid =
-        AndroidInitializationSettings('app_icon');
+  @override
+  void dispose() {
+    // Close the Socket.IO connection
+    socket.disconnect();
 
-    final InitializationSettings initializationSettings =
-        InitializationSettings(android: initializationSettingsAndroid);
-
-    await flutterLocalNotificationsPlugin.initialize(initializationSettings);
+    super.dispose();
   }
 
-  Future<void> showNotification() async {
-    const AndroidNotificationDetails androidPlatformChannelSpecifics =
-        AndroidNotificationDetails(
-      'your_channel_id',
-      'your_channel_name',
-      importance: Importance.high,
-      priority: Priority.high,
-    );
-
-    const NotificationDetails platformChannelSpecifics =
-        NotificationDetails(android: androidPlatformChannelSpecifics);
-
-    await flutterLocalNotificationsPlugin.show(
-      0, // ID de notification unique
-      'Notification Title',
-      'Notification Body',
-      platformChannelSpecifics,
-      payload:
-          'your_payload', // Données supplémentaires associées à la notification
-    );
+  void emitEvent() {
+    // Emit events to the server
+    socket.emit('message', DateTime.now().toString());
   }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Notifications App'),
-        ),
-        body: Center(
-          child: ElevatedButton(
-            onPressed: () {
-              showNotification();
-            },
-            child: Text('Afficher une notification'),
-          ),
-        ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Socket.IO Page'),
       ),
+      body: Center(
+          child: Column(
+        children: [
+          ElevatedButton(
+            onPressed: emitEvent,
+            child: Text('Emit Event'),
+          ),
+        ],
+      )),
     );
   }
 }
