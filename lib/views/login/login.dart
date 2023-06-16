@@ -28,7 +28,7 @@ class _UserLoginState extends State<UserLogin> {
   @override
   void initState() {
     super.initState();
-    loadUserEmailPassword();
+    LoadSettings();
   }
 
   Future<void> _login() async {
@@ -182,17 +182,26 @@ class _UserLoginState extends State<UserLogin> {
     );
   }
 
-  void loadUserEmailPassword() async {
+  void LoadSettings() async {
     try {
-      if (kDebugMode) {
+
+       if (kIsWeb) {
+        var jsonResult =  await DefaultAssetBundle.of(context).loadString("json/config.json");
+        await BaseService.ADD_DOMAIN(jsonResult);
+      }
+
+      else if (kDebugMode) {
         await BaseService.ADD_DOMAIN("http://31.220.89.29:5000/");
       }
 
+     
       GlobalParams.baseUrl = await BaseService.GET_DOMAIN();
+
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String email = "";
       String password = "";
       var remeberMe = prefs.getBool("remember_me") ?? false;
+
       if (remeberMe) {
         email = prefs.getString("email") ?? "";
         password = prefs.getString("password") ?? "";
@@ -208,6 +217,7 @@ class _UserLoginState extends State<UserLogin> {
 
       emailController.text = email;
       passwordController.text = password;
+
       //const AnimationScean();
     } catch (e) {
       print(e);
