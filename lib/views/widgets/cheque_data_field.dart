@@ -29,7 +29,12 @@ class ChequeDataField extends StatefulWidget {
 }
 
 class ChequeDataFieldState extends State<ChequeDataField> {
-  List<String> paymentStatusList = <String>['En cours', 'Payé ', 'Non Payé'];
+  List<String> paymentStatusList = <String>[
+    'En cours',
+    'Payé ',
+    'Non Payé',
+    'Effacé'
+  ];
   List<String> bankList = <String>[
     'Choisir Banque',
     'ARAB BANK MAROC',
