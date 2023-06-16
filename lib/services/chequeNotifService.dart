@@ -1,18 +1,19 @@
 // ignore_for_file: non_constant_identifier_names, avoid_print
 import 'dart:convert';
-import 'package:http/http.dart' as http;
+import 'package:chequeproject/models/cheque_notif.dart';
 import 'package:chequeproject/widgets/config.dart';
+import 'package:http/http.dart' as http;
 import 'package:chequeproject/models/cheque.dart';
 
-class ChequeService {
-  static Future<List<Cheque>> getAll() async {
-    List<Cheque>? list;
-    var res = await http.get(Uri.parse('${GlobalParams.baseUrl}cheque'));
+class ChequeNotifService {
+  static Future<List<ChequeNotif>> getAll() async {
+    List<ChequeNotif>? list;
+    var res = await http.get(Uri.parse('${GlobalParams.baseUrl}notif'));
     var json_data = json.decode(res.body);
     //print(json_data);
     if (res.statusCode == 200) {
       var data = json_data as List;
-      list = data.map<Cheque>((json) => Cheque.fromJson(json)).toList();
+      list = data.map<ChequeNotif>((json) => ChequeNotif.fromJson(json)).toList();
       print(list);
     } else {
       list = null;
@@ -20,14 +21,14 @@ class ChequeService {
     return list!;
   }
   
-  static Future<List<Cheque>> getFiltred(int days) async {
-    List<Cheque>? list;
-    var res = await http.get(Uri.parse('${GlobalParams.baseUrl}cheque/echeance/$days'));
+  static Future<List<ChequeNotif>> getFiltred(int days) async {
+    List<ChequeNotif>? list;
+    var res = await http.get(Uri.parse('${GlobalParams.baseUrl}chequeNotif/echeance/$days'));
     var json_data = json.decode(res.body);
     //print(json_data);
     if (res.statusCode == 200) {
       var data = json_data as List;
-      list = data.map<Cheque>((json) => Cheque.fromJson(json)).toList();
+      list = data.map<ChequeNotif>((json) => ChequeNotif.fromJson(json)).toList();
       print(list);
     } else {
       list = null;
@@ -35,10 +36,10 @@ class ChequeService {
     return list!;
   }
 
-  static Future<bool> add(Cheque cheque) async {
-    var body = json.encode(cheque.toJson());
+  static Future<bool> add(ChequeNotif chequeNotif) async {
+    var body = json.encode(chequeNotif.toJson());
     final response = await http.post(
-      Uri.parse('${GlobalParams.baseUrl}cheque'),
+      Uri.parse('${GlobalParams.baseUrl}chequeNotif'),
       body: body,
       headers: {'content-type': 'application/json'},
     );
@@ -49,10 +50,10 @@ class ChequeService {
     return false;
   }
 
-  static Future<bool> update(Cheque cheque) async {
+  static Future<bool> update(ChequeNotif chequeNotif) async {
     try {
-      String url = '${GlobalParams.baseUrl}cheque/${cheque.id}';
-      var body = json.encode(cheque.toJson());
+      String url = '${GlobalParams.baseUrl}chequeNotif/${chequeNotif.id}';
+      var body = json.encode(chequeNotif.toJson());
 
       var res = await http.put(Uri.parse(url),
           body: body, headers: {'content-type': 'application/json'});
