@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:chequeproject/utils/validators.dart';
 
 class ChequeDataField extends StatefulWidget {
-  final Cheque cheque; 
+  final Cheque cheque;
   bool isUpdate;
   GlobalKey<FormState>? formKey;
   int index;
@@ -29,9 +29,8 @@ class ChequeDataField extends StatefulWidget {
 }
 
 class ChequeDataFieldState extends State<ChequeDataField> {
-   
   List<String> paymentStatusList = <String>['En cours', 'Payé ', 'Non Payé'];
-  List<String> bankList = <String>[ 
+  List<String> bankList = <String>[
     'Choisir Banque',
     'ARAB BANK MAROC',
     'ATTIJARIWAFA BANK',
@@ -77,7 +76,7 @@ class ChequeDataFieldState extends State<ChequeDataField> {
   static TextEditingController attachementController = TextEditingController();
 
   ChequeDataFieldState(this.cheque, this.isUpdate, this._formKey) {
-    late bool isEmptyOrNull=cheque.bank==null || cheque.bank!.isEmpty ;
+    late bool isEmptyOrNull = cheque.bank == null || cheque.bank!.isEmpty;
     this._formKey = _formKey;
     idController.text = cheque.id == null ? "" : cheque.id.toString();
     clientController.text = cheque.client ?? "";
@@ -89,7 +88,7 @@ class ChequeDataFieldState extends State<ChequeDataField> {
     paymentDateController.text = cheque.paymentDate ?? "";
     attachementController.text = cheque.attachement ?? "";
     selectedPaymentMode = isUpdate ? cheque.isPayed! : paymentStatusList.first;
-    selectedBank = !isUpdate ||isEmptyOrNull ? bankList.first: cheque.bank!  ;
+    selectedBank = !isUpdate || isEmptyOrNull ? bankList.first : cheque.bank!;
   }
   //love u :*
 
@@ -376,7 +375,6 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                                       (String value) {
                                 return DropdownMenuItem<String>(
                                   value: value,
-                                  enabled: false,
                                   child: Text(value,
                                       style: TextStyle(
                                           color: GlobalParams.GlobalColor)),

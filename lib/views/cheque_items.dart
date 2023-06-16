@@ -1,6 +1,7 @@
 import 'package:chequeproject/blocs/Cheque/cheque_bloc.dart';
 import 'package:chequeproject/blocs/Cheque/cheque_state.dart';
 import 'package:chequeproject/models/cheque.dart';
+import 'package:chequeproject/views/cheque_edit.dart';
 import 'package:chequeproject/widgets/config.dart';
 import 'package:chequeproject/widgets/detail_card.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +20,7 @@ class _ChequeItemState extends State<ChequeItem> {
   @override
   Widget build(BuildContext context) {
     BuildContext _context = context;
+    List<Cheque>? chequeList;
     return Scaffold(
         appBar: AppBar(
           title: Text(
@@ -26,21 +28,23 @@ class _ChequeItemState extends State<ChequeItem> {
             style: const TextStyle(fontSize: 16),
           ),
           backgroundColor: GlobalParams.GlobalColor,
-          // actions: [
-          //   IconButton(
-          //       onPressed: () {
-          //         Navigator.push(_context,
-          //             MaterialPageRoute(builder: (context) {
-          //           return BlocProvider.value(
-          //             value: BlocProvider.of<ChequeBloc>(_context),
-          //           );
-          //         }));
-          //       },
-          //       icon: const Icon(
-          //         Icons.print,
-          //         size: 20,
-          //       ))
-          // ],
+          actions: [
+            IconButton(
+                onPressed: () {
+                  Navigator.push(_context,
+                      MaterialPageRoute(builder: (context) {
+                    return BlocProvider.value(
+                        value: BlocProvider.of<ChequeBloc>(_context),
+                        child: ChequeEditPage(
+                          currentObj: widget.cheque,
+                        ));
+                  }));
+                },
+                icon: const Icon(
+                  Icons.edit,
+                  size: 20,
+                ))
+          ],
         ),
         body: PageOne(
           cheque: widget.cheque,
