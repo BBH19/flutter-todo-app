@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_declarations, sized_box_for_whitespace, must_be_immutable, prefer_const_constructors, non_constant_identifier_names, unused_local_variable
 
-import 'package:chequeproject/blocs/Cheque/cheque_event.dart'; 
+import 'package:badges/badges.dart';
+import 'package:chequeproject/blocs/Cheque/cheque_event.dart';
 import 'package:chequeproject/views/cheque_edit.dart';
 import 'package:chequeproject/views/cheque_list.dart';
 import 'package:chequeproject/views/cheque_list_filtred.dart';
@@ -12,6 +13,7 @@ import 'package:chequeproject/widgets/dashbord.dart';
 import 'package:chequeproject/widgets/drawer_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:badges/badges.dart' as badges;
 
 import 'blocs/Cheque/cheque_bloc.dart';
 
@@ -69,19 +71,35 @@ class HomePage extends StatelessWidget {
           ),
         ),
         actions: [
+          badges.Badge(
+            badgeContent: Text(
+              '2',
+              style: TextStyle(color: Colors.white),
+            ),
+            badgeStyle: BadgeStyle(badgeColor: Colors.red),
+            position: BadgePosition.topStart(top: 5, start: 5),
+            child: Column(
+              children: [
+                SizedBox(
+                  width: 10,
+                ),
+                IconButton(
+                  padding: EdgeInsets.all(15),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (ctxRoute) => NotificationView(),
+                      ),
+                    );
+                  },
+                  icon: Icon(Icons.notifications),
+                ),
+              ],
+            ),
+          ),
           IconButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (ctxRoute) => NotificationView(
-                      // previousRoute: "/",
-                    ),
-                  ),
-                );
-              },
-              icon: const Icon(Icons.notifications)),
-          IconButton(
+              padding: EdgeInsets.all(5),
               onPressed: () {
                 Navigator.push(
                   context,
