@@ -11,6 +11,7 @@ class ChequeNotifBloc extends Bloc<ChequeNotifEvent, ChequeNotifState> {
             data: const [],
             requestState: ChequeNotifRequestState.Loading,
             errorMessage: '')) {
+              
     on<LoadChequesNotifEvent>((event, emit) async {
       emit(ChequeNotifState(
           data: const [],
