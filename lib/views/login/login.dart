@@ -1,4 +1,6 @@
 // ignore_for_file: avoid_print, non_constant_identifier_names, sized_box_for_whitespace
+import 'dart:convert';
+
 import 'package:chequeproject/main.dart';
 import 'package:chequeproject/views/settings/service_base.dart';
 import 'package:chequeproject/widgets/config.dart';
@@ -184,17 +186,17 @@ class _UserLoginState extends State<UserLogin> {
 
   void LoadSettings() async {
     try {
-
-       if (kIsWeb) {
-        var jsonResult =  await DefaultAssetBundle.of(context).loadString("json/config.json");
-        await BaseService.ADD_DOMAIN(jsonResult);
+      if (kIsWeb) {
+        var jsonResult =
+            await DefaultAssetBundle.of(context).loadString("json/config.json");
+        final data = await json.decode(jsonResult);
+        await BaseService.ADD_DOMAIN(data["domain"]);
       }
 
-      else if (kDebugMode) {
+      if (kDebugMode) {
         await BaseService.ADD_DOMAIN("http://31.220.89.29:5000/");
       }
 
-     
       GlobalParams.baseUrl = await BaseService.GET_DOMAIN();
 
       SharedPreferences prefs = await SharedPreferences.getInstance();
