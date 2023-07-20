@@ -6,7 +6,6 @@ import 'package:chequeproject/blocs/Cheque/cheque_state.dart';
 import 'package:chequeproject/models/cheque.dart';
 import 'package:chequeproject/views/cheque_edit.dart';
 import 'package:chequeproject/views/cheque_items.dart';
-import 'package:chequeproject/views/widgets/cheque_data_field.dart';
 import 'package:chequeproject/widgets/botom_modal_widget.dart';
 import 'package:chequeproject/widgets/botom_modal_widget_child.dart';
 import 'package:chequeproject/widgets/config.dart';
@@ -136,7 +135,7 @@ class ChequeBody extends StatelessWidget {
                                       const SizedBox(height: 5),
                                       Container(
                                           child: Text(
-                                              "Chéque : ${chequeList[index].id} - ${chequeList[index].isPayed}",
+                                              "Chéque : ${chequeList[index].num} - ${chequeList[index].isPayed}",
                                               overflow: TextOverflow.clip,
                                               maxLines: 1,
                                               softWrap: false,
@@ -204,7 +203,7 @@ class ChequeBody extends StatelessWidget {
                                 size * 0.40);
                           },
                           size: size,
-                          var1: currentItem.id.toString(),
+                          var1: currentItem.num,
                           var2: '${currentItem.client} | ${currentItem.holder}',
                           var3: currentItem.isPayed,
                           icon: currentItem.isPayed == 'Payé '

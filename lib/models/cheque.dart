@@ -1,3 +1,5 @@
+import 'package:chequeproject/utils/validators.dart';
+
 class Cheque {
   int? id;
   String? num;
@@ -29,7 +31,7 @@ class Cheque {
     num = json['num'];
     client = json['client'];
     holder = json['holder'];
-    montant = json['montant'];
+    montant = validators.checkDouble(json['montant']);
     receptDate = json['recept_date'];
     echeanceDate = json['echeance_date'];
     bank = json['bank'];
