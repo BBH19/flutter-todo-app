@@ -66,20 +66,23 @@ class _ChequeEditPage extends State<ChequeEditPage> {
               onPressed: () async {
                 var isValidateForm = formState.currentState!.validate();
                 if (isValidateForm) {
-                  widget.currentObj!.id =
-                      ChequeDataFieldState.idController.text;
+                  widget.currentObj!.num =
+                      ChequeDataFieldState.numController.text;
                   widget.currentObj!.client =
                       ChequeDataFieldState.clientController.text;
                   widget.currentObj!.holder =
                       ChequeDataFieldState.holderController.text;
                   widget.currentObj!.montant = double.tryParse(
                       ChequeDataFieldState.montantController.text);
-                  widget.currentObj!.receptDate =
-                      ChequeDataFieldState.receptDateController.text;
-                  widget.currentObj!.echeanceDate =
-                      ChequeDataFieldState.echeanceDateController.text;
-                  widget.currentObj!.paymentDate =
-                      ChequeDataFieldState.paymentDateController.text;
+                  widget.currentObj!.receptDate = ChequeDataFieldState
+                      .receptDateController.text
+                      .replaceFirst('T', ' ');
+                  widget.currentObj!.echeanceDate = ChequeDataFieldState
+                      .echeanceDateController.text
+                      .replaceFirst('T', ' ');
+                  widget.currentObj!.paymentDate = ChequeDataFieldState
+                      .paymentDateController.text
+                      .replaceFirst('T', ' ');
                   widget.currentObj!.attachement =
                       ChequeDataFieldState.attachementController.text;
 

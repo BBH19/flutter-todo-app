@@ -1,5 +1,6 @@
 class Cheque {
-  String? id;
+  int? id;
+  String? num;
   String? client;
   String? holder;
   double? montant;
@@ -12,6 +13,7 @@ class Cheque {
 
   Cheque(
       {this.id,
+      this.num,
       this.client,
       this.holder,
       this.montant,
@@ -24,6 +26,7 @@ class Cheque {
 
   Cheque.fromJson(Map<String, dynamic> json) {
     id = json['id'];
+    num = json['num'];
     client = json['client'];
     holder = json['holder'];
     montant = json['montant'];
@@ -38,6 +41,7 @@ class Cheque {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
+    data['num'] = num;
     data['client'] = client;
     data['holder'] = holder;
     data['montant'] = montant;

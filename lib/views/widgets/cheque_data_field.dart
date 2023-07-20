@@ -71,7 +71,7 @@ class ChequeDataFieldState extends State<ChequeDataField> {
   StepperType stepperType = StepperType.horizontal;
   late Cheque cheque;
   late bool isUpdate;
-  static TextEditingController idController = TextEditingController();
+  static TextEditingController numController = TextEditingController();
   static TextEditingController clientController = TextEditingController();
   static TextEditingController holderController = TextEditingController();
   static TextEditingController montantController = TextEditingController();
@@ -83,7 +83,7 @@ class ChequeDataFieldState extends State<ChequeDataField> {
   ChequeDataFieldState(this.cheque, this.isUpdate, this._formKey) {
     late bool isEmptyOrNull = cheque.bank == null || cheque.bank!.isEmpty;
     this._formKey = _formKey;
-    idController.text = cheque.id == null ? "" : cheque.id.toString();
+    numController.text = cheque.num == null ? "" : cheque.num.toString();
     clientController.text = cheque.client ?? "";
     holderController.text = cheque.holder ?? "";
     montantController.text =
@@ -112,8 +112,8 @@ class ChequeDataFieldState extends State<ChequeDataField> {
 
     SizedBox sizedBox002 = SizedBox(height: size.height * 0.02);
 
-    DateTime? receptionDate;
-    DateTime? echeanceDate;
+
+
 
     return ConstrainedBox(
         constraints: BoxConstraints.tightFor(
@@ -220,7 +220,7 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                               validators.validateNumber(value),
                           obj: cheque,
                           enabled: !isUpdate,
-                          controller: idController,
+                          controller: numController,
                           labeltext: 'N° de Cheque',
                           valuetext:
                               cheque.id == null ? "" : cheque.id.toString(),
@@ -268,8 +268,7 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                               signed: false, decimal: true),
                           onChanged: (date) {
                             isReceptionDateFieldFilled =
-                                receptDateController.text.isEmpty;
-                            receptionDate = date;
+                                receptDateController.text.isEmpty; 
                           },
                         ),
                         sizedBox002,
@@ -286,8 +285,10 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                           onChanged: (date) {
                             isEcheanceDateFieldFilled =
                                 echeanceDateController.text.isEmpty;
+                            var receptionDate=DateTime.tryParse( ChequeDataFieldState.receptDateController.text);
+
                             if (receptionDate != null &&
-                                date.isBefore(receptionDate!)) {
+                                date.isBefore(receptionDate)) {
                               echeanceDateController.text = "";
                               ScaffoldMessenger.of(context)
                                   .showSnackBar(const SnackBar(
@@ -398,7 +399,8 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                         enabled: checkCanEdit(),
                         onChanged: (date) {
                           isReceptionDateFieldFilled =
-                              receptDateController.text.isEmpty;
+                              receptDateController.text.isEmpty;                              
+                          var echeanceDate=DateTime.tryParse( ChequeDataFieldState.echeanceDateController.text);
                           if (echeanceDate != null &&
                               date.isBefore(echeanceDate)) {
                             receptDateController.text = "";
