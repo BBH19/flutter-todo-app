@@ -38,7 +38,7 @@ class _ChequeEditPage extends State<ChequeEditPage> {
           client: '',
           holder: '',
           montant: null,
-          receptDate: '',
+          receptDate: DateTime.now().toString(),
           echeanceDate: '',
           isPayed: 'En cours',
           bank: '',
@@ -46,7 +46,7 @@ class _ChequeEditPage extends State<ChequeEditPage> {
           attachement: '');
     }
     String error = isUpdate ? 'Erreur de modification' : 'Erreur d\'ajout';
-    
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: GlobalParams.backgroundColor,

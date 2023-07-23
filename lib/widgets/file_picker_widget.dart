@@ -4,66 +4,57 @@ import 'package:chequeproject/widgets/config.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 
-class TestPickerWidget extends StatefulWidget {
+class TextPickerWidget extends StatefulWidget {
   Color? focusColor;
   String labeltext;
   String valuetext;
   bool? readonly;
   bool? enabled;
+  int? maxLines;
+  double? height;
   TextInputType? keyboardType;
   TextEditingController controller;
   String? Function(String?)? validator;
   List? inputFormatters;
   late void Function()? on_changed_function;
-  TestPickerWidget(
+  TextPickerWidget(
       {Key? key,
       required this.obj,
       required this.labeltext,
       required this.controller,
       required this.valuetext,
       this.readonly = false,
-      this.focusColor = Colors.black, 
+      this.focusColor = Colors.black,
       this.validator,
       this.keyboardType,
       this.inputFormatters,
       this.on_changed_function,
+      this.maxLines,
+      this.height = 35,
       this.enabled})
       : super(key: key);
   final Object obj;
 
   @override
-  State<TestPickerWidget> createState() => _TestPickerWidgetState();
+  State<TextPickerWidget> createState() => _TestPickerWidgetState();
 }
 
-class _TestPickerWidgetState extends State<TestPickerWidget> { 
-
-  FilePickerResult? result;
-
+class _TestPickerWidgetState extends State<TextPickerWidget> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-     height: 35,
+      height: widget.height,
       child: TextFormField(
         controller: widget.controller,
-        onTap: () async {
-          result = await FilePicker.platform.pickFiles(allowMultiple: true);
-          if (result == null) {
-            //print("No file selected");
-          } else {
-            setState(() {});
-            result?.files.forEach((element) {
-              //print(element.name);
-              widget.controller.text = element.name;
-            });
-          }
-        },
+        onTap: widget.on_changed_function,
         enabled: widget.enabled ?? true,
         cursorColor: GlobalParams.GlobalColor,
         keyboardType: widget.keyboardType,
         validator: widget.validator,
         readOnly: widget.readonly ?? false,
+        maxLines: widget.maxLines ?? 1,
         decoration: InputDecoration(
-          errorStyle: const TextStyle(fontSize: 0.01),
+            errorStyle: const TextStyle(fontSize: 0.01),
             fillColor: Colors.red,
             focusColor: Colors.black,
             labelText: widget.labeltext,
@@ -82,7 +73,7 @@ class _TestPickerWidgetState extends State<TestPickerWidget> {
             suffixIcon: IconButton(
               onPressed: widget.on_changed_function,
               icon: const Icon(
-                Icons.file_upload,
+                Icons.drag_indicator,
                 size: 20,
               ),
             )),

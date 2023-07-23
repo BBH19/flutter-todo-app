@@ -12,6 +12,7 @@ class Cheque {
   String? isPayed;
   String? paymentDate;
   String? attachement;
+  String? reason;
 
   Cheque(
       {this.id,
@@ -24,7 +25,8 @@ class Cheque {
       this.bank,
       this.isPayed,
       this.paymentDate,
-      this.attachement});
+      this.attachement,
+      this.reason});
 
   Cheque.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -38,6 +40,7 @@ class Cheque {
     isPayed = json['is_payed'];
     paymentDate = json['payment_date'];
     attachement = json['attachement'];
+    reason = json['reason'];
   }
 
   Map<String, dynamic> toJson() {
@@ -53,6 +56,7 @@ class Cheque {
     data['is_payed'] = isPayed;
     data['payment_date'] = paymentDate;
     data['attachement'] = attachement;
+    data['reason'] = reason;
     return data;
   }
 }

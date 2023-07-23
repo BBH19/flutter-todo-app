@@ -94,14 +94,15 @@ class ChequeBloc extends Bloc<ChequeEvent, ChequeState> {
         if (kDebugMode) {
           print("Adding cheque event");
         }
-        await ChequeService.add(event.data);
-        emit(ChequeState(
-            data: state.data,
-            requestState: ChequeRequestState.Added,
-            errorMessage: ''));
-        if (kDebugMode) {
-          print("Adding cheque event");
-        }
+         await ChequeService.add(event.data);
+         
+          emit(ChequeState(
+                      data: state.data,
+                      requestState: ChequeRequestState.Added,
+                      errorMessage: ''));
+                  if (kDebugMode) {
+                    print("Adding cheque event");
+          }        
       } catch (e) {
         if (kDebugMode) {
           print('errorr catch');

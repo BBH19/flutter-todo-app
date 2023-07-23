@@ -3,9 +3,10 @@
 import 'package:chequeproject/models/cheque.dart';
 import 'package:chequeproject/utils/widgect_helper.dart';
 import 'package:chequeproject/widgets/config.dart';
-import 'package:chequeproject/widgets/datepicker_widget.dart'; 
+import 'package:chequeproject/widgets/datepicker_widget.dart';
 import 'package:chequeproject/widgets/file_picker_widget.dart';
 import 'package:chequeproject/widgets/textfield_widget.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:chequeproject/utils/validators.dart';
 
@@ -78,6 +79,7 @@ class ChequeDataFieldState extends State<ChequeDataField> {
   static TextEditingController echeanceDateController = TextEditingController();
   static TextEditingController paymentDateController = TextEditingController();
   static TextEditingController attachementController = TextEditingController();
+  static TextEditingController reasonController = TextEditingController();
 
   ChequeDataFieldState(this.cheque, this.isUpdate, this._formKey) {
     late bool isEmptyOrNull = cheque.bank == null || cheque.bank!.isEmpty;
@@ -91,6 +93,7 @@ class ChequeDataFieldState extends State<ChequeDataField> {
     echeanceDateController.text = cheque.echeanceDate ?? "";
     paymentDateController.text = cheque.paymentDate ?? "";
     attachementController.text = cheque.attachement ?? "";
+    reasonController.text = cheque.reason ?? "";
     selectedPaymentMode = isUpdate ? cheque.isPayed! : paymentStatusList.first;
     selectedBank = !isUpdate || isEmptyOrNull ? bankList.first : cheque.bank!;
   }
@@ -98,7 +101,7 @@ class ChequeDataFieldState extends State<ChequeDataField> {
 
   bool checkCanEdit() {
     bool canEdit = true;
-    // var echeance = DateTime.tryParse(echeanceDateController.text); 
+    // var echeance = DateTime.tryParse(echeanceDateController.text);
     // if (echeance != null) canEdit = echeance.isBefore(DateTime.now());
 
     return canEdit;
@@ -109,9 +112,7 @@ class ChequeDataFieldState extends State<ChequeDataField> {
     Size size = MediaQuery.of(context).size;
 
     SizedBox sizedBox002 = SizedBox(height: size.height * 0.02);
-
-
-
+    FilePickerResult? result;
 
     return ConstrainedBox(
         constraints: BoxConstraints.tightFor(
@@ -219,8 +220,7 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                           obj: cheque,
                           controller: numController,
                           labeltext: 'N° de Cheque',
-                          valuetext:
-                              cheque.num??"",
+                          valuetext: cheque.num ?? "",
                           keyboardType: const TextInputType.numberWithOptions(
                               signed: false, decimal: true),
                         ),
@@ -234,14 +234,17 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                           keyboardType: TextInputType.name,
                         ),
                         sizedBox002,
-                        TextFieldWidget(
+                        TextPickerWidget(
                             validator: (value) =>
                                 validators.validateField(value),
                             obj: cheque,
                             controller: holderController,
                             labeltext: 'Propriétaire',
                             valuetext: cheque.holder ?? "",
-                            keyboardType: TextInputType.name),
+                            keyboardType: TextInputType.name,
+                            on_changed_function: () async {
+                              holderController.text = clientController.text;
+                            }),
                         sizedBox002,
                         TextFieldWidget(
                           validator: (value) => validators.validateField(value),
@@ -265,12 +268,11 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                               signed: false, decimal: true),
                           onChanged: (date) {
                             isReceptionDateFieldFilled =
-                                receptDateController.text.isEmpty; 
+                                receptDateController.text.isEmpty;
                           },
                         ),
-                        sizedBox002,
-                        DatePickerWidget(
-                          // validator: (value) => validators.validateField(value),
+                        sizedBox002, 
+                        DatePickerWidget( 
                           obj: cheque,
                           controller: echeanceDateController,
                           labeltext: 'Date Echeance',
@@ -282,7 +284,8 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                           onChanged: (date) {
                             isEcheanceDateFieldFilled =
                                 echeanceDateController.text.isEmpty;
-                            var receptionDate=DateTime.tryParse( ChequeDataFieldState.receptDateController.text);
+                            var receptionDate = DateTime.tryParse(
+                                ChequeDataFieldState.receptDateController.text);
 
                             if (receptionDate != null &&
                                 date.isBefore(receptionDate)) {
@@ -335,12 +338,37 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                           ),
                         ),
                         sizedBox002,
-                        TestPickerWidget(
+                        TextPickerWidget(
                           obj: cheque,
                           controller: attachementController,
                           labeltext: 'Piéce Jointe',
                           valuetext: cheque.attachement ?? "",
+                          on_changed_function: () async {
+                            result = await FilePicker.platform
+                                .pickFiles(allowMultiple: true);
+                            if (result == null) {
+                              //print("No file selected");
+                            } else {
+                              setState(() {});
+                              result?.files.forEach((element) {
+                                //print(element.name);
+                                attachementController.text = element.name;
+                              });
+                            }
+                          },
                         ),
+                        sizedBox002,
+                        TextPickerWidget(
+                            obj: cheque,
+                            height: null,
+                            controller: reasonController,
+                            labeltext: 'Motif',
+                            valuetext: cheque.reason ?? "",
+                            maxLines: 4,
+                            keyboardType: TextInputType.none,
+                            on_changed_function: () async {
+                              reasonController.text = '';
+                            }),
                       ])),
                 ),
                 Step(
@@ -396,8 +424,9 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                         enabled: checkCanEdit(),
                         onChanged: (date) {
                           isReceptionDateFieldFilled =
-                              receptDateController.text.isEmpty;                              
-                          var echeanceDate=DateTime.tryParse( ChequeDataFieldState.echeanceDateController.text);
+                              receptDateController.text.isEmpty;
+                          var echeanceDate = DateTime.tryParse(
+                              ChequeDataFieldState.echeanceDateController.text);
                           if (echeanceDate != null &&
                               date.isBefore(echeanceDate)) {
                             receptDateController.text = "";

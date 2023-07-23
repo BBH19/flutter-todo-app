@@ -19,10 +19,11 @@ class ChequeService {
     }
     return list!;
   }
-  
+
   static Future<List<Cheque>> getFiltred(int days) async {
     List<Cheque>? list;
-    var res = await http.get(Uri.parse('${GlobalParams.baseUrl}cheque/echeance/$days'));
+    var res = await http
+        .get(Uri.parse('${GlobalParams.baseUrl}cheque/echeance/$days'));
     var json_data = json.decode(res.body);
     //print(json_data);
     if (res.statusCode == 200) {
@@ -44,9 +45,10 @@ class ChequeService {
     );
     if (response.statusCode == 200) {
       return true;
+    } else {
+      throw (response.body);
     }
-
-    return false;
+ 
   }
 
   static Future<bool> update(Cheque cheque) async {
