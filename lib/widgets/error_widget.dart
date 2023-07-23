@@ -7,9 +7,11 @@ class ErrorWithRefreshButtonWidget extends StatelessWidget {
   const ErrorWithRefreshButtonWidget({
     Key? key,
     required this.button_function,
+    this.message,
   }) : super(key: key);
 
   final VoidCallback button_function;
+ String? message;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +21,7 @@ class ErrorWithRefreshButtonWidget extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-             const Text(
+            const Text(
               textAlign: TextAlign.center,
               softWrap: true,
               "An error occurred Please Try Again ",
@@ -29,6 +31,7 @@ class ErrorWithRefreshButtonWidget extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
+            Text(message??""),
             FloatingActionButton(
                 backgroundColor: Colors.red,
                 onPressed: button_function,

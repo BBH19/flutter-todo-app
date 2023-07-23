@@ -8,16 +8,15 @@ class ChequeService {
   static Future<List<Cheque>> getAll() async {
     List<Cheque>? list;
     var res = await http.get(Uri.parse('${GlobalParams.baseUrl}cheque'));
-    var json_data = json.decode(res.body);
-    //print(json_data);
+    var json_data = json.decode(res.body); 
     if (res.statusCode == 200) {
       var data = json_data as List;
       list = data.map<Cheque>((json) => Cheque.fromJson(json)).toList();
       print(list);
     } else {
-      list = null;
+      throw (res.body);
     }
-    return list!;
+    return list;
   }
 
   static Future<List<Cheque>> getFiltred(int days) async {
@@ -31,9 +30,9 @@ class ChequeService {
       list = data.map<Cheque>((json) => Cheque.fromJson(json)).toList();
       print(list);
     } else {
-      list = null;
+      throw (res.body);
     }
-    return list!;
+    return list;
   }
 
   static Future<bool> add(Cheque cheque) async {
@@ -48,22 +47,20 @@ class ChequeService {
     } else {
       throw (response.body);
     }
- 
   }
 
   static Future<bool> update(Cheque cheque) async {
-    try {
+    
       String url = '${GlobalParams.baseUrl}cheque/${cheque.id}';
-      var body = json.encode(cheque.toJson());
-
+      var body = json.encode(cheque.toJson()); 
+      
       var res = await http.put(Uri.parse(url),
           body: body, headers: {'content-type': 'application/json'});
+
       if (res.statusCode == 200) {
         return true;
-      }
-    } on Exception catch (_, ex) {
-      print(_);
-    }
-    return false;
+      }else{
+        throw (res.body);
+      }  
   }
 }

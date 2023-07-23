@@ -17,19 +17,16 @@ class ChequeBloc extends Bloc<ChequeEvent, ChequeState> {
           requestState: ChequeRequestState.Loading,
           errorMessage: ''));
       try {
-        List<Cheque> cheques = await ChequeService.getAll();
+        var cheques = await ChequeService.getAll();
         emit(ChequeState(
             data: cheques,
             requestState: ChequeRequestState.Loaded,
             errorMessage: 'good'));
-      } catch (e) {
-        if (kDebugMode) {
-          print("error on block cheque bloc : $e");
-        }
+      } catch (e) { 
         emit(ChequeState(
             data: const [],
             requestState: ChequeRequestState.Error,
-            errorMessage: "error"));
+            errorMessage: e.toString()));
       }
     });
     on<LoadChequesFiltredEvent>((event, emit) async {
@@ -43,10 +40,7 @@ class ChequeBloc extends Bloc<ChequeEvent, ChequeState> {
             data: result,
             requestState: ChequeRequestState.Filtred,
             errorMessage: 'check filtred days ${event.days}'));
-      } catch (e) {
-        if (kDebugMode) {
-          print("error on block cheque bloc : $e");
-        }
+      } catch (e) { 
         emit(ChequeState(
             data: const [],
             requestState: ChequeRequestState.Error,
@@ -90,23 +84,14 @@ class ChequeBloc extends Bloc<ChequeEvent, ChequeState> {
         emit(ChequeState(
             data: state.data,
             requestState: ChequeRequestState.Adding,
-            errorMessage: ''));
-        if (kDebugMode) {
-          print("Adding cheque event");
-        }
+            errorMessage: '')); 
          await ChequeService.add(event.data);
          
           emit(ChequeState(
                       data: state.data,
                       requestState: ChequeRequestState.Added,
-                      errorMessage: ''));
-                  if (kDebugMode) {
-                    print("Adding cheque event");
-          }        
-      } catch (e) {
-        if (kDebugMode) {
-          print('errorr catch');
-        }
+                      errorMessage: ''));        
+      } catch (e) { 
         emit(ChequeState(
             data: state.data,
             requestState: ChequeRequestState.Error,
@@ -116,10 +101,7 @@ class ChequeBloc extends Bloc<ChequeEvent, ChequeState> {
 
     on<InitializingEvent>((event, emit) async {
       emit(ChequeState(
-          data: [], requestState: ChequeRequestState.None, errorMessage: ''));
-      if (kDebugMode) {
-        print("initializing event");
-      }
+          data: [], requestState: ChequeRequestState.None, errorMessage: '')); 
     });
 
     on<UpdateChequeEvent>((event, emit) async {

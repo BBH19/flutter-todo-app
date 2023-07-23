@@ -100,8 +100,7 @@ class ChequeBody extends StatelessWidget {
             Expanded(
               child: BlocBuilder<ChequeBloc, ChequeState>(
                   builder: (context, state) {
-                if (state.requestState == ChequeRequestState.Loading ||
-                    state.requestState == ChequeRequestState.Searching) {
+                if (state.isLoadingState) {
                   return SizedBox(
                     height: size.height * 0.5,
                     child: Center(
@@ -231,6 +230,7 @@ class ChequeBody extends StatelessWidget {
                   );
                 }
                 return ErrorWithRefreshButtonWidget(
+                  message: state.errorMessage,
                   button_function: () {
                     BlocProvider.of<ChequeBloc>(context)
                         .add(LoadChequesEvent());

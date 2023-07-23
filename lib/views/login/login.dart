@@ -191,11 +191,7 @@ class _UserLoginState extends State<UserLogin> {
             await DefaultAssetBundle.of(context).loadString("json/config.json");
         final data = await json.decode(jsonResult);
         await BaseService.ADD_DOMAIN(data["domain"]);
-      }
-
-      if (kDebugMode) {
-        await BaseService.ADD_DOMAIN("http://31.220.89.29:5000/");
-      }
+      }  
 
       GlobalParams.baseUrl = await BaseService.GET_DOMAIN();
 
@@ -212,11 +208,7 @@ class _UserLoginState extends State<UserLogin> {
         });
       }
 
-      if (kDebugMode && email == "" && password == "") {
-        email = "admin";
-        password = "admin";
-      }
-
+      
       emailController.text = email;
       passwordController.text = password;
 
