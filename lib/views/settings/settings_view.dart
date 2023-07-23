@@ -1,8 +1,8 @@
 import 'package:chequeproject/views/settings/service_base.dart';
 import 'package:chequeproject/widgets/config.dart';
-import 'package:chequeproject/widgets/underline_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:gmsoft_pkg/underline_text_field_widget.dart';
 
 class SettingsView extends StatefulWidget {
   static String Route = "/setting";

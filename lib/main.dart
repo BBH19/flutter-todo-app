@@ -8,12 +8,13 @@ import 'package:chequeproject/views/cheque_list_filtred.dart';
 import 'package:chequeproject/views/login/login.dart';
 import 'package:chequeproject/views/notification/notification.dart';
 import 'package:chequeproject/views/settings/settings_view.dart';
-import 'package:chequeproject/widgets/config.dart';
-import 'package:chequeproject/widgets/dashbord.dart';
+import 'package:chequeproject/widgets/config.dart'; 
 import 'package:chequeproject/widgets/drawer_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:badges/badges.dart' as badges;
+import 'package:gmsoft_pkg/config/menu.dart';
+import 'package:gmsoft_pkg/dashboard_item_view.dart';
 
 import 'blocs/Cheque/cheque_bloc.dart';
 
@@ -114,23 +115,12 @@ class HomePage extends StatelessWidget {
         ],
       ),
       body:
-          SingleChildScrollView(child: DashboardItemView(ButtonOption.Options)),
+          SingleChildScrollView(child: DashboardItemView(ButtonOptionDashboard.Options)),
     );
   }
 }
 
-class ButtonOption {
-  const ButtonOption(
-      {this.color = const Color(0xff6091AB),
-      this.iconData = Icons.ac_unit_sharp,
-      required this.text,
-      required this.route,
-      this.isVisible = true});
-  final Color color;
-  final String text;
-  final IconData iconData;
-  final String route;
-  final bool? isVisible;
+class ButtonOptionDashboard { 
 
   static List<ButtonOption> Options = const <ButtonOption>[
     ButtonOption(

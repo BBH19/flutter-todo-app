@@ -11,7 +11,7 @@ class ErrorWithRefreshButtonWidget extends StatelessWidget {
   }) : super(key: key);
 
   final VoidCallback button_function;
- String? message;
+  final String? message;
 
   @override
   Widget build(BuildContext context) {
