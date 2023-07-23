@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_final_fields, unused_import, unused_local_variable, must_be_immutable, non_constant_identifier_names, avoid_function_literals_in_foreach_calls
 import 'dart:io';
-import 'package:chequeproject/widgets/config.dart';
+import 'package:gmsoft_pkg/config/global_params.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 

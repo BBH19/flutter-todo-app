@@ -1,5 +1,5 @@
 // ignore_for_file: must_be_immutable
-import 'package:chequeproject/widgets/config.dart';
+import 'package:gmsoft_pkg/config/global_params.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swipe_action_cell/flutter_swipe_action_cell.dart';
 

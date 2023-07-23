@@ -1,6 +1,6 @@
 // ignore_for_file: unrelated_type_equality_checks
 
-import 'package:chequeproject/widgets/config.dart';
+import 'package:gmsoft_pkg/config/global_params.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

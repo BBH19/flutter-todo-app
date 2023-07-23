@@ -1,4 +1,4 @@
-import 'package:chequeproject/widgets/config.dart';
+import 'package:gmsoft_pkg/config/global_params.dart';
 import 'package:flutter/material.dart';
 
 class NotificationCard extends StatelessWidget {

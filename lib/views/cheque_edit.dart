@@ -5,7 +5,7 @@ import 'package:chequeproject/blocs/Cheque/cheque_event.dart';
 import 'package:chequeproject/blocs/Cheque/cheque_state.dart';
 import 'package:chequeproject/models/cheque.dart';
 import 'package:chequeproject/views/widgets/cheque_data_field.dart';
-import 'package:chequeproject/widgets/config.dart';
+import 'package:gmsoft_pkg/config/global_params.dart';
 import 'package:chequeproject/widgets/custom_alert_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

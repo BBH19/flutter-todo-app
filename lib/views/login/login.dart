@@ -3,7 +3,7 @@ import 'dart:convert';
 
 import 'package:chequeproject/main.dart';
 import 'package:chequeproject/views/settings/service_base.dart';
-import 'package:chequeproject/widgets/config.dart';
+import 'package:gmsoft_pkg/config/global_params.dart';
 import 'package:chequeproject/widgets/custom_alert_widget.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -191,7 +191,7 @@ class _UserLoginState extends State<UserLogin> {
             await DefaultAssetBundle.of(context).loadString("json/config.json");
         final data = await json.decode(jsonResult);
         await BaseService.ADD_DOMAIN(data["domain"]);
-      }  
+      }
 
       GlobalParams.baseUrl = await BaseService.GET_DOMAIN();
 
@@ -208,7 +208,6 @@ class _UserLoginState extends State<UserLogin> {
         });
       }
 
-      
       emailController.text = email;
       passwordController.text = password;
 

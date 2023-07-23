@@ -1,5 +1,5 @@
 import 'package:chequeproject/views/settings/service_base.dart';
-import 'package:chequeproject/widgets/config.dart';
+import 'package:gmsoft_pkg/config/global_params.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:gmsoft_pkg/underline_text_field_widget.dart';
@@ -45,7 +45,7 @@ class _SettingsView extends State<SettingsView> {
           "Paramétre",
           style: TextStyle(
             color: Colors.white,
-            fontFamily: GlobalParams.MainfontFamily,
+            fontFamily:"Open Sans",
           ),
         ),
         leading: IconButton(

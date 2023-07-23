@@ -3,7 +3,7 @@ import 'package:chequeproject/blocs/ChequeNotif/chequeNotif_bloc.dart';
 import 'package:chequeproject/blocs/ChequeNotif/chequeNotif_event.dart';
 import 'package:chequeproject/blocs/ChequeNotif/chequeNotif_state.dart';
 import 'package:chequeproject/models/cheque_notif.dart';
-import 'package:chequeproject/widgets/config.dart';
+import 'package:gmsoft_pkg/config/global_params.dart';
 import 'package:chequeproject/widgets/error_widget.dart';
 import 'package:chequeproject/widgets/notif_card_widget.dart';
 import 'package:flutter/material.dart';

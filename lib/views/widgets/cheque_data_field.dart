@@ -2,7 +2,7 @@
 
 import 'package:chequeproject/models/cheque.dart';
 import 'package:chequeproject/utils/widgect_helper.dart';
-import 'package:chequeproject/widgets/config.dart'; 
+import 'package:gmsoft_pkg/config/global_params.dart';
 import 'package:chequeproject/widgets/file_picker_widget.dart';
 import 'package:chequeproject/widgets/textfield_widget.dart';
 import 'package:file_picker/file_picker.dart';
@@ -271,8 +271,8 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                                 receptDateController.text.isEmpty;
                           },
                         ),
-                        sizedBox002, 
-                        DatePickerWidget( 
+                        sizedBox002,
+                        DatePickerWidget(
                           obj: cheque,
                           controller: echeanceDateController,
                           labeltext: 'Date Echeance',

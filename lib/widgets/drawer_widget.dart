@@ -1,5 +1,5 @@
-import 'package:chequeproject/widgets/config.dart';
 import 'package:flutter/material.dart';
+import 'package:gmsoft_pkg/config/global_params.dart';
 
 class MyDrawer extends StatelessWidget {
   @override

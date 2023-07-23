@@ -1,7 +1,7 @@
 // ignore_for_file: unused_import, unnecessary_const, avoid_print, non_constant_identifier_names
 
 import 'package:chequeproject/main.dart';
-import 'package:chequeproject/widgets/config.dart';
+import 'package:gmsoft_pkg/config/global_params.dart';
 import 'package:flutter/material.dart';
 import 'package:gmsoft_pkg/config/menu.dart';
 

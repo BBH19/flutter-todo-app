@@ -8,7 +8,7 @@ import 'package:chequeproject/views/cheque_list_filtred.dart';
 import 'package:chequeproject/views/login/login.dart';
 import 'package:chequeproject/views/notification/notification.dart';
 import 'package:chequeproject/views/settings/settings_view.dart';
-import 'package:chequeproject/widgets/config.dart'; 
+import 'package:gmsoft_pkg/config/global_params.dart';
 import 'package:chequeproject/widgets/drawer_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -66,9 +66,9 @@ class HomePage extends StatelessWidget {
         backgroundColor: GlobalParams.GlobalColor,
         title: const Text(
           "Accueil",
-          style: TextStyle(
+          style:const TextStyle(
             color: Colors.white,
-            fontFamily: GlobalParams.MainfontFamily,
+            fontFamily: "Open Sans",//GlobalParams.MainfontFamily,
           ),
         ),
         actions: [
@@ -114,14 +114,13 @@ class HomePage extends StatelessWidget {
               icon: const Icon(Icons.settings))
         ],
       ),
-      body:
-          SingleChildScrollView(child: DashboardItemView(ButtonOptionDashboard.Options)),
+      body: SingleChildScrollView(
+          child: DashboardItemView(ButtonOptionDashboard.Options)),
     );
   }
 }
 
-class ButtonOptionDashboard { 
-
+class ButtonOptionDashboard {
   static List<ButtonOption> Options = const <ButtonOption>[
     ButtonOption(
       route: "/listing",

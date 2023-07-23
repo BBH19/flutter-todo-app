@@ -7,7 +7,7 @@ import 'package:chequeproject/models/cheque.dart';
 import 'package:chequeproject/views/cheque_edit.dart';
 import 'package:chequeproject/views/cheque_items.dart';
 import 'package:chequeproject/widgets/botom_modal_widget_child.dart';
-import 'package:chequeproject/widgets/config.dart';
+import 'package:gmsoft_pkg/config/global_params.dart';
 import 'package:chequeproject/widgets/error_widget.dart';
 import 'package:chequeproject/widgets/itemcard_widget.dart';
 import 'package:chequeproject/widgets/search.dart';

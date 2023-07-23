@@ -1,7 +1,7 @@
 // ignore_for_file: non_constant_identifier_names
 
-import 'package:chequeproject/widgets/config.dart';
 import 'package:flutter/material.dart';
+import 'package:gmsoft_pkg/config/global_params.dart';
 
 class ErrorWithRefreshButtonWidget extends StatelessWidget {
   const ErrorWithRefreshButtonWidget({
