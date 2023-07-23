@@ -256,6 +256,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.2"
+  gmsoft_pkg:
+    dependency: "direct main"
+    description:
+      name: gmsoft_pkg
+      sha256: "9580fe907fd87491fe4b40f60ccacb1e8d458dcd75e93d5a25c468354cc8e888"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.9"
   google_fonts:
     dependency: transitive
     description:

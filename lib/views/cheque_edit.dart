@@ -9,6 +9,7 @@ import 'package:chequeproject/widgets/config.dart';
 import 'package:chequeproject/widgets/custom_alert_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 class ChequeEditPage extends StatefulWidget {
@@ -45,7 +46,7 @@ class _ChequeEditPage extends State<ChequeEditPage> {
           attachement: '');
     }
     String error = isUpdate ? 'Erreur de modification' : 'Erreur d\'ajout';
-
+    
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: GlobalParams.backgroundColor,
@@ -54,7 +55,7 @@ class _ChequeEditPage extends State<ChequeEditPage> {
         backgroundColor: GlobalParams.GlobalColor,
         elevation: 0,
         title: Text(
-          isUpdate ? "Chéque N° ${widget.currentObj!.id}" : "Nouveau Chéque",
+          isUpdate ? "Chéque N° ${widget.currentObj!.num}" : "Nouveau Chéque",
           style: const TextStyle(
               fontWeight: FontWeight.w600,
               fontSize: 19,
@@ -85,7 +86,6 @@ class _ChequeEditPage extends State<ChequeEditPage> {
                       .replaceFirst('T', ' ');
                   widget.currentObj!.attachement =
                       ChequeDataFieldState.attachementController.text;
-
                   isUpdate
                       ? BlocProvider.of<ChequeBloc>(context)
                           .add(UpdateChequeEvent(
@@ -96,7 +96,7 @@ class _ChequeEditPage extends State<ChequeEditPage> {
                         ));
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                    content: Text('Tous les champs sont requis'),
+                    content: Text('Des champs requis'),
                     backgroundColor: Colors.red,
                   ));
                   await CustomAlert.show(
@@ -123,12 +123,12 @@ class _ChequeEditPage extends State<ChequeEditPage> {
                 if (state.requestState == ChequeRequestState.Adding ||
                     state.requestState == ChequeRequestState.Loading ||
                     state.requestState == ChequeRequestState.Updating) {
-                  // SizedBox(
-                  //   height: size.height * 0.5,
-                  //   child: Center(
-                  //     child: Lottie.asset('assets/animations/loader.json'),
-                  //   ),
-                  //);
+                  SizedBox(
+                    height: size.height * 0.5,
+                    child: Center(
+                      child: Lottie.asset('assets/animations/loader.json'),
+                    ),
+                  );
                 } else if (state.requestState == ChequeRequestState.Error) {
                   await CustomAlert.show(
                       context: context,

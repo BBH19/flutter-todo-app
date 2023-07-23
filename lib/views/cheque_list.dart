@@ -6,7 +6,6 @@ import 'package:chequeproject/blocs/Cheque/cheque_state.dart';
 import 'package:chequeproject/models/cheque.dart';
 import 'package:chequeproject/views/cheque_edit.dart';
 import 'package:chequeproject/views/cheque_items.dart';
-import 'package:chequeproject/widgets/botom_modal_widget.dart';
 import 'package:chequeproject/widgets/botom_modal_widget_child.dart';
 import 'package:chequeproject/widgets/config.dart';
 import 'package:chequeproject/widgets/error_widget.dart';
@@ -15,7 +14,7 @@ import 'package:chequeproject/widgets/itemcard_widget.dart';
 import 'package:chequeproject/widgets/search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_swipe_action_cell/flutter_swipe_action_cell.dart';
+import 'package:gmsoft_pkg/bottom_modal_widget.dart';
 import 'package:lottie/lottie.dart';
 
 class Cheques extends StatelessWidget {

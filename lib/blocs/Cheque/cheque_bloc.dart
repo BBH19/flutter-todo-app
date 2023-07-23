@@ -66,10 +66,9 @@ class ChequeBloc extends Bloc<ChequeEvent, ChequeState> {
         for (var i = 0; i < event.data.length; i++) {
           var cheque = event.data[i];
           var searchValue = event.searchValue.toLowerCase();
-
-          if (cheque.client!.toLowerCase().startsWith(searchValue) ||
-              cheque.holder!.toLowerCase().startsWith(searchValue) ||
-              cheque.id!.toString().toLowerCase().startsWith(searchValue)) {
+          if (cheque.client!.toLowerCase().contains(searchValue) ||
+              cheque.holder!.toLowerCase().contains(searchValue) ||
+              cheque.num!.toString().toLowerCase().contains(searchValue)) {
             searchResult.add(event.data[i]);
           }
         }

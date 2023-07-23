@@ -3,8 +3,7 @@
 import 'package:chequeproject/models/cheque.dart';
 import 'package:chequeproject/utils/widgect_helper.dart';
 import 'package:chequeproject/widgets/config.dart';
-import 'package:chequeproject/widgets/datepicker_widget.dart';
-import 'package:chequeproject/widgets/dropdown_widget.dart';
+import 'package:chequeproject/widgets/datepicker_widget.dart'; 
 import 'package:chequeproject/widgets/file_picker_widget.dart';
 import 'package:chequeproject/widgets/textfield_widget.dart';
 import 'package:flutter/material.dart';
@@ -98,10 +97,9 @@ class ChequeDataFieldState extends State<ChequeDataField> {
   //love u :*
 
   bool checkCanEdit() {
-    bool canEdit = false;
-    var echeance = DateTime.tryParse(echeanceDateController.text);
-
-    if (echeance != null) canEdit = echeance.isBefore(DateTime.now());
+    bool canEdit = true;
+    // var echeance = DateTime.tryParse(echeanceDateController.text); 
+    // if (echeance != null) canEdit = echeance.isBefore(DateTime.now());
 
     return canEdit;
   }
@@ -193,7 +191,7 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                   }
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                    content: Text('Tous les champs sont requis'),
+                    content: Text('Des champs requis'),
                     backgroundColor: Colors.red,
                   ));
                 }
@@ -219,11 +217,10 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                           validator: (value) =>
                               validators.validateNumber(value),
                           obj: cheque,
-                          enabled: !isUpdate,
                           controller: numController,
                           labeltext: 'N° de Cheque',
                           valuetext:
-                              cheque.id == null ? "" : cheque.id.toString(),
+                              cheque.num??"",
                           keyboardType: const TextInputType.numberWithOptions(
                               signed: false, decimal: true),
                         ),
@@ -273,7 +270,7 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                         ),
                         sizedBox002,
                         DatePickerWidget(
-                          validator: (value) => validators.validateField(value),
+                          // validator: (value) => validators.validateField(value),
                           obj: cheque,
                           controller: echeanceDateController,
                           labeltext: 'Date Echeance',

@@ -82,7 +82,8 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
             setState(() {
               DateTime selectedTime = DateTime.now();
               selectedDate = DateTime(picked.year, picked.month, picked.day,
-                  selectedTime.hour, selectedTime.minute, selectedTime.second);
+                  selectedTime.hour, selectedTime.minute, 
+                  selectedTime.second);
               widget.controller.text = formatter.format(selectedDate);
             });
             if (widget.onChanged != null) {

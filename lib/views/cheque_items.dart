@@ -24,7 +24,7 @@ class _ChequeItemState extends State<ChequeItem> {
     return Scaffold(
         appBar: AppBar(
           title: Text(
-            "Cheque N° : ${widget.cheque.id!}",
+            "Cheque N° : ${widget.cheque.num!}",
             style: const TextStyle(fontSize: 16),
           ),
           backgroundColor: GlobalParams.GlobalColor,
@@ -75,7 +75,7 @@ class PageOneState extends State<PageOne> {
       child: ListView(children: <Widget>[
         DetailsCard(
           key_: 'N° Chéque ',
-          value: widget.cheque.id.toString(),
+          value: widget.cheque.num.toString(),
           minwidth: 120,
         ),
         DetailsCard(
