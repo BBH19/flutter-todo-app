@@ -5,6 +5,7 @@ import 'package:gmsoft_pkg/config/global_params.dart';
 import 'package:chequeproject/models/cheque.dart';
 
 class ChequeService {
+  static dynamic header={'content-type': 'application/json'};
   static Future<List<Cheque>> getAll() async {
     List<Cheque>? list;
     var res = await http.get(Uri.parse('${GlobalParams.baseUrl}cheque'));
@@ -23,8 +24,7 @@ class ChequeService {
     List<Cheque>? list;
     var res = await http
         .get(Uri.parse('${GlobalParams.baseUrl}cheque/echeance/$days'));
-    var json_data = json.decode(res.body);
-    //print(json_data);
+    var json_data = json.decode(res.body); 
     if (res.statusCode == 200) {
       var data = json_data as List;
       list = data.map<Cheque>((json) => Cheque.fromJson(json)).toList();
@@ -40,7 +40,7 @@ class ChequeService {
     final response = await http.post(
       Uri.parse('${GlobalParams.baseUrl}cheque'),
       body: body,
-      headers: {'content-type': 'application/json'},
+      headers:ChequeService.header,
     );
     if (response.statusCode == 200) {
       return true;
@@ -54,7 +54,7 @@ class ChequeService {
     var body = json.encode(cheque.toJson());
 
     var res = await http.put(Uri.parse(url),
-        body: body, headers: {'content-type': 'application/json'});
+        body: body,  headers:ChequeService.header, );
 
     if (res.statusCode == 200) {
       return true;

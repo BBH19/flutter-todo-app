@@ -27,6 +27,8 @@ class MyApp extends StatelessWidget {
   TextStyle style = TextStyle(fontSize: 13, fontWeight: FontWeight.normal);
   @override
   Widget build(BuildContext context) {
+    GlobalParams.GlobalColor = const Color(0xFF6E4168);
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -66,9 +68,9 @@ class HomePage extends StatelessWidget {
         backgroundColor: GlobalParams.GlobalColor,
         title: const Text(
           "Accueil",
-          style:const TextStyle(
+          style: const TextStyle(
             color: Colors.white,
-            fontFamily: "Open Sans",//GlobalParams.MainfontFamily,
+            fontFamily: "Open Sans", //GlobalParams.MainfontFamily,
           ),
         ),
         actions: [

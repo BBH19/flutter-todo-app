@@ -75,10 +75,16 @@ class ChequeBody extends StatelessWidget {
   }) : super(key: key);
   final Size size;
   GlobalKey<FormState> formState = GlobalKey<FormState>();
-  int index = 1;
+
+  int daysBetween(DateTime from, DateTime to) {
+    from = DateTime(from.year, from.month, from.day);
+    to = DateTime(to.year, to.month, to.day);
+    return (to.difference(from).inHours / 24).round();
+  }
 
   @override
   Widget build(BuildContext context) {
+    var dateNow = DateTime.now();
     BuildContext _context = context;
     return Material(
       child: Container(
@@ -201,9 +207,11 @@ class ChequeBody extends StatelessWidget {
                                 size * 0.40);
                           },
                           size: size,
-                          var1: currentItem.num,
+                          var1:
+                              '${currentItem.num ?? ''} | Prêt le ${currentItem.echeanceDate ?? currentItem.receptDate}',
                           var2: '${currentItem.client} | ${currentItem.holder}',
-                          var3: currentItem.isPayed,
+                          var3:
+                              'Reste ${daysBetween(dateNow, DateTime.tryParse(currentItem.echeanceDate ?? "") ?? dateNow)} Jour(s) | Payment: ${currentItem.isPayed}',
                           icon: currentItem.isPayed == 'Payé '
                               ? const Icon(
                                   Icons.check,
@@ -222,7 +230,7 @@ class ChequeBody extends StatelessWidget {
                                       color: Colors.red,
                                     ),
                           var4:
-                              '${chequeList[index].montant} | ${chequeList[index].receptDate}',
+                              '${currentItem.montant} DHS |Reçu le ${currentItem.receptDate}',
                           color: GlobalParams.GlobalColor,
                         );
                       },

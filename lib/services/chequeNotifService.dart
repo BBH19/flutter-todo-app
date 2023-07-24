@@ -1,18 +1,16 @@
-// ignore_for_file: non_constant_identifier_names, avoid_print
 import 'dart:convert';
 import 'package:chequeproject/models/cheque_notif.dart';
 import 'package:gmsoft_pkg/config/global_params.dart';
-import 'package:http/http.dart' as http;
-import 'package:chequeproject/models/cheque.dart';
+import 'package:http/http.dart' as http; 
 
 class ChequeNotifService {
   static Future<List<ChequeNotif>> getAll() async {
     List<ChequeNotif>? list;
     var res = await http.get(Uri.parse('${GlobalParams.baseUrl}notif'));
-    var json_data = json.decode(res.body);
+    var result = json.decode(res.body);
     //print(json_data);
     if (res.statusCode == 200) {
-      var data = json_data as List;
+      var data = result as List;
       list =
           data.map<ChequeNotif>((json) => ChequeNotif.fromJson(json)).toList();
       print(list);
