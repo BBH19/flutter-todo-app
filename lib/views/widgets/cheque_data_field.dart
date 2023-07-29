@@ -2,13 +2,17 @@
 
 import 'package:chequeproject/models/cheque.dart';
 import 'package:chequeproject/utils/widgect_helper.dart';
+import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
+import 'package:gap/gap.dart';
 import 'package:gmsoft_pkg/config/global_params.dart';
-import 'package:chequeproject/widgets/file_picker_widget.dart';
 import 'package:chequeproject/widgets/textfield_widget.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:chequeproject/utils/validators.dart';
 import 'package:gmsoft_pkg/datepicker_widget.dart';
+import 'package:gmsoft_pkg/text_picker_widget.dart';
+
+import '../../services/helper_service.dart';
 
 class ChequeDataField extends StatefulWidget {
   final Cheque cheque;
@@ -28,32 +32,9 @@ class ChequeDataField extends StatefulWidget {
       ChequeDataFieldState(cheque, isUpdate, formKey ?? GlobalKey<FormState>());
 }
 
-class ChequeDataFieldState extends State<ChequeDataField> {
-  List<String> paymentStatusList = <String>[
-    'En cours',
-    'Payé ',
-    'Non Payé',
-    'Effacé'
-  ];
-  List<String> bankList = <String>[
-    'Choisir Banque',
-    'ARAB BANK MAROC',
-    'ATTIJARIWAFA BANK',
-    'AL BARID BANK',
-    'BANQUE POPULAIRE',
-    'BANK OF AFRICA',
-    'BMCI',
-    'CREDIT AGRICOLE',
-    'CIH',
-    'CREDIT DU MAROC',
-    'SOCIETE GENERALE',
-    'CFG BANK',
-    'BANK ASSAFA',
-    'AL AKHDAR BANK',
-    'UMNIA BANK',
-    'BANK AL YOUSR',
-  ];
+enum SingingCharacter { lafayette, jefferson }
 
+class ChequeDataFieldState extends State<ChequeDataField> {
   TextEditingController dateinput = TextEditingController();
   var dateRange = DateTime.now();
   DateTime? receptDate;
@@ -61,6 +42,8 @@ class ChequeDataFieldState extends State<ChequeDataField> {
   DateTime? paiementDate;
   String selectedPaymentMode = "";
   String selectedBank = "";
+
+  SingingCharacter? _character = SingingCharacter.lafayette;
 
   List<bool> hide = [false, true];
   GlobalKey<FormState> _formKey;
@@ -73,6 +56,7 @@ class ChequeDataFieldState extends State<ChequeDataField> {
   late bool isUpdate;
   static TextEditingController numController = TextEditingController();
   static TextEditingController clientController = TextEditingController();
+  static TextEditingController forwardToController = TextEditingController();
   static TextEditingController holderController = TextEditingController();
   static TextEditingController montantController = TextEditingController();
   static TextEditingController receptDateController = TextEditingController();
@@ -80,10 +64,12 @@ class ChequeDataFieldState extends State<ChequeDataField> {
   static TextEditingController paymentDateController = TextEditingController();
   static TextEditingController attachementController = TextEditingController();
   static TextEditingController reasonController = TextEditingController();
+  static TextEditingController paymentReasonController =
+      TextEditingController();
 
   ChequeDataFieldState(this.cheque, this.isUpdate, this._formKey) {
     late bool isEmptyOrNull = cheque.bank == null || cheque.bank!.isEmpty;
-    this._formKey = _formKey;
+
     numController.text = cheque.num == null ? "" : cheque.num.toString();
     clientController.text = cheque.client ?? "";
     holderController.text = cheque.holder ?? "";
@@ -93,9 +79,13 @@ class ChequeDataFieldState extends State<ChequeDataField> {
     echeanceDateController.text = cheque.echeanceDate ?? "";
     paymentDateController.text = cheque.paymentDate ?? "";
     attachementController.text = cheque.attachement ?? "";
+    paymentReasonController.text = cheque.reasonPayment ?? "";
     reasonController.text = cheque.reason ?? "";
-    selectedPaymentMode = isUpdate ? cheque.isPayed! : paymentStatusList.first;
-    selectedBank = !isUpdate || isEmptyOrNull ? bankList.first : cheque.bank!;
+    selectedPaymentMode =
+        isUpdate ? cheque.isPayed! : HelperService.paymentStatusList.first;
+    selectedBank = !isUpdate || isEmptyOrNull
+        ? HelperService.bankList.first
+        : cheque.bank!;
   }
   //love u :*
 
@@ -144,7 +134,6 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                   children: <Widget>[
                     const SizedBox(height: 88.0),
                     Container(
-                      // height: 40,
                       width: MediaQuery.of(context).size.width * 0.33,
                       child: TextButton(
                         style: TextButton.styleFrom(
@@ -163,7 +152,6 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                     ),
                     const Spacer(),
                     Container(
-                      //height: 40,
                       width: MediaQuery.of(context).size.width * 0.33,
                       child: TextButton(
                         style: TextButton.styleFrom(
@@ -210,20 +198,10 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                   isActive: widget.index >= 0,
                   title: Text('Général',
                       style: TextStyle(color: GlobalParams.GlobalColor)),
-                  content: Container(
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                        TextFieldWidget(
-                          validator: (value) =>
-                              validators.validateNumber(value),
-                          obj: cheque,
-                          controller: numController,
-                          labeltext: 'N° de Cheque',
-                          valuetext: cheque.num ?? "",
-                          keyboardType: const TextInputType.numberWithOptions(
-                              signed: false, decimal: true),
-                        ),
+                  content: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        getChequeOrEffetWidget(),
                         sizedBox002,
                         TextFieldWidget(
                           validator: (value) => validators.validateField(value),
@@ -258,47 +236,7 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                               signed: false, decimal: true),
                         ),
                         sizedBox002,
-                        DatePickerWidget(
-                          validator: (value) => validators.validateField(value),
-                          obj: cheque,
-                          controller: receptDateController,
-                          labeltext: 'Date Reception',
-                          valuetext: cheque.receptDate ?? "",
-                          keyboardType: const TextInputType.numberWithOptions(
-                              signed: false, decimal: true),
-                          onChanged: (date) {
-                            isReceptionDateFieldFilled =
-                                receptDateController.text.isEmpty;
-                          },
-                        ),
-                        sizedBox002,
-                        DatePickerWidget(
-                          obj: cheque,
-                          controller: echeanceDateController,
-                          labeltext: 'Date Echeance',
-                          valuetext: cheque.echeanceDate ?? "",
-                          keyboardType: const TextInputType.numberWithOptions(
-                            signed: false,
-                            decimal: true,
-                          ),
-                          onChanged: (date) {
-                            isEcheanceDateFieldFilled =
-                                echeanceDateController.text.isEmpty;
-                            var receptionDate = DateTime.tryParse(
-                                ChequeDataFieldState.receptDateController.text);
-
-                            if (receptionDate != null &&
-                                date.isBefore(receptionDate)) {
-                              echeanceDateController.text = "";
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(const SnackBar(
-                                content: Text(
-                                    'La date doit être antérieure à la date actuelle'),
-                                backgroundColor: Colors.red,
-                              ));
-                            }
-                          },
-                        ),
+                        getDatesWidget(),
                         sizedBox002,
                         SizedBox(
                           height: 35,
@@ -319,8 +257,9 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                                     widget.cheque.bank = newValue;
                                   });
                                 },
-                                items: bankList.map<DropdownMenuItem<String>>(
-                                    (String value) {
+                                items: HelperService.bankList
+                                    .map<DropdownMenuItem<String>>(
+                                        (String value) {
                                   return DropdownMenuItem<String>(
                                     value: value,
                                     child: Text(
@@ -369,7 +308,7 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                             on_changed_function: () async {
                               reasonController.text = '';
                             }),
-                      ])),
+                      ]),
                 ),
                 Step(
                   state: widget.index <= 1
@@ -401,7 +340,7 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                                         widget.cheque.isPayed = newValue;
                                       });
                                     },
-                              items: paymentStatusList
+                              items: HelperService.paymentStatusList
                                   .map<DropdownMenuItem<String>>(
                                       (String value) {
                                 return DropdownMenuItem<String>(
@@ -440,6 +379,25 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                         },
                       ),
                       sizedBox002,
+                      TextFieldWidget(
+                        obj: cheque,
+                        controller: forwardToController,
+                        labeltext: 'Récépteur',
+                        valuetext: cheque.forwardTo ?? "",
+                        keyboardType: TextInputType.name,
+                      ),
+                      sizedBox002,
+                      TextPickerWidget(
+                          obj: cheque,
+                          height: null,
+                          controller: paymentReasonController,
+                          labeltext: 'Remarque',
+                          valuetext: cheque.reasonPayment ?? "",
+                          maxLines: 4,
+                          keyboardType: TextInputType.none,
+                          on_changed_function: () async {
+                            paymentReasonController.text = '';
+                          }),
                     ]),
                   ),
                 ),
@@ -447,5 +405,103 @@ class ChequeDataFieldState extends State<ChequeDataField> {
             ),
           ),
         ));
+  }
+
+  getDatesWidget() {
+    return Padding(
+        padding: const EdgeInsets.only(top: 8.0),
+        child: Row(children: [
+          Expanded(
+              child: DatePickerWidget(
+            validator: (value) => validators.validateField(value),
+            obj: cheque,
+            controller: receptDateController,
+            labeltext: 'Date Reception',
+            valuetext: cheque.receptDate ?? "",
+            keyboardType: const TextInputType.numberWithOptions(
+                signed: false, decimal: true),
+            onChanged: (date) {
+              isReceptionDateFieldFilled = receptDateController.text.isEmpty;
+            },
+          )),
+          SizedBox(
+            width: 10,
+          ),
+          Expanded(
+            child: DatePickerWidget(
+              obj: cheque,
+              controller: echeanceDateController,
+              labeltext: 'Date Echeance',
+              valuetext: cheque.echeanceDate ?? "",
+              keyboardType: const TextInputType.numberWithOptions(
+                signed: false,
+                decimal: true,
+              ),
+              onChanged: (date) {
+                isEcheanceDateFieldFilled = echeanceDateController.text.isEmpty;
+                var receptionDate = DateTime.tryParse(
+                    ChequeDataFieldState.receptDateController.text);
+
+                if (receptionDate != null && date.isBefore(receptionDate)) {
+                  echeanceDateController.text = "";
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content:
+                        Text('La date doit être antérieure à la date actuelle'),
+                    backgroundColor: Colors.red,
+                  ));
+                }
+              },
+            ),
+          )
+        ]));
+  }
+
+  getChequeOrEffetWidget() {
+    return Padding(
+      padding: const EdgeInsets.only(top: 8.0),
+      child: Row(
+        children: [
+          Expanded(
+            child: TextFieldWidget(
+              validator: (value) => validators.validateNumber(value),
+              obj: cheque,
+              controller: numController,
+              labeltext: 'N° de Cheque',
+              valuetext: cheque.num ?? "",
+              keyboardType: const TextInputType.numberWithOptions(
+                  signed: false, decimal: true),
+            ),
+          ),
+          const SizedBox(
+            width: 10,
+          ),
+          CustomRadioButton(
+            elevation: 0,
+            absoluteZeroSpacing: true,
+            selectedBorderColor: GlobalParams.GlobalColor,
+            unSelectedBorderColor: GlobalParams.GlobalColor,
+            unSelectedColor: Theme.of(context).canvasColor,
+            defaultSelected: widget.cheque.isEffet,
+            buttonLables: const [
+              'Cheque',
+              'Effet',
+            ],
+            buttonValues: const [
+              "Cheque",
+              "Effet",
+            ],
+            buttonTextStyle: const ButtonTextStyle(
+                selectedColor: Colors.white,
+                unSelectedColor: Colors.black,
+                textStyle: TextStyle(fontSize: 16)),
+            radioButtonValue: (value) {
+              print(value);
+              widget.cheque.isEffet = value;
+            },
+            selectedColor: GlobalParams.GlobalColor,
+          ),
+        ],
+      ),
+    );
   }
 }

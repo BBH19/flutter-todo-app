@@ -6,9 +6,9 @@ import 'package:chequeproject/models/cheque.dart';
 
 class ChequeService {
   static dynamic header={'content-type': 'application/json'};
-  static Future<List<Cheque>> getAll() async {
+  static Future<List<Cheque>> getAll(String param) async {
     List<Cheque>? list;
-    var res = await http.get(Uri.parse('${GlobalParams.baseUrl}cheque'));
+    var res = await http.get(Uri.parse('${GlobalParams.baseUrl}cheque/$param'));
     var json_data = json.decode(res.body);
     if (res.statusCode == 200) {
       var data = json_data as List;

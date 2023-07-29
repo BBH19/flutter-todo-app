@@ -3,10 +3,10 @@ import 'dart:convert';
 
 import 'package:chequeproject/main.dart';
 import 'package:chequeproject/views/settings/service_base.dart';
-import 'package:gmsoft_pkg/config/global_params.dart';
-import 'package:chequeproject/widgets/custom_alert_widget.dart';
+import 'package:gmsoft_pkg/config/global_params.dart'; 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:gmsoft_pkg/custom_alert_widget.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:chequeproject/utils/validators.dart';

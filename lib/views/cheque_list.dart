@@ -6,15 +6,15 @@ import 'package:chequeproject/blocs/Cheque/cheque_state.dart';
 import 'package:chequeproject/models/cheque.dart';
 import 'package:chequeproject/views/cheque_edit.dart';
 import 'package:chequeproject/views/cheque_items.dart';
-import 'package:chequeproject/widgets/botom_modal_widget_child.dart';
+import 'package:gmsoft_pkg/botom_modal_widget_child.dart';
 import 'package:gmsoft_pkg/config/global_params.dart';
-import 'package:chequeproject/widgets/error_widget.dart';
 import 'package:chequeproject/widgets/itemcard_widget.dart';
-import 'package:chequeproject/widgets/search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gmsoft_pkg/bottom_modal_widget.dart';
+import 'package:gmsoft_pkg/error_with_refresh_button_widget.dart';
 import 'package:gmsoft_pkg/header_widget.dart';
+import 'package:gmsoft_pkg/search_field_widget.dart';
 import 'package:lottie/lottie.dart';
 
 class Cheques extends StatelessWidget {
@@ -24,10 +24,13 @@ class Cheques extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final args = ModalRoute.of(context)?.settings.arguments as String?;
+
     Size size = MediaQuery.of(context).size;
     return BlocProvider(
-      create: (context) => ChequeBloc()..add(LoadChequesEvent()),
-      child: _chequeHome(size: size),
+      create: (context) =>
+          ChequeBloc()..add(LoadChequesEvent(route: args ?? "")),
+      child: _chequeHome(size: size, route: args ?? ""),
     );
   }
 }
@@ -37,7 +40,9 @@ class _chequeHome extends StatelessWidget {
   _chequeHome({
     Key? key,
     required this.size,
+    required this.route,
   }) : super(key: key);
+  final String route;
   final Size size;
 
   @override
@@ -63,17 +68,10 @@ class _chequeHome extends StatelessWidget {
           ),
         ],
       ),
-      body: ChequeBody(size: size),
+      body: body(context),
     ));
   }
-}
 
-class ChequeBody extends StatelessWidget {
-  ChequeBody({
-    Key? key,
-    required this.size,
-  }) : super(key: key);
-  final Size size;
   GlobalKey<FormState> formState = GlobalKey<FormState>();
 
   int daysBetween(DateTime from, DateTime to) {
@@ -82,10 +80,8 @@ class ChequeBody extends StatelessWidget {
     return (to.difference(from).inHours / 24).round();
   }
 
-  @override
-  Widget build(BuildContext context) {
+  Widget body(BuildContext _context) {
     var dateNow = DateTime.now();
-    BuildContext _context = context;
     return Material(
       child: Container(
         height: size.height,
@@ -95,11 +91,12 @@ class ChequeBody extends StatelessWidget {
             Header(
               size: size / 1.5,
               child: SearchField(
+                  useDate: false,
                   size: size / 1.4,
                   onchanged_function: (String value) {
-                    BlocProvider.of<ChequeBloc>(context).add(
+                    BlocProvider.of<ChequeBloc>(_context).add(
                       SearchChequeEvent(value,
-                          BlocProvider.of<ChequeBloc>(context).state.data),
+                          BlocProvider.of<ChequeBloc>(_context).state.data),
                     );
                   }),
             ),
@@ -164,7 +161,7 @@ class ChequeBody extends StatelessWidget {
                                                     BlocProvider.of<ChequeBloc>(
                                                         _context),
                                                 child: ChequeItem(
-                                                  cheque: chequeList[index],
+                                                  cheque: currentItem,
                                                 ),
                                               );
                                             }));
@@ -175,13 +172,9 @@ class ChequeBody extends StatelessWidget {
                                           onTap: () {
                                             Navigator.push(_context,
                                                 MaterialPageRoute(
-                                                    builder: (context) {
-                                              return BlocProvider.value(
-                                                  value: BlocProvider.of<
-                                                      ChequeBloc>(_context),
-                                                  child: ChequeEditPage(
-                                                    currentObj: currentItem,
-                                                  ));
+                                                    builder: (rContext) {
+                                              return getCurrentItem(
+                                                  _context, currentItem);
                                             }));
                                           }),
                                       ModalBottomChildWidget(
@@ -191,14 +184,10 @@ class ChequeBody extends StatelessWidget {
                                           onTap: () {
                                             Navigator.push(_context,
                                                 MaterialPageRoute(
-                                                    builder: (context) {
-                                              return BlocProvider.value(
-                                                  value: BlocProvider.of<
-                                                      ChequeBloc>(_context),
-                                                  child: ChequeEditPage(
-                                                    currentObj: currentItem,
-                                                    index: 1,
-                                                  ));
+                                                    builder: (rContext) {
+                                              return getCurrentItem(
+                                                  _context, currentItem,
+                                                  index: 1);
                                             }));
                                           }),
                                     ],
@@ -208,8 +197,10 @@ class ChequeBody extends StatelessWidget {
                           },
                           size: size,
                           var1:
-                              '${currentItem.num ?? ''} | Prêt le ${currentItem.echeanceDate ?? currentItem.receptDate}',
-                          var2: '${currentItem.client} | ${currentItem.holder}',
+                              '${currentItem.num ?? ''} | ${currentItem.isEffet == 'Effet' ? 'EF' : 'CE'} | Prêt le ${currentItem.echeanceDate ?? currentItem.receptDate}',
+                          var2: currentItem.client == currentItem.holder
+                              ? currentItem.client
+                              : '${currentItem.client} | ${currentItem.holder}',
                           var3:
                               'Reste ${daysBetween(dateNow, DateTime.tryParse(currentItem.echeanceDate ?? "") ?? dateNow)} Jour(s) | Payment: ${currentItem.isPayed}',
                           icon: currentItem.isPayed == 'Payé '
@@ -241,7 +232,7 @@ class ChequeBody extends StatelessWidget {
                   message: state.errorMessage,
                   button_function: () {
                     BlocProvider.of<ChequeBloc>(context)
-                        .add(LoadChequesEvent());
+                        .add(LoadChequesEvent(route: route));
                   },
                 );
               }),
@@ -250,5 +241,14 @@ class ChequeBody extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  getCurrentItem(BuildContext _context, Cheque currentItem, {int index = 0}) {
+    return BlocProvider.value(
+        value: BlocProvider.of<ChequeBloc>(_context),
+        child: ChequeEditPage(
+          currentObj: currentItem,
+          index: index,
+        ));
   }
 }

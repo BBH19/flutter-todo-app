@@ -10,9 +10,12 @@ class Cheque {
   String? echeanceDate;
   String? bank;
   String? isPayed;
+  String? isEffet;
   String? paymentDate;
   String? attachement;
   String? reason;
+  String? reasonPayment;
+  String? forwardTo;
 
   Cheque(
       {this.id,
@@ -24,6 +27,9 @@ class Cheque {
       this.echeanceDate,
       this.bank,
       this.isPayed,
+      this.isEffet,
+      this.forwardTo,
+      this.reasonPayment, 
       this.paymentDate,
       this.attachement,
       this.reason});
@@ -38,13 +44,15 @@ class Cheque {
     echeanceDate = json['echeance_date'];
     bank = json['bank'];
     isPayed = json['is_payed'];
+    isEffet = json['is_effet'];
+    forwardTo= json['forward_to'];
     paymentDate = json['payment_date'];
-    attachement = json['attachement'];
-    reason = json['reason'];
+    reasonPayment = json['reason_payment'];
+    attachement = json['attachement'];     
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
+    final data= <String, dynamic>{};
     data['id'] = id;
     data['num'] = num;
     data['client'] = client;
@@ -54,7 +62,10 @@ class Cheque {
     data['echeance_date'] = echeanceDate;
     data['bank'] = bank;
     data['is_payed'] = isPayed;
+    data['is_effet'] = isEffet;
+    data['forward_to'] = forwardTo;
     data['payment_date'] = paymentDate;
+    data['reason_payment']=reasonPayment;
     data['attachement'] = attachement;
     data['reason'] = reason;
     return data;

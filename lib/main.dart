@@ -126,8 +126,9 @@ class ButtonOptionDashboard {
   static List<ButtonOption> Options = const <ButtonOption>[
     ButtonOption(
       route: "/listing",
-      text: 'Liste Chéques',
+      text: 'Chéques/Effets',
       iconData: Icons.list_alt,
+      arguments: "",
     ),
     ButtonOption(
       route: "/ChequeEdit",
@@ -135,8 +136,34 @@ class ButtonOptionDashboard {
       iconData: Icons.add_to_photos_outlined,
     ),
     ButtonOption(
-        route: "/listingFiltred",
-        text: 'Alerts Chéques',
-        iconData: Icons.filter_frames_outlined),
+      route: "/listing",
+      text: 'Chéques/Effets, En Cours',
+      iconData: Icons.list_alt,
+      arguments: "active",
+    ),
+     ButtonOption(
+      route: "/listing",
+      text: 'Chéques/Effets, Transmet',
+      iconData: Icons.list_alt,
+      arguments: "forwarded",
+    ),
+      ButtonOption(
+      route: "/listing",
+      text: 'Chéques/Effets, ImPayé',
+      arguments: "unpaid",
+      iconData: Icons.list_alt,
+    ),
+      ButtonOption(
+      route: "/listing",
+      text: 'Chéques/Effets, Payé',
+      arguments: "payed",
+      iconData: Icons.list_alt,
+    ),
+
+
+    // ButtonOption(
+    //     route: "/listingFiltred",
+    //     text: 'Alerts Chéques',
+    //     iconData: Icons.filter_frames_outlined),
   ];
 }

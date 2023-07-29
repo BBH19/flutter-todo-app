@@ -3,12 +3,11 @@ import 'package:chequeproject/blocs/ChequeNotif/chequeNotif_bloc.dart';
 import 'package:chequeproject/blocs/ChequeNotif/chequeNotif_event.dart';
 import 'package:chequeproject/blocs/ChequeNotif/chequeNotif_state.dart';
 import 'package:chequeproject/models/cheque_notif.dart';
-import 'package:gmsoft_pkg/config/global_params.dart';
-import 'package:chequeproject/widgets/error_widget.dart';
+import 'package:gmsoft_pkg/config/global_params.dart'; 
 import 'package:chequeproject/widgets/notif_card_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
+import 'package:gmsoft_pkg/error_with_refresh_button_widget.dart'; 
 import 'package:lottie/lottie.dart';
 
 class NotificationView extends StatelessWidget {
@@ -36,8 +35,7 @@ class _NotificationHome extends StatelessWidget {
   final Size size;
 
   @override
-  Widget build(BuildContext context) {
-    BuildContext _context = context;
+  Widget build(BuildContext context) { 
     return SafeArea(
         child: Scaffold(
       backgroundColor: GlobalParams.backgroundColor,
@@ -61,8 +59,7 @@ class NotifBody extends StatelessWidget {
   int index = 1;
 
   @override
-  Widget build(BuildContext context) {
-    BuildContext _context = context;
+  Widget build(BuildContext context) { 
     return Material(
       child: Container(
         height: size.height,

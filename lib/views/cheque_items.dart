@@ -67,8 +67,7 @@ class PageOneState extends State<PageOne> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    BuildContext _context = context;
+    Size size = MediaQuery.of(context).size; 
     //return Text('data1');
     return BlocListener<ChequeBloc, ChequeState>(
       listener: (context, state) {},

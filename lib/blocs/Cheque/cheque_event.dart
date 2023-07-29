@@ -7,9 +7,12 @@ abstract class ChequeEvent {
 }
 
 class LoadChequesEvent extends ChequeEvent {
+  late String route;
   List<Cheque> cheques = [];
+
+  LoadChequesEvent({this.route = ""});
   @override
-  List<Object> get props => [cheques];
+  List<Object> get props => [cheques, route];
 }
 
 class LoadChequesFiltredEvent extends ChequeEvent {

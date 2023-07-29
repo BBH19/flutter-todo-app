@@ -6,15 +6,15 @@ import 'package:chequeproject/blocs/Cheque/cheque_state.dart';
 import 'package:chequeproject/models/cheque.dart';
 import 'package:chequeproject/views/cheque_edit.dart';
 import 'package:chequeproject/views/cheque_items.dart';
-import 'package:chequeproject/widgets/botom_modal_widget_child.dart';
-import 'package:gmsoft_pkg/config/global_params.dart';
-import 'package:chequeproject/widgets/error_widget.dart';
-import 'package:chequeproject/widgets/itemcard_widget.dart';
-import 'package:chequeproject/widgets/search.dart';
+import 'package:gmsoft_pkg/botom_modal_widget_child.dart'; 
+import 'package:gmsoft_pkg/config/global_params.dart'; 
+import 'package:chequeproject/widgets/itemcard_widget.dart'; 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gmsoft_pkg/bottom_modal_widget.dart';
+import 'package:gmsoft_pkg/error_with_refresh_button_widget.dart';
 import 'package:gmsoft_pkg/header_widget.dart';
+import 'package:gmsoft_pkg/search_field_widget.dart';
 import 'package:lottie/lottie.dart';
 
 class ChequesFiltred extends StatelessWidget {

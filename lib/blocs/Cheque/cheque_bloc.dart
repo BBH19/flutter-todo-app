@@ -17,7 +17,7 @@ class ChequeBloc extends Bloc<ChequeEvent, ChequeState> {
           requestState: ChequeRequestState.Loading,
           errorMessage: ''));
       try {
-        var cheques = await ChequeService.getAll();
+        var cheques = await ChequeService.getAll(event.route);
         emit(ChequeState(
             data: cheques,
             requestState: ChequeRequestState.Loaded,
