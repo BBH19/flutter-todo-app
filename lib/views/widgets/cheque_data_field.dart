@@ -43,7 +43,6 @@ class ChequeDataFieldState extends State<ChequeDataField> {
   String selectedPaymentMode = "";
   String selectedBank = "";
 
-  SingingCharacter? _character = SingingCharacter.lafayette;
 
   List<bool> hide = [false, true];
   GlobalKey<FormState> _formKey;
@@ -441,7 +440,6 @@ class ChequeDataFieldState extends State<ChequeDataField> {
                 isEcheanceDateFieldFilled = echeanceDateController.text.isEmpty;
                 var receptionDate = DateTime.tryParse(
                     ChequeDataFieldState.receptDateController.text);
-
                 if (receptionDate != null && date.isBefore(receptionDate)) {
                   echeanceDateController.text = "";
                   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -482,6 +480,7 @@ class ChequeDataFieldState extends State<ChequeDataField> {
             unSelectedBorderColor: GlobalParams.GlobalColor,
             unSelectedColor: Theme.of(context).canvasColor,
             defaultSelected: widget.cheque.isEffet,
+            enableShape: true, 
             buttonLables: const [
               'Cheque',
               'Effet',
