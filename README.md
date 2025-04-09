@@ -1,19 +1,13 @@
-# chequeproject
+Electronics Store Cheque Management App
+This mobile application is customized for an electronics store that allows customers to make payments using cheques. The app is designed to help employees manage cheques efficiently and keep track of their status.
 
-A new Flutter project.
+Features:
+Login: Employees need to log in to the app using their credentials and input the store domain.
 
-## Getting Started
+Add Cheques: Employees can add new cheques into the system.
 
-This project is a starting point for a Flutter application.
+Modify Cheques: Employees can update cheque details if necessary.
 
-A few resources to get you started if this is your first Flutter project:
+Track Cheques Status: Employees can view the status of each cheque (whether it’s paid or not).
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-
-
-https://pub.dev/packages/custom_radio_grouped_button
+This app is built to streamline the cheque management process in a retail environment, allowing employees to quickly and easily track payments and ensure smooth business operations.
