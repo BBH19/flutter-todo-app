@@ -1,4 +1,4 @@
-Electronics Store Cheque Management App
+#Electronics Store Cheque Management App
 This mobile application is customized for an electronics store that allows customers to make payments using cheques. The app is designed to help employees manage cheques efficiently and keep track of their status.
 
 Features:
@@ -12,9 +12,7 @@ Track Cheques Status: Employees can view the status of each cheque (whether itâ€
 
 This app is built to streamline the cheque management process in a retail environment, allowing employees to quickly and easily track payments and ensure smooth business operations.
 
-
-![alt text](image.png)
-![alt text](image-1.png)
-![alt text](image-2.png)
-![alt text](image-3.png)
-![alt text](image-4.png)
+![alt text](image-5.png)
+![alt text](image-6.png)
+![alt text](image-7.png)
+![alt text](image-8.png)
